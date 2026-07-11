@@ -1,11 +1,12 @@
 import express from "express";
-import { login,signUp } from "../controllers/authController";
+import { login,signUp } from "../controllers/authController.js";
+import { signupValidation ,loginValidation } from "../middlewares/authValidation.js";
 
-const router =express.Router();
+const route =express.Router();
 
-router.post("/login",login);
-router.get("/signup",signUp);
+route.post("/login",loginValidation,login);
+route.post("/signup",signupValidation,signUp);
 
-export default router;
+export default route;
 
 
