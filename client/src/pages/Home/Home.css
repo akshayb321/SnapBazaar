@@ -1,0 +1,23 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.home img{
+   height: 250px;
+   width: 230px;
+}
+.home button{
+    height: 30px;
+    width: 80px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background-color: rgb(52, 130, 185);
+}
+.home button:active{
+    background-color: rgb(31, 70, 98);
+
+}
