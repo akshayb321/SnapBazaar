@@ -1,0 +1,74 @@
+/* ===========================
+   HEADER
+=========================== */
+
+.header {
+  width: 100%;
+}
+
+/* ===========================
+   ANNOUNCEMENT BAR
+=========================== */
+
+.announcement-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 40px;
+
+  z-index: 1002;
+
+  transition: transform 0.3s ease;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+.navbar {
+  position: fixed;
+  top: 40px;
+  left: 0;
+
+  width: 100%;
+  height: 75px;
+
+  z-index: 1001;
+
+  transition: top 0.3s ease;
+}
+
+/* ===========================
+   CATEGORY BAR
+=========================== */
+
+.category-bar {
+  position: fixed;
+  top: 115px;
+  left: 0;
+
+  width: 100%;
+  height: 50px;
+
+  z-index: 1000;
+
+  transition: top 0.3s ease;
+}
+
+/* ===========================
+   SCROLLED STATE
+=========================== */
+
+.header.scrolled .announcement-bar {
+  transform: translateY(-100%);
+}
+
+.header.scrolled .navbar {
+  top: 0;
+}
+
+.header.scrolled .category-bar {
+  top: 75px;
+}

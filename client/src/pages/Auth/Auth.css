@@ -54,6 +54,7 @@
     background-color: purple;
     color: white;
     border: none;
+    cursor: pointer;
 }
 .inp button:active{
     background-color: rgb(83, 33, 83);

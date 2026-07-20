@@ -1,23 +1,40 @@
-import React from 'react'
-import "./Home.css"
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import "./Home.css";
+import Header from "../../componets/Header/Header";
+import Hero from "../../componets/Hero/Hero";
+import ProductSection from "../../componets/ProductSection/ProductSection";
+import axios from "axios";
+import Special from "../../componets/Special/Special";
 
 function Home() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await axios.get("http://localhost:8000/api/products");
 
-    const navigate =useNavigate();
-    const location =useLocation();
-     //just for functional check
-    
-     const logoutFunction =()=>{
-    navigate("/");
-  }
+      setProducts(response.data.products);
+    };
+    fetchProducts();
+  }, []);
+
+  const featuredProducts = products.filter(
+    (product) => product.tag === "featured",
+  );
+
+  const latestProducts = products.filter((product) => product.tag === "none");
+
+  const popularProducts = products.filter((product) => product.tag === "none");
   return (
-    <div className='home'>
-        <img src="https://png.pngtree.com/png-vector/20250922/ourmid/pngtree-cute-robot-waving-hello-friendly-png-image_17543901.webp" alt="" />
-        <h2>Hi {location.state.name}</h2>
-        <button  onClick={logoutFunction}>Logout</button>
+    <div className="home">
+      <Header />
+
+      <Hero />
+
+      <ProductSection title="Popular Products" products={popularProducts} />
+      <Special />
+      <ProductSection title="latest Products" products={latestProducts} />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

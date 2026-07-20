@@ -1,0 +1,22 @@
+.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 24px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: rgb(49, 49, 49);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.custom-btn:active {
+  transform: scale(0.97);
+  filter: brightness(0.9);
+}
+
+.custom-btn:hover {
+  background: #ececec;
+}

@@ -1,0 +1,33 @@
+.Announcement {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 11px;
+  position: fixed;
+  top: 0;
+  height: 39px;
+  border-bottom: 1px solid #d2d4d7;
+  background-color: white;
+}
+
+.right {
+  display: flex;
+  gap: 25px;
+  padding-right: 30px;
+}
+.left {
+  padding-left: 30px;
+}
+.left p {
+  opacity: 0.8;
+}
+.right a {
+  text-decoration: none;
+  color: black;
+  opacity: 0.8;
+}
+.right a:hover {
+  color: #2563eb;
+  opacity: 1;
+}
