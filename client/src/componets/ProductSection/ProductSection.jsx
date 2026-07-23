@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import "./ProductSection.css";
 import Button from "../Button/Button";
 
-function ProductSection({ title, products }) {
+function ProductSection({
+  title,
+  products,
+  showCategories = false,
+  categories = [],
+  selectedCategory,
+  setSelectedCategory,
+}) {
   const [wishlist, setWishlist] = useState([]);
 
   const toggleWishlist = (id) => {
@@ -17,6 +24,21 @@ function ProductSection({ title, products }) {
     <section className="product-section">
       <div className="section-header">
         <h2>{title}</h2>
+
+        {showCategories && (
+          <div className="section-categories">
+            {categories.map((item) => (
+              <button
+                key={item}
+                className={selectedCategory === item ? "active" : ""}
+                onClick={() => setSelectedCategory(item)}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        )}
+
         <Button
           text={"View All"}
           className="view-all-btn"
@@ -28,11 +50,9 @@ function ProductSection({ title, products }) {
         {products.slice(0, 6).map((product) => (
           <div className="product-card" key={product._id}>
             {/* Discount */}
-
             <span className="discount">-{product.discount || 20}%</span>
 
             {/* Wishlist */}
-
             <button
               className={`wishlist-btn ${
                 wishlist.includes(product._id) ? "active" : ""
@@ -48,14 +68,22 @@ function ProductSection({ title, products }) {
               ></i>
             </button>
 
-            {/* Image */}
-
+            {/* Images */}
             <div className="product-image">
-              <img src={product.image} alt={product.title} />
+              <img
+                src={product.image[0]}
+                alt={product.title}
+                className="main-image"
+              />
+
+              <img
+                src={product.image[1]}
+                alt={product.title}
+                className="hover-image"
+              />
             </div>
 
-            {/* Info */}
-
+            {/* Product Info */}
             <div className="product-info">
               <p className="company">{product.brand || "SNAPBAZAAR"}</p>
 
@@ -67,7 +95,6 @@ function ProductSection({ title, products }) {
 
               <div className="rating-box">
                 <span className="rating">★★★★☆</span>
-
                 <span className="rating-count">(142)</span>
               </div>
 
@@ -78,6 +105,7 @@ function ProductSection({ title, products }) {
                   ₹{product.oldPrice || product.price + 400}
                 </span>
               </div>
+
               <Button
                 text={"Add To Cart"}
                 icon={"fa-solid fa-cart-shopping"}

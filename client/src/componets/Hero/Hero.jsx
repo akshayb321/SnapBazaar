@@ -8,9 +8,10 @@ import "swiper/css/pagination";
 
 function Hero() {
   const banners = [
-    "https://classyshop-server.advanceuitechniques.com/download/1782903826918_NewProject(11).jpg",
-    "https://classyshop-server.advanceuitechniques.com/download/1782903801050_NewProject(8).jpg",
-    "https://classyshop-server.advanceuitechniques.com/download/1782903771274_NewProject(6).jpg",
+    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634302/mensBanner.png",
+    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634434/bannerHome.png",
+    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634643/electronicsBanner.png",
+    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634485/groceryBanner.png",
   ];
 
   return (
@@ -37,7 +38,7 @@ function Hero() {
       <div className="category-hero">
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783055942833_file_1734525204708_fash.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637017/suit.png"
             alt="Fashion"
           />
           <p>Fashion</p>
@@ -45,7 +46,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783056003682_file_1734525231018_bag.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637014/school-bag.png"
             alt="Bags"
           />
           <p>Bags</p>
@@ -53,7 +54,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783056034254_file_1734525239704_foot.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637019/sneakers.png"
             alt="Footwear"
           />
           <p>Footwear</p>
@@ -61,7 +62,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783056054463_file_1734525248057_gro.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637015/basket.png"
             alt="Groceries"
           />
           <p>Groceries</p>
@@ -69,7 +70,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783056090735_file_1734525275367_well.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637016/meditation.png"
             alt="Wellness"
           />
           <p>Wellness</p>
@@ -77,7 +78,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783056106515_file_1734525286186_jw.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637013/jewelry.png"
             alt="Jewellery"
           />
           <p>Jewellery</p>
@@ -85,7 +86,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783056142957_file_1734525255799_beauty_(1).png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637385/makeup.png"
             alt="Beauty"
           />
           <p>Beauty</p>
@@ -93,7 +94,7 @@ function Hero() {
 
         <div>
           <img
-            src="https://classyshop-server.advanceuitechniques.com/download/1783147651856_ele.png"
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637013/gadgets.png"
             alt="Electronics"
           />
           <p>Electronics</p>

@@ -28,12 +28,9 @@
   gap: 42px;
 
   list-style: none;
-
-  margin: 0;
-  padding: 0;
 }
 
-.category-list li {
+.category-list li a {
   cursor: pointer;
 
   font-size: 12px;
@@ -42,10 +39,33 @@
   color: #444;
 
   transition: 0.25s;
+  color: #1e293b;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+  display: inline-block;
 }
 
-.category-list li:hover {
+.category-list li a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #2563eb;
+  transform-origin: bottom center;
+  transition: transform 0.25s ease-out;
+}
+
+/* Reveal the line and change text color on hover */
+.category-list li a:hover {
   color: #2563eb;
+}
+
+.category-list li a:hover::after {
+  transform: scaleX(1);
 }
 
 /* Right */

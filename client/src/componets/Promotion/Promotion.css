@@ -1,0 +1,139 @@
+.promo-section {
+  width: 100%;
+  padding: 10px 5%;
+  display: grid;
+  grid-template-columns: 2.4fr 1fr;
+  gap: 24px;
+  box-sizing: border-box;
+  background: white;
+}
+
+/* =======================
+      LEFT SLIDER
+======================= */
+
+.promo-slider {
+  width: 100%;
+  height: 450px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.promo-slider .swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.promo-slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Navigation */
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 48px !important;
+  height: 48px !important;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  color: #111 !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: 0.3s;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: #2563eb;
+  color: #fff !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 18px !important;
+  font-weight: 700;
+}
+
+/* Pagination */
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #2563eb !important;
+}
+
+/* =======================
+      RIGHT BANNERS
+======================= */
+
+.promo-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.promo-card {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.promo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: 0.5s;
+}
+
+.promo-card:hover img {
+  transform: scale(1.05);
+}
+
+/* =======================
+      Responsive
+======================= */
+
+@media (max-width: 992px) {
+  .promo-section {
+    grid-template-columns: 1fr;
+  }
+
+  .promo-slider {
+    height: 420px;
+  }
+
+  .promo-right {
+    flex-direction: row;
+  }
+
+  .promo-card {
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .promo-slider {
+    height: 300px;
+  }
+
+  .promo-right {
+    flex-direction: column;
+  }
+
+  .promo-card {
+    height: 180px;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+}

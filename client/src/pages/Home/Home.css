@@ -1,10 +1,91 @@
 .home {
   min-height: 100vh;
   padding-top: 160px;
-  background: #f5eff1;
+  background: #f4f4f4;
   font-family: "Poppins", sans-serif;
 }
 
 .home-content {
   width: 100%;
+}
+/* =====================================
+   POPULAR CATEGORIES
+===================================== */
+
+.popular-categories {
+  width: 92%;
+  margin: 35px auto 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.popular-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.popular-categories button {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+
+  padding: 10px 20px;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: all 0.3s ease;
+}
+
+.popular-categories button:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+}
+
+.popular-categories button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.2);
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 768px) {
+  .popular-categories {
+    width: 95%;
+    gap: 10px;
+    margin: 25px auto 15px;
+    padding-bottom: 5px;
+  }
+
+  .popular-categories button {
+    padding: 9px 18px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .popular-categories button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
 }

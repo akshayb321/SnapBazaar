@@ -1,0 +1,29 @@
+.Main-container {
+  width: 100%;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 80px;
+  padding-bottom: 0;
+  align-items: center;
+  gap: 15px;
+}
+.sub-container {
+  height: 171px;
+  width: 320px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.sub-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+.sub-container:hover img {
+  transform: scale(1.05);
+}

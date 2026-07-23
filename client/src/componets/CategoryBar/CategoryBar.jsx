@@ -8,15 +8,33 @@ function CategoryBar() {
       <Button text="SHOP BY CATEGORIES" icon="fa-solid fa-bars" />
 
       <ul className="category-list">
-        <li>Home</li>
-        <li>Fashion</li>
-        <li>Bags</li>
-        <li>Footwear</li>
-        <li>Groceries</li>
-        <li>Wellness</li>
-        <li>Jewellery</li>
-        <li>Beauty</li>
-        <li>Electronics</li>
+        <li>
+          <a href="#">Home</a>
+        </li>
+        <li>
+          <a href="#">Fashion</a>
+        </li>
+        <li>
+          <a href="#">Bags</a>
+        </li>
+        <li>
+          <a href="#">Footwear</a>
+        </li>
+        <li>
+          <a href="#">Groceries</a>
+        </li>
+        <li>
+          <a href="#">Wellness</a>
+        </li>
+        <li>
+          <a href="#">Jewellery</a>
+        </li>
+        <li>
+          <a href="#">Beauty</a>
+        </li>
+        <li>
+          <a href="#">Electronics</a>
+        </li>
       </ul>
 
       <div className="delivery">
