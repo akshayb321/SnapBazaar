@@ -1,36 +1,33 @@
 import Cart from "../models/cart.js";
 
-// Add item to cart
 export const addToCart = async (req, res) => {
   try {
-    const { userId, productId } = req.body;
-
-    let cart = await Cart.findOne({ userId });
-
-    if (!cart) {
-      cart = new Cart({
+    const userId = req.user.id;
+    const { productId } = req.body;
+    let userCart = await Cart.findOne({ userId });
+    if (!userCart) {
+      userCart = new Cart({
         userId,
         items: [{ productId, quantity: 1 }],
       });
     } else {
-      const item = cart.items.find((i) => i.productId.toString() === productId);
-
+      const item = userCart.items.find(
+        (i) => i.productId.toString() === productId,
+      );
       if (item) {
         item.quantity += 1;
       } else {
-        cart.items.push({
+        userCart.items.push({
           productId,
           quantity: 1,
         });
       }
     }
-
-    await cart.save();
-
+    await userCart.save();
     res.status(200).json({
       success: true,
       message: "Product added to cart",
-      cart,
+      userCart,
     });
   } catch (error) {
     res.status(500).json({
@@ -40,28 +37,27 @@ export const addToCart = async (req, res) => {
   }
 };
 
-// Remove item from cart
 export const removeItem = async (req, res) => {
   try {
-    const { userId, productId } = req.body;
+    const userId = req.user.id;
 
-    let cart = await Cart.findOne({ userId });
-
-    if (!cart) {
+    const { productId } = req.body;
+    let userCart = await Cart.findOne({ userId });
+    if (!userCart) {
       return res.status(404).json({
         success: false,
         message: "Cart not found",
       });
+    } else {
+      userCart.items = userCart.items.filter(
+        (i) => i.productId.toString() !== productId,
+      );
     }
-
-    cart.items = cart.items.filter((i) => i.productId.toString() !== productId);
-
-    await cart.save();
-
+    await userCart.save();
     res.status(200).json({
       success: true,
       message: "Item removed from cart",
-      cart,
+      userCart,
     });
   } catch (error) {
     res.status(500).json({
@@ -71,37 +67,35 @@ export const removeItem = async (req, res) => {
   }
 };
 
-// Update quantity
 export const updateQuantity = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const userId = req.user.id;
 
-    let cart = await Cart.findOne({ userId });
-
-    if (!cart) {
+    const { productId, quantity } = req.body;
+    let userCart = await Cart.findOne({ userId });
+    if (!userCart) {
       return res.status(404).json({
         success: false,
         message: "Cart not found",
       });
+    } else {
+      const item = userCart.items.find(
+        (i) => i.productId.toString() === productId,
+      );
+      if (item) {
+        item.quantity = quantity;
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "Item not found",
+        });
+      }
     }
-
-    const item = cart.items.find((i) => i.productId.toString() === productId);
-
-    if (!item) {
-      return res.status(404).json({
-        success: false,
-        message: "Item not found in cart",
-      });
-    }
-
-    item.quantity = quantity;
-
-    await cart.save();
-
+    await userCart.save();
     res.status(200).json({
       success: true,
       message: "Item updated successfully",
-      cart,
+      userCart,
     });
   } catch (error) {
     res.status(500).json({
@@ -111,23 +105,20 @@ export const updateQuantity = async (req, res) => {
   }
 };
 
-// Get cart
 export const getCart = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.user.id;
 
-    let cart = await Cart.findOne({ userId }).populate("items.productId");
-
-    if (!cart) {
+    let userCart = await Cart.findOne({ userId }).populate("items.productId");
+    if (!userCart) {
       return res.status(404).json({
         success: false,
         message: "Cart not found",
       });
     }
-
     res.status(200).json({
       success: true,
-      cart,
+      userCart,
     });
   } catch (error) {
     res.status(500).json({

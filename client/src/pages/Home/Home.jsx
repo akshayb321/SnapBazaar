@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
-import Header from "../../componets/Header/Header";
 import Hero from "../../componets/Hero/Hero";
 import ProductSection from "../../componets/ProductSection/ProductSection";
 import axios from "axios";
 import Special from "../../componets/Special/Special";
 import Special2 from "../../componets/Special/Special2/Special2";
-import Footer from "../../componets/Footer/Footer";
 import Promotion from "../../componets/Promotion/Promotion";
 
 function Home() {
@@ -53,13 +51,8 @@ function Home() {
     (product) => product.tag === "featured",
   );
 
-  const latestProducts = products.filter((product) => product.tag === "none");
-
-  const popularProducts = products.filter((product) => product.tag === "none");
   return (
     <div className="home">
-      <Header />
-
       <Hero />
 
       <ProductSection
@@ -80,8 +73,6 @@ function Home() {
       <ProductSection title="Featured Products" products={featuredProducts} />
 
       <Special2 />
-
-      <Footer />
     </div>
   );
 }

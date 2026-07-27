@@ -3,8 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
-import router from "./routes/authRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
+import WishlistRouter from "./routes/wishlistRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -18,6 +19,7 @@ app.listen(PORT, () => {
   console.log(`server is running on port : ${PORT}`);
 });
 
-app.use("/api/auth", router);
+app.use("/api/auth", authRouter);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRouter);
+app.use("/api/wishlist", WishlistRouter);

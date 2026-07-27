@@ -9,7 +9,7 @@ function CategoryBar() {
 
       <ul className="category-list">
         <li>
-          <a href="#">Home</a>
+          <a href="/home">Home</a>
         </li>
         <li>
           <a href="#">Fashion</a>

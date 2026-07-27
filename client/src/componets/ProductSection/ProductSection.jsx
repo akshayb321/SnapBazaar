@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ProductSection.css";
 import Button from "../Button/Button";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 function ProductSection({
   title,
@@ -10,13 +15,81 @@ function ProductSection({
   selectedCategory,
   setSelectedCategory,
 }) {
-  const [wishlist, setWishlist] = useState([]);
+  const navigate = useNavigate();
+  const { fetchCart } = useCart();
+  const { wishlist, fetchWishlist } = useWishlist();
 
-  const toggleWishlist = (id) => {
-    if (wishlist.includes(id)) {
-      setWishlist(wishlist.filter((item) => item !== id));
-    } else {
-      setWishlist([...wishlist, id]);
+  const handleWishlist = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Please login to add items to your wishlist.");
+        navigate("/login");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:8000/api/wishlist/add",
+        {
+          productId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      await fetchWishlist();
+
+      toast.success(response.data.message);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      }
+    }
+  };
+  const isWishlisted = (productId) => {
+    return wishlist?.items?.some((item) => item.productId._id === productId);
+  };
+  const handleAddToCart = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Please login to add items to your cart.");
+        navigate("/login");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:8000/api/cart/add",
+        {
+          productId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      await fetchCart();
+
+      toast.success(response.data.message);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      }
     }
   };
 
@@ -40,35 +113,33 @@ function ProductSection({
         )}
 
         <Button
-          text={"View All"}
+          text="View All"
           className="view-all-btn"
-          icon2={"fa-solid fa-arrow-right"}
+          icon2="fa-solid fa-arrow-right"
+          onClick={() => navigate("/products")}
         />
       </div>
 
       <div className="product-grid">
         {products.slice(0, 6).map((product) => (
           <div className="product-card" key={product._id}>
-            {/* Discount */}
             <span className="discount">-{product.discount || 20}%</span>
 
-            {/* Wishlist */}
             <button
               className={`wishlist-btn ${
-                wishlist.includes(product._id) ? "active" : ""
+                isWishlisted(product._id) ? "active" : ""
               }`}
-              onClick={() => toggleWishlist(product._id)}
+              onClick={() => handleWishlist(product._id)}
             >
               <i
                 className={
-                  wishlist.includes(product._id)
+                  isWishlisted(product._id)
                     ? "fa-solid fa-heart"
                     : "fa-regular fa-heart"
                 }
               ></i>
             </button>
 
-            {/* Images */}
             <div className="product-image">
               <img
                 src={product.image[0]}
@@ -83,7 +154,6 @@ function ProductSection({
               />
             </div>
 
-            {/* Product Info */}
             <div className="product-info">
               <p className="company">{product.brand || "SNAPBAZAAR"}</p>
 
@@ -107,9 +177,10 @@ function ProductSection({
               </div>
 
               <Button
-                text={"Add To Cart"}
-                icon={"fa-solid fa-cart-shopping"}
-                className={"Pro-cart-btn"}
+                text="Add To Cart"
+                icon="fa-solid fa-cart-shopping"
+                className="Pro-cart-btn"
+                onClick={() => handleAddToCart(product._id)}
               />
             </div>
           </div>

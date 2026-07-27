@@ -20,3 +20,29 @@
 .custom-btn:hover {
   background: #ececec;
 }
+/* ============================
+   Add To Cart
+============================ */
+
+.Pro-cart-btn {
+  width: 100%;
+  height: 40px;
+  border: 2px solid #2563eb;
+  justify-content: center;
+  background: white;
+  color: #2563eb;
+  transition: all 0.3s ease;
+}
+
+.Pro-cart-btn i {
+  font-size: 15px;
+}
+
+.Pro-cart-btn:hover {
+  background: #2563eb;
+  color: white;
+}
+.view-all-btn {
+  color: #2563eb;
+  background-color: #ececec;
+}
