@@ -1,14 +1,14 @@
 import React from "react";
-import ProductSection2 from "../../componets/ProductSection2/ProductSection2";
 import ProfileSidebar from "../../componets/Profile/ProfileSidebar";
+import AddressContainer from "../../componets/Address/AddressContainer";
 
-function WishList() {
+function Address() {
   return (
     <div className="profile-page">
       <ProfileSidebar />
-      <ProductSection2 type="wishlist" />;
+      <AddressContainer />
     </div>
   );
 }
 
-export default WishList;
+export default Address;

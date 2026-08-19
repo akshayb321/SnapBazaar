@@ -1,0 +1,109 @@
+/* ===========================
+      CART TOTAL
+=========================== */
+
+.cart-total {
+  width: 330px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+  position: sticky;
+  top: 160px;
+  align-self: flex-start;
+}
+
+.cart-total button {
+  width: calc(100% - 40px);
+  margin: 20px;
+  padding: 13px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cart-total button:hover {
+  background: #1d4ed8;
+}
+
+/* Container styling */
+.cart-total {
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  width: 100%;
+  max-width: 380px;
+  font-family: Roboto, Arial, sans-serif;
+  color: #212121;
+}
+
+/* Top Header */
+.cart-total-top {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 24px;
+}
+
+.cart-total-top p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #878787;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Middle Section Rows */
+.cart-total-mid {
+  padding: 12px 24px;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.total-price,
+.delivery-charges,
+.total-amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 15px;
+}
+
+.cart-total-mid p {
+  margin: 0;
+}
+
+/* Green discount text */
+.discount p:last-child,
+.delivery-charges p:last-child {
+  color: #388e3c;
+}
+
+/* Total Amount Section */
+.total-amount {
+  padding: 12px 24px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.total-amount p {
+  margin: 0;
+}
+
+.placeOrder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  border-radius: 2px;
+}

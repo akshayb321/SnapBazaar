@@ -1,0 +1,356 @@
+/* ==========================================
+            PRODUCT DETAILS
+========================================== */
+
+.pd-page {
+  width: 100%;
+
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.pd-container {
+  max-width: 100%;
+  margin: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 30px;
+  display: flex;
+}
+
+/* ===========================
+        LEFT SECTION
+=========================== */
+
+.pd-left {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pd-images {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* ===========================
+        THUMBNAILS
+=========================== */
+
+.pd-thumbnails {
+  width: 82px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.pd-thumbnails img {
+  width: 82px;
+  height: 95px;
+  margin: 0;
+  padding: 0;
+  display: block;
+
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+
+  object-fit: cover;
+
+  cursor: pointer;
+
+  opacity: 0.7;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.pd-thumbnails img:hover {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.pd-active-thumb {
+  opacity: 1 !important;
+  border: 1px solid #2563eb !important;
+  transform: scale(1.03);
+}
+
+/* ===========================
+        MAIN IMAGE
+=========================== */
+
+.pd-main-image {
+  width: 430px;
+  height: 450px;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  background: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  flex-shrink: 0;
+}
+
+.pd-main-image img {
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  display: block;
+
+  object-fit: cover;
+  border-radius: 8px;
+  animation: fadeZoom 0.35s ease;
+}
+
+@keyframes fadeZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* ==========================================
+            RIGHT SECTION
+========================================== */
+
+.pd-info {
+  padding-top: 45px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pd-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+/* ===========================
+      BRAND & RATING
+=========================== */
+
+.pd-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.pd-brand {
+  font-size: 15px;
+  color: #171717;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: flex;
+  gap: 6px;
+}
+
+.pd-brand strong {
+  color: #92969c;
+  font-weight: 500;
+}
+
+.pd-stars {
+  color: #f59e0b;
+  font-size: 17px;
+}
+
+.pd-review {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ===========================
+          PRICE
+=========================== */
+
+.pd-price-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.pd-price {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.pd-old-price {
+  font-size: 1.35rem;
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.pd-stock {
+  color: #898989;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pd-stock1 {
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===========================
+        DESCRIPTION
+=========================== */
+
+.pd-description {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #717274;
+  margin-bottom: 20px;
+}
+
+/* ===========================
+        DELIVERY
+=========================== */
+
+.pd-delivery {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #374151;
+  font-weight: 300;
+  opacity: 0.8;
+}
+
+/* ===========================
+        BUTTONS
+=========================== */
+
+.pd-action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 5px;
+}
+
+.pd-cart-btn,
+.pd-wishlist-btn {
+  height: 48px;
+  padding: 0 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.pd-cart-btn {
+  background: #2563eb;
+  color: #fff;
+}
+
+.pd-cart-btn:hover {
+  background: #121212;
+}
+.pd-cart-btn:active {
+  transform: scale(0.98);
+}
+
+.pd-wishlist-btn {
+  background: #fff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.pd-wishlist-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* ===========================
+            ICONS
+=========================== */
+
+.pd-cart-btn i,
+.pd-wishlist-btn i {
+  font-size: 16px;
+}
+
+.pd-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+/* ==========================================
+            WISHLIST
+========================================== */
+
+.pd-wishlist {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  user-select: none;
+
+  transition: all 0.25s ease;
+}
+
+.pd-wishlist i {
+  font-size: 17px;
+  color: #111827;
+  transition: 0.25s;
+}
+
+.pd-wishlist span {
+  font-size: 14px;
+  font-weight: 400;
+
+  transition: 0.25s;
+}
+
+/* Hover */
+
+.pd-wishlist:hover i {
+  color: #ef4444;
+  transform: scale(1.05);
+}
+
+/* Already Wishlisted */
+
+.pd-wishlist.active i {
+  color: #ef4444;
+}
+
+/* ==========================================
+            LOADING
+========================================== */
+
+.pd-loading {
+  text-align: center;
+  padding: 100px;
+  font-size: 22px;
+}

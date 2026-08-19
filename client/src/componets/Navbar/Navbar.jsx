@@ -7,11 +7,24 @@ import Button from "../Button/Button.jsx";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
+import { useFilter } from "../../context/FilterContext.jsx";
 
-function Navbar({ search, setSearch }) {
+function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   const { user, logout } = useAuth();
+  const { search, setSearch } = useFilter();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!search.trim()) return;
+    setLoading(true);
+    setTimeout(() => {
+      navigate("/products");
+      setLoading(false);
+    }, 1000);
+  };
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -34,7 +47,7 @@ function Navbar({ search, setSearch }) {
       </div>
 
       {/* Search */}
-      <div className="navbar__search">
+      <form onSubmit={handleSearch} className="navbar__search">
         <input
           type="text"
           placeholder="Search for products..."
@@ -42,28 +55,48 @@ function Navbar({ search, setSearch }) {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <button>
-          <i className="fa-solid fa-magnifying-glass"></i>
+        <button type="submit" disabled={loading}>
+          {loading ? (
+            <i className="fa-solid fa-spinner fa-spin search-loader"></i>
+          ) : (
+            <i className="fa-solid fa-magnifying-glass"></i>
+          )}
         </button>
-      </div>
+      </form>
 
       {showMenu && (
         <div className="profileMenu">
           <Button
             text={"My Account"}
             icon={"fa-regular fa-user"}
-            onClick={() => navigate("/profile")}
+            onClick={() => {
+              navigate("/profile");
+              setShowMenu(!showMenu);
+            }}
           />
-          <Button text={"Address"} icon={"fa-solid fa-location-dot"} />
+          <Button
+            text={"Address"}
+            icon={"fa-solid fa-location-dot"}
+            onClick={() => {
+              navigate("/address");
+              setShowMenu(!showMenu);
+            }}
+          />
           <Button
             text={"Orders"}
             icon={"fa-regular fa-clipboard"}
-            onClick={() => navigate("/orders")}
+            onClick={() => {
+              navigate("/orders");
+              setShowMenu(!showMenu);
+            }}
           />
           <Button
             text={"My List"}
             icon={"fa-regular fa-heart"}
-            onClick={() => navigate("/wishlist")}
+            onClick={() => {
+              navigate("/wishlist");
+              setShowMenu(!showMenu);
+            }}
           />
           <Button
             text={"Logout"}
@@ -77,9 +110,12 @@ function Navbar({ search, setSearch }) {
         {user ? (
           <button className="userData" onClick={() => setShowMenu(!showMenu)}>
             <div className="userIcon">
-              <i className="fa-regular fa-user"></i>
+              {user?.profileImage ? (
+                <img src={user.profileImage} alt="User Profile" />
+              ) : (
+                <i className="fa-regular fa-user"></i>
+              )}
             </div>
-
             <div className="userText">
               <p>{user.name}</p>
               <span>{user.email}</span>

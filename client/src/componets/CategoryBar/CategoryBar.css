@@ -1,6 +1,6 @@
 .category-bar {
   position: fixed;
-  top: 115px; /* 40 + 75 */
+  top: 115px;
   left: 0;
   width: 100%;
   height: 52px;
@@ -12,70 +12,85 @@
   border-bottom: 1px solid #ececec;
   z-index: 999;
   font-family: "Poppins", sans-serif;
-  font-size: 10px;
-
   box-shadow: rgba(34, 34, 34, 0.24) 0px 3px 8px;
 }
 
-/* Category List */
+/* ==========================
+        CATEGORY LIST
+========================== */
 
 .category-list {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 42px;
-
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.category-list li a {
+.category-list li {
   cursor: pointer;
-
   font-size: 12px;
   font-weight: 500;
-
-  color: #444;
-
-  transition: 0.25s;
   color: #1e293b;
-  text-decoration: none;
   position: relative;
   padding-bottom: 4px;
-  display: inline-block;
+  transition: color 0.25s ease;
+  user-select: none;
 }
 
-.category-list li a::after {
+/* Underline */
+
+.category-list li::after {
   content: "";
   position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0;
   left: 0;
-  background-color: #2563eb;
-  transform-origin: bottom center;
-  transition: transform 0.25s ease-out;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #2563eb;
+  border-radius: 10px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
 }
 
-/* Reveal the line and change text color on hover */
-.category-list li a:hover {
+/* Hover */
+
+.category-list li:hover {
   color: #2563eb;
 }
 
-.category-list li a:hover::after {
+.category-list li:hover::after {
   transform: scaleX(1);
 }
 
-/* Right */
+/* Active Category */
+
+.category-list li.active {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.category-list li.active::after {
+  transform: scaleX(1);
+}
+
+/* ==========================
+        DELIVERY
+========================== */
 
 .delivery {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 15px;
   color: #555;
   white-space: nowrap;
   font-size: 13px;
+}
+
+.delivery i {
+  color: #2563eb;
 }

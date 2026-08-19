@@ -14,6 +14,8 @@ function ProductSection({
   categories = [],
   selectedCategory,
   setSelectedCategory,
+  limit,
+  showViewAll,
 }) {
   const navigate = useNavigate();
   const { fetchCart } = useCart();
@@ -112,16 +114,18 @@ function ProductSection({
           </div>
         )}
 
-        <Button
-          text="View All"
-          className="view-all-btn"
-          icon2="fa-solid fa-arrow-right"
-          onClick={() => navigate("/products")}
-        />
+        {showViewAll && (
+          <Button
+            text="View All"
+            className="view-all-btn"
+            icon2="fa-solid fa-arrow-right"
+            onClick={() => navigate("/products")}
+          />
+        )}
       </div>
 
       <div className="product-grid">
-        {products.slice(0, 6).map((product) => (
+        {products.slice(0, limit).map((product) => (
           <div className="product-card" key={product._id}>
             <span className="discount">-{product.discount || 20}%</span>
 
@@ -140,7 +144,10 @@ function ProductSection({
               ></i>
             </button>
 
-            <div className="product-image">
+            <div
+              className="product-image"
+              onClick={() => navigate(`/product/${product._id}`)}
+            >
               <img
                 src={product.image[0]}
                 alt={product.title}

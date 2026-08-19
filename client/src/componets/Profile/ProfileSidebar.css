@@ -1,0 +1,203 @@
+.ProfileSidebar {
+  height: 400px;
+  width: 270px;
+  border-radius: 8px;
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: rgb(233, 234, 235);
+}
+
+.sidebar-1 {
+  display: flex;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+}
+
+.profile-image {
+  position: relative;
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profile-image > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+/* Upload overlay */
+.upload-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+/* Upload icon */
+.upload-icon img {
+  height: 27px;
+  width: 27px;
+}
+
+/* Dark image on hover */
+.profile-image:hover > img {
+  filter: brightness(50%);
+}
+
+/* Show upload icon on hover */
+.profile-image:hover .upload-overlay {
+  opacity: 1;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-info p {
+  font-weight: 500;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.profile-info span {
+  font-size: 14px;
+  color: rgb(71, 71, 71);
+}
+
+.sidebar-2 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* profile Detailes */
+.profile-details {
+  width: 560px;
+  height: 275px;
+
+  padding: 18px 20px;
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+  border-radius: 7px;
+
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 4px;
+}
+
+/* Header */
+.profile-details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-details-header h2 {
+  margin: 0;
+
+  font-size: 19px;
+  font-weight: 500;
+
+  color: #172b4d;
+}
+
+.change-password {
+  border: none;
+  background: transparent;
+
+  padding: 0;
+
+  color: #1976d2;
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.change-password:hover {
+  color: #1565c0;
+}
+
+/* Divider */
+.profile-divider {
+  width: 100%;
+  height: 1px;
+
+  background-color: #e3e3e3;
+
+  margin: 17px 0 25px;
+}
+
+/* Input row */
+.profile-row {
+  display: flex;
+  gap: 18px;
+
+  margin-bottom: 17px;
+}
+
+.profile-row .MuiTextField-root {
+  width: 50%;
+}
+
+/* MUI input height + font */
+.profile-details .MuiOutlinedInput-root {
+  height: 45px;
+}
+
+.profile-details .MuiInputLabel-root {
+  font-size: 14px;
+}
+
+.profile-details .MuiOutlinedInput-input {
+  font-size: 14px;
+  padding: 10px 13px;
+}
+
+/* Phone */
+.phone-row {
+  width: calc(50% - 9px);
+}
+
+.phone-row .MuiTextField-root {
+  width: 100%;
+}
+
+/* Update button */
+.update-profile {
+  margin-top: 1px;
+
+  padding: 9px 23px;
+
+  border: none;
+  border-radius: 4px;
+
+  background-color: #1976d2;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.update-profile:hover {
+  background-color: #050a13;
+}
+.update-profile:active {
+  transform: scale(0.97);
+}

@@ -62,15 +62,27 @@ function Home() {
         categories={categories}
         selectedCategory={category}
         setSelectedCategory={setCategory}
+        limit={6}
+        showViewAll={true}
       />
 
       <Promotion />
 
       <Special />
 
-      <ProductSection title="Latest Products" products={latestProducts} />
+      <ProductSection
+        title="Latest Products"
+        products={latestProducts}
+        limit={6}
+        showViewAll={true}
+      />
 
-      <ProductSection title="Featured Products" products={featuredProducts} />
+      <ProductSection
+        title="Featured Products"
+        products={featuredProducts}
+        limit={6}
+        showViewAll={true}
+      />
 
       <Special2 />
     </div>

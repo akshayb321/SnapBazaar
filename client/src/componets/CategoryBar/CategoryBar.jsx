@@ -1,40 +1,46 @@
 import React, { useState } from "react";
 import "./CategoryBar.css";
 import Button from "../Button/Button";
+import { useFilter } from "../../context/FilterContext";
+import { useNavigate } from "react-router-dom";
 
 function CategoryBar() {
+  const { setCategory } = useFilter();
+  const navigate = useNavigate();
+  const categories = [
+    "Fashion",
+    "Bags",
+    "Footwear",
+    "Groceries",
+    "Wellness",
+    "Jewellery",
+    "Beauty",
+    "Electronics",
+  ];
   return (
     <div className="category-bar">
       <Button text="SHOP BY CATEGORIES" icon="fa-solid fa-bars" />
 
       <ul className="category-list">
-        <li>
-          <a href="/home">Home</a>
+        <li
+          onClick={() => {
+            setCategory("All");
+            navigate("/home");
+          }}
+        >
+          Home
         </li>
-        <li>
-          <a href="#">Fashion</a>
-        </li>
-        <li>
-          <a href="#">Bags</a>
-        </li>
-        <li>
-          <a href="#">Footwear</a>
-        </li>
-        <li>
-          <a href="#">Groceries</a>
-        </li>
-        <li>
-          <a href="#">Wellness</a>
-        </li>
-        <li>
-          <a href="#">Jewellery</a>
-        </li>
-        <li>
-          <a href="#">Beauty</a>
-        </li>
-        <li>
-          <a href="#">Electronics</a>
-        </li>
+        {categories.map((category) => (
+          <li
+            key={category}
+            onClick={() => {
+              setCategory(category);
+              navigate("/products");
+            }}
+          >
+            {category}
+          </li>
+        ))}
       </ul>
 
       <div className="delivery">

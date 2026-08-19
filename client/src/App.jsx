@@ -13,12 +13,19 @@ import WishList from "./pages/WishList/WishList";
 import Orders from "./pages/Orders/Orders";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 import Profile from "./pages/Profile/Profile";
+import Products from "./pages/Products/Products";
+import Address from "./pages/Address/Address";
+import ChangePass from "./pages/ChangePass/ChangePass";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="/home" replace />,
+      },
       {
         path: "home",
         element: <Home />,
@@ -29,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "products",
-        element: <products />,
+        element: <Products />,
       },
       {
         path: "cart",
@@ -46,6 +53,14 @@ const router = createBrowserRouter([
       {
         path: "wishlist",
         element: <WishList />,
+      },
+      {
+        path: "address",
+        element: <Address />,
+      },
+      {
+        path: "changePass",
+        element: <ChangePass />,
       },
     ],
   },
