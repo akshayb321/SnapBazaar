@@ -52,6 +52,10 @@
   font-size: 14px;
   color: #6b6b6b;
 }
+.total-count {
+  color: #2563eb !important;
+  font-weight: 600;
+}
 
 /* ===========================
       PRODUCT CARD
@@ -286,19 +290,20 @@
       EMPTY CART
 =========================== */
 
-.empty-cart-page {
+.main-cart-cointainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.empty-cart-page img {
-  height: 330px;
+.main-cart-cointainer img {
+  height: 150px;
 }
 
-.empty-cart-page h3 {
-  font-size: 25px;
+.main-cart-cointainer h3 {
+  font-weight: 500;
+  font-size: 17px;
   margin-bottom: 10px;
 }
 
@@ -306,15 +311,16 @@
   background-color: #2563eb;
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 7px 12px;
   border-radius: 5px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   transition: all 0.3s ease;
+  margin: 10px 0 25px 0;
 }
 
 .ShopNow-btn:hover {
-  background-color: #245cd4;
+  background-color: #0e0f12;
 }
 
 .ShopNow-btn:active {

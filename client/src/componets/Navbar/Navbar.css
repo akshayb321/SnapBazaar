@@ -65,7 +65,7 @@
   background: transparent;
   font-size: 18px;
 }
-.search-loader {
+.navbar-loader {
   color: #2563eb;
   font-size: 18px;
 }
@@ -292,4 +292,20 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.profileMenu button {
+  color: #2d2c2c !important;
+}
+
+.profileMenu button i {
+  color: #2d2c2c !important;
+}
+
+.profileMenu button:hover {
+  color: #2563eb !important;
+}
+
+.profileMenu button:hover i {
+  color: #2563eb !important;
 }

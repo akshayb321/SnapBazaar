@@ -332,6 +332,12 @@
 .address-form .MuiFormLabel-asterisk {
   display: none;
 }
+
+.save-btn .search-loader {
+  font-size: 14px;
+  margin-right: 8px;
+}
+
 /* Responsive */
 
 @media (max-width: 650px) {

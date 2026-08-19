@@ -3,10 +3,18 @@ import axios from "axios";
 import ProductSection from "../../componets/ProductSection/ProductSection";
 import { useFilter } from "../../context/FilterContext";
 import "./Products.css";
+import { useLocation } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const { search, category } = useFilter();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/products") {
+      setSearch("");
+    }
+  }, [location.pathname]);
 
   const fetchProducts = async () => {
     try {

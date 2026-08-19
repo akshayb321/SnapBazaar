@@ -6,7 +6,7 @@ function WishList() {
   return (
     <div className="profile-page">
       <ProfileSidebar />
-      <ProductSection2 type="wishlist" />;
+      <ProductSection2 type="wishlist" />
     </div>
   );
 }

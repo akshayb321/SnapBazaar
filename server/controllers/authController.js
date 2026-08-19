@@ -128,17 +128,13 @@ export const updateProfile = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // 1. Destructure 'phone' directly from the frontend request body
     const { name, phone } = req.body;
 
     const updateData = {};
     if (name) updateData.name = name;
 
-    // 2. Map directly to your new Mongoose field key 'phone'
-    // Checking for undefined allows clear actions (like setting to empty string)
     if (phone !== undefined) updateData.phone = phone;
 
-    // 3. Perform the update operation in the database
     const updatedProfile = await User.findByIdAndUpdate(
       userId,
       {
@@ -150,7 +146,6 @@ export const updateProfile = async (req, res) => {
       },
     ).select("-password");
 
-    // 4. Validate user existence FIRST before returning a 200 status code
     if (!updatedProfile) {
       return res.status(404).json({
         message: "User not found",
@@ -158,7 +153,6 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    // 5. Safely return successful data payload to your Axios caller
     return res.status(200).json({
       message: "Profile updated successfully",
       success: true,

@@ -1,0 +1,150 @@
+/* =========================
+   DARK OVERLAY
+========================= */
+
+.category-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity 0.3s ease;
+  z-index: 9998;
+}
+
+.category-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.category-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 300px;
+  height: 100vh;
+
+  background: #fff;
+
+  z-index: 9999;
+
+  transform: translateX(-100%);
+  transition: transform 0.35s ease;
+
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+
+  overflow-y: auto;
+}
+
+.category-sidebar.open {
+  transform: translateX(0);
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.category-logo {
+  width: 100%;
+  padding: 17px 15px 10px;
+}
+
+.category-logo img {
+  width: 230px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.category-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0px 15px 15px;
+}
+
+.category-heading h2 {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 400;
+
+  color: #393939;
+}
+
+.category-close {
+  border: none;
+  background: transparent;
+
+  font-size: 30px;
+  font-weight: 300;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  line-height: 1;
+
+  cursor: pointer;
+
+  color: #817f7f;
+  transition: 0.2s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.category-close:hover {
+  color: #353535;
+  background-color: #eae7e7;
+}
+.category-close:active {
+  color: #353535;
+  background-color: #cecccc;
+  transform: scale(0.95);
+}
+
+/* =========================
+   CATEGORY LIST
+========================= */
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.category-item {
+  width: 100%;
+  height: 44px;
+
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+.category-item:hover {
+  background: #e6e7e9;
+}
+
+.category-item span {
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #333;
+}

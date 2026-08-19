@@ -30,7 +30,10 @@
 }
 
 .cart-total button:hover {
-  background: #1d4ed8;
+  background: #0d0e12;
+}
+.cart-total button:active {
+  transform: scale(0.97);
 }
 
 /* Container styling */
@@ -106,4 +109,8 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
   border-radius: 2px;
+}
+.search-loader {
+  color: #ffffff !important;
+  font-size: 18px;
 }

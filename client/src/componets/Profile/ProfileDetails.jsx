@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 function ProfileDetails() {
   const { user } = useAuth();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   // Unified to 'phone'
   const [formData, setFormData] = useState({
     name: "",
@@ -31,15 +31,17 @@ function ProfileDetails() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleUpdate = async () => {
     try {
+      setLoading(true);
+
       const token = localStorage.getItem("token");
+
       const response = await axios.put(
         "http://localhost:8000/api/auth/profileInfo",
         {
           name: formData.name,
-          phone: formData.phone, // Sending 'phone'
+          phone: formData.phone,
         },
         {
           headers: {
@@ -48,11 +50,16 @@ function ProfileDetails() {
         },
       );
 
-      if (response.data.success) {
-        toast.success(response.data.message || "Profile updated!");
-      }
+      setTimeout(() => {
+        setLoading(false);
+
+        if (response.data.success) {
+          toast.success(response.data.message || "Profile updated!");
+        }
+      }, 500);
     } catch (error) {
-      console.error(error);
+      setLoading(false);
+
       toast.error(error.response?.data?.message || "Update failed");
     }
   };
@@ -105,8 +112,16 @@ function ProfileDetails() {
         />
       </div>
 
-      <button className="update-profile" onClick={handleUpdate}>
-        UPDATE PROFILE
+      <button
+        className="update-profile"
+        onClick={handleUpdate}
+        disabled={loading}
+      >
+        {loading ? (
+          <i className="fa-solid fa-spinner fa-spin search-loader"></i>
+        ) : null}
+
+        {loading ? "UPDATING..." : "UPDATE PROFILE"}
       </button>
     </div>
   );

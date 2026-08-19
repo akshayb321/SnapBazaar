@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../componets/ProductSection2/ProductSection2";
 import { useCart } from "../../../context/CartContext";
 
 import "./CartTotal.css";
+import { useNavigate } from "react-router-dom";
 
 function CartTotal() {
   const { cart } = useCart();
-
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const totalItemsCount =
     cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
@@ -52,9 +54,23 @@ function CartTotal() {
         <p>₹{totalDiscountedPrice}</p>
       </div>
 
-      <button className="placeOrder">
-        <i className="fa-solid fa-bag-shopping"></i>
-        <p>PLACE ORDER</p>
+      <button
+        className="placeOrder"
+        onClick={() => {
+          setLoading(true);
+          setTimeout(() => {
+            navigate("/checkout");
+            setLoading(false);
+          }, 1000);
+        }}
+      >
+        {loading ? (
+          <i className="fa-solid fa-spinner fa-spin search-loader"></i>
+        ) : (
+          <i className="fa-solid fa-bag-shopping"></i>
+        )}
+
+        <p>CHECKOUT</p>
       </button>
     </div>
   );

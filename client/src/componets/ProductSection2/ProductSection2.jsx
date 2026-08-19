@@ -82,8 +82,8 @@ function ProductSection2({ type }) {
             <p>{type === "cart" ? "Your Cart" : "Your Wishlist"}</p>
 
             <span>
-              There are {totalItemsCount} products in your{" "}
-              {type === "cart" ? "cart" : "wishlist"}
+              There are <span className="total-count">{totalItemsCount}</span>{" "}
+              products in your {type === "cart" ? "cart" : "wishlist"}
             </span>
           </div>
 
@@ -165,20 +165,30 @@ function ProductSection2({ type }) {
           ))}
         </div>
       ) : (
-        <div className="empty-cart-page">
+        <div className="main-cart-cointainer">
+          <div className="top-cart-cantainer">
+            <p>{type === "cart" ? "Your Cart" : "Your Wishlist"}</p>
+
+            <span>
+              There are <span className="total-count">{totalItemsCount}</span>{" "}
+              products in your {type === "cart" ? "cart" : "wishlist"}
+            </span>
+          </div>
           <img
             src={
               type === "cart"
                 ? "https://res.cloudinary.com/jwqnivpq/image/upload/v1785258745/empty-cart.png"
-                : "https://res.cloudinary.com/jwqnivpq/image/upload/v1785334679/wishlist_1.png"
+                : "https://res.cloudinary.com/jwqnivpq/image/upload/v1787148831/list.png"
             }
             alt={type === "cart" ? "Empty Cart" : "Empty Wishlist"}
           />
 
-          <h3>Your {type === "cart" ? "Cart" : "Wishlist"} is empty</h3>
+          <h3>
+            {type === "cart" ? "Your Cart" : "My List"} is currently empty
+          </h3>
 
           <button onClick={() => navigate("/home")} className="ShopNow-btn">
-            Shop Now
+            CONTINUE SHOPPING
           </button>
         </div>
       )}

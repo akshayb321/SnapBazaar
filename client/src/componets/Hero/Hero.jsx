@@ -2,17 +2,36 @@ import "./Hero.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/pagination";
+import { useNavigate } from "react-router-dom";
+import { useFilter } from "../../context/FilterContext";
 
 function Hero() {
   const banners = [
-    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634302/mensBanner.png",
-    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634434/bannerHome.png",
-    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634643/electronicsBanner.png",
-    "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634485/groceryBanner.png",
+    {
+      image:
+        "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634302/mensBanner.png",
+      category: "Fashion",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634434/bannerHome.png",
+      category: "All",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634643/electronicsBanner.png",
+      category: "Electronics",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/jwqnivpq/image/upload/v1784634485/groceryBanner.png",
+      category: "Groceries",
+    },
   ];
+  const navigate = useNavigate();
+  const { setCategory } = useFilter();
 
   return (
     <>
@@ -29,14 +48,27 @@ function Hero() {
         >
           {banners.map((banner, index) => (
             <SwiperSlide key={index}>
-              <img src={banner} alt={`Banner ${index + 1}`} />
+              <div
+                className="banner-click"
+                onClick={() => {
+                  setCategory(banner.category);
+                  navigate("/products");
+                }}
+              >
+                <img src={banner.image} alt={`Banner ${index + 1}`} />
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </section>
 
       <div className="category-hero">
-        <div>
+        <div
+          onClick={() => {
+            setCategory("Fashion");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637017/suit.png"
             alt="Fashion"
@@ -44,7 +76,12 @@ function Hero() {
           <p>Fashion</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("Bags");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637014/school-bag.png"
             alt="Bags"
@@ -52,7 +89,12 @@ function Hero() {
           <p>Bags</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("Footwear");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637019/sneakers.png"
             alt="Footwear"
@@ -60,7 +102,12 @@ function Hero() {
           <p>Footwear</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("Groceries");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637015/basket.png"
             alt="Groceries"
@@ -68,7 +115,12 @@ function Hero() {
           <p>Groceries</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("Wellness");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637016/meditation.png"
             alt="Wellness"
@@ -76,7 +128,12 @@ function Hero() {
           <p>Wellness</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("Jewellery");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637013/jewelry.png"
             alt="Jewellery"
@@ -84,7 +141,12 @@ function Hero() {
           <p>Jewellery</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("beauty");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637385/makeup.png"
             alt="Beauty"
@@ -92,7 +154,12 @@ function Hero() {
           <p>Beauty</p>
         </div>
 
-        <div>
+        <div
+          onClick={() => {
+            setCategory("electronics");
+            navigate("/products");
+          }}
+        >
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784637013/gadgets.png"
             alt="Electronics"

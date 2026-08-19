@@ -294,7 +294,8 @@
   text-decoration: none;
 }
 
-.social-media .fa-brands {
+.social-media .fa-brands,
+.social-media .fa-solid {
   width: 40px;
   height: 40px;
 
@@ -314,8 +315,8 @@
 
   transition: 0.3s;
 }
-
-.social-media .fa-brands:hover {
+.social-media .fa-brands:hover,
+.social-media .fa-solid:hover {
   background: #2563eb;
   border-color: #2563eb;
   transform: translateY(-3px);

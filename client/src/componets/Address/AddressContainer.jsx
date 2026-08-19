@@ -12,6 +12,7 @@ function Address() {
   const [menuIndex, setMenuIndex] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [addresses, setAddresses] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -97,6 +98,8 @@ function Address() {
     e.preventDefault();
 
     try {
+      setLoading(true);
+
       const token = localStorage.getItem("token");
 
       const config = {
@@ -117,9 +120,16 @@ function Address() {
 
         setAddresses(response.data.addresses);
 
-        toast.success("Address updated successfully");
+        setTimeout(() => {
+          setLoading(false);
 
-        resetForm();
+          if (response.data.success) {
+            toast.success("Address updated successfully");
+          }
+
+          resetForm();
+        }, 500);
+
         return;
       }
 
@@ -128,10 +138,18 @@ function Address() {
 
       setAddresses(response.data.addresses);
 
-      toast.success("Address added successfully");
+      setTimeout(() => {
+        setLoading(false);
 
-      resetForm();
+        if (response.data.success) {
+          toast.success("Address added successfully");
+        }
+
+        resetForm();
+      }, 500);
     } catch (error) {
+      setLoading(false);
+
       console.error(
         "Address save failed:",
         error.response?.data || error.message,
@@ -140,7 +158,6 @@ function Address() {
       toast.error(error.response?.data?.message || "Failed to save address");
     }
   };
-
   // =========================
   // EDIT ADDRESS
   // =========================
@@ -357,12 +374,27 @@ function Address() {
           </div>
 
           <div className="form-buttons">
-            <button type="button" className="cancel-btn" onClick={resetForm}>
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={resetForm}
+              disabled={loading}
+            >
               Cancel
             </button>
 
-            <button type="submit" className="save-btn">
-              {editIndex !== null ? "Update Address" : "Save Address"}
+            <button type="submit" className="save-btn" disabled={loading}>
+              {loading ? (
+                <i className="fa-solid fa-spinner fa-spin search-loader"></i>
+              ) : null}
+
+              {loading
+                ? editIndex !== null
+                  ? "UPDATING..."
+                  : "SAVING..."
+                : editIndex !== null
+                  ? "Update Address"
+                  : "Save Address"}
             </button>
           </div>
         </form>
