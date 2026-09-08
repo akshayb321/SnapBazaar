@@ -1,4 +1,404 @@
+/* =========================
+   PRODUCTS PAGE
+========================= */
+
 .products-page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 10px 40px 40px;
+
+  box-sizing: border-box;
+}
+
+/* =========================
+   PRODUCTS LAYOUT
+========================= */
+
+.products-layout {
   display: flex;
   align-items: flex-start;
+
+  gap: 25px;
+
+  width: 100%;
+}
+
+/* =========================
+   FILTER SIDEBAR
+========================= */
+
+.products-layout > .filter-sidebar {
+  flex: 0 0 250px;
+  width: 250px;
+}
+
+/* =========================
+   PRODUCTS CONTENT
+========================= */
+
+.products-content {
+  flex: 1;
+  min-width: 0;
+
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* =========================
+   PRODUCTS TOOLBAR
+========================= */
+
+.products-toolbar {
+  width: 100%;
+
+  min-height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 8px 14px;
+
+  margin-bottom: 16px;
+
+  background: #ffffff;
+
+  border-radius: 9px;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  box-sizing: border-box;
+}
+
+/* =========================
+   TOOLBAR LEFT
+========================= */
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+/* =========================
+   VIEW BUTTONS
+========================= */
+
+.view-btn {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #555;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.view-btn.active {
+  background: #e5e5e5;
+  color: #2563eb;
+}
+
+.view-btn:hover {
+  background: #e5e5e5;
+}
+
+/* =========================
+   PRODUCTS COUNT
+========================= */
+
+.products-count {
+  margin-left: 2px;
+
+  font-size: 14px;
+
+  color: #4b5563;
+}
+
+.products-count strong {
+  color: #111827;
+
+  font-weight: 600;
+}
+
+/* =========================
+   TOOLBAR RIGHT
+========================= */
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+/* =========================
+   SORT LABEL
+========================= */
+
+.sort-label {
+  font-size: 14px;
+
+  color: #374151;
+
+  white-space: nowrap;
+
+  display: inline-block;
+}
+
+/* =========================
+   SORT SELECT
+========================= */
+
+.sort-select {
+  min-width: 150px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sort-select:hover {
+  border-color: #d1d5db;
+}
+
+.sort-select:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.pagination {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   PAGINATION BUTTON
+========================= */
+
+.pagination-btn,
+.pagination-arrow {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* =========================
+   HOVER
+========================= */
+
+.pagination-btn:hover,
+.pagination-arrow:hover:not(:disabled) {
+  border-color: #2563eb;
+
+  color: #2563eb;
+
+  background: #f8faff;
+
+  transform: translateY(-1px);
+}
+
+/* =========================
+   ACTIVE PAGE
+========================= */
+
+.pagination-btn.active {
+  background: #2563eb;
+
+  border-color: #2563eb;
+
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+/* =========================
+   ARROWS
+========================= */
+
+.pagination-arrow {
+  font-size: 22px;
+
+  line-height: 1;
+}
+
+/* =========================
+   DISABLED ARROWS
+========================= */
+
+.pagination-arrow:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+  background: #f9fafb;
+
+  transform: none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+  .products-page {
+    padding: 10px 20px 30px;
+  }
+
+  .products-layout {
+    gap: 18px;
+  }
+
+  .products-layout > .filter-sidebar {
+    flex: 0 0 220px;
+    width: 220px;
+  }
+}
+
+/* =========================
+   TABLET / MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .products-page {
+    padding: 10px 15px 25px;
+  }
+
+  .products-layout {
+    flex-direction: column;
+  }
+
+  .products-layout > .filter-sidebar {
+    width: 100%;
+    flex: none;
+  }
+
+  .products-content {
+    width: 100%;
+  }
+
+  .products-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 10px;
+
+    padding: 10px;
+  }
+
+  .toolbar-left {
+    justify-content: flex-start;
+  }
+
+  .toolbar-right {
+    justify-content: space-between;
+  }
+
+  .sort-select {
+    flex: 1;
+  }
+
+  /* =========================
+     MOBILE PAGINATION
+  ========================= */
+
+  .pagination {
+    gap: 5px;
+
+    margin-top: 25px;
+  }
+
+  .pagination-btn,
+  .pagination-arrow {
+    width: 34px;
+    height: 34px;
+
+    font-size: 13px;
+  }
+
+  .pagination-arrow {
+    font-size: 20px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 4px;
+  }
+
+  .pagination-btn,
+  .pagination-arrow {
+    width: 32px;
+    height: 32px;
+  }
 }

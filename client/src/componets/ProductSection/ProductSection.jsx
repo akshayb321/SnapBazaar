@@ -16,6 +16,7 @@ function ProductSection({
   setSelectedCategory,
   limit,
   showViewAll,
+  className,
 }) {
   const navigate = useNavigate();
   const { fetchCart } = useCart();
@@ -56,9 +57,11 @@ function ProductSection({
       }
     }
   };
+
   const isWishlisted = (productId) => {
     return wishlist?.items?.some((item) => item.productId._id === productId);
   };
+
   const handleAddToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
@@ -96,7 +99,7 @@ function ProductSection({
   };
 
   return (
-    <section className="product-section">
+    <section className={`product-section ${className || ""}`}>
       <div className="section-header">
         <h2>{title}</h2>
 

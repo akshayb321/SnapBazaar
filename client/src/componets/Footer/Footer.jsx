@@ -167,7 +167,7 @@ function Footer() {
             </li>
 
             <li>
-              <Link to="/support">Support</Link>
+              <Link to="/about">About Us</Link>
             </li>
           </ul>
         </div>

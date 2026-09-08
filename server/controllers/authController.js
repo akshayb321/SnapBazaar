@@ -1,44 +1,256 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import Otp from "../models/Otp.js";
 
-export const signUp = async (req, res) => {
+import sendEmail from "../utils/email/sendEmail.js";
+
+import {
+  signupOtpEmailTemplate,
+  resetOtpEmailTemplate,
+  welcomeEmailTemplate,
+} from "../utils/email/emailTemplates.js";
+
+import { generateOtp, hashOtp } from "../utils/email/otp.js";
+
+// Signup
+
+export const sendSignupOtp = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({
+        success: false,
+        message: "Name and email are required",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(409).json({
+        success: false,
         message: "An account with this email already exists.",
       });
     }
+
+    const otp = generateOtp();
+    const otpHash = await hashOtp(otp);
+
+    await Otp.deleteMany({
+      email,
+      purpose: "signup",
+    });
+
+    await Otp.create({
+      email,
+      otpHash,
+      purpose: "signup",
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+      attempts: 0,
+      verified: false,
+    });
+
+    await sendEmail(
+      email,
+      "SnapBazaar Signup OTP",
+      signupOtpEmailTemplate(otp),
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send OTP",
+    });
+  }
+};
+
+export const verifySignupOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and OTP are required",
+      });
+    }
+
+    const otpRecord = await Otp.findOne({
+      email,
+      purpose: "signup",
+    });
+
+    if (!otpRecord) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP not found or expired",
+      });
+    }
+
+    if (otpRecord.expiresAt < new Date()) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired",
+      });
+    }
+
+    if (otpRecord.verified) {
+      return res.status(200).json({
+        success: true,
+        message: "Email already verified",
+      });
+    }
+
+    if (otpRecord.attempts >= 3) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(429).json({
+        success: false,
+        message: "Too many attempts. Please request a new OTP.",
+      });
+    }
+
+    const isOtpValid = await bcrypt.compare(otp, otpRecord.otpHash);
+
+    if (!isOtpValid) {
+      otpRecord.attempts += 1;
+      await otpRecord.save();
+
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    otpRecord.verified = true;
+    await otpRecord.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to verify OTP",
+    });
+  }
+};
+
+export const completeSignup = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, email and password are required",
+      });
+    }
+
+    const otpRecord = await Otp.findOne({
+      email,
+      purpose: "signup",
+      verified: true,
+    });
+
+    if (!otpRecord) {
+      return res.status(400).json({
+        success: false,
+        message: "Please verify your email first",
+      });
+    }
+
+    if (otpRecord.expiresAt < new Date()) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(400).json({
+        success: false,
+        message: "Email verification has expired. Please verify again.",
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(409).json({
+        success: false,
+        message: "An account with this email already exists.",
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new User({
       name,
       email,
       password: hashedPassword,
     });
+
     await newUser.save();
+
+    const jwtToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    await sendEmail(
+      email,
+      "Welcome to SnapBazaar 🎉",
+      welcomeEmailTemplate(name),
+    );
+
+    await Otp.deleteOne({ _id: otpRecord._id });
+
     return res.status(201).json({
-      message: "User registered successfully.",
+      success: true,
+      message: "User registered successfully",
+      jwtToken,
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Internal server error.",
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };
 
+// Login
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const existingUser = await User.findOne({ email });
+
     if (!existingUser) {
       return res.status(401).json({
         message: "Invalid email or password.",
       });
     }
+
     const isPassMatch = await bcrypt.compare(password, existingUser.password);
+
     if (!isPassMatch) {
       return res.status(401).json({
         message: "Invalid email or password.",
@@ -47,9 +259,10 @@ export const login = async (req, res) => {
 
     const jwtToken = jwt.sign(
       { id: existingUser._id },
-      process.env.JWT_SECRETE,
+      process.env.JWT_SECRET,
       { expiresIn: "24h" },
     );
+
     return res.status(200).json({
       success: true,
       message: "Login successfully.",
@@ -67,337 +280,204 @@ export const login = async (req, res) => {
   }
 };
 
-export const getMe = async (req, res) => {
-  try {
-    const id = req.user.id;
-    const existingUser = await User.findById(id).select("-password");
-    if (!existingUser) {
-      return res.status(401).json({
-        success: false,
-        message: "Please login again",
-      });
-    }
-    return res.status(200).json({
-      success: true,
-      user: existingUser,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-    });
-  }
-};
+// Reset Password
 
-export const updateProfileImage = async (req, res) => {
+export const sendResetOtp = async (req, res) => {
   try {
-    const { profileImage } = req.body;
+    const { email } = req.body;
 
-    if (!profileImage) {
+    if (!email) {
       return res.status(400).json({
-        message: "Profile image is required",
+        success: false,
+        message: "Email is required",
       });
     }
 
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      {
-        profileImage: profileImage,
-      },
-      { new: true },
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "No account found with this email",
+      });
+    }
+
+    const otp = generateOtp();
+    const otpHash = await hashOtp(otp);
+
+    await Otp.deleteMany({
+      email,
+      purpose: "reset-password",
+    });
+
+    await Otp.create({
+      email,
+      otpHash,
+      purpose: "reset-password",
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+      attempts: 0,
+      verified: false,
+    });
+
+    await sendEmail(
+      email,
+      "SnapBazaar Password Reset OTP",
+      resetOtpEmailTemplate(otp),
     );
 
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    res.status(200).json({
-      message: "Profile image updated successfully",
-      user,
+    return res.status(200).json({
+      success: true,
+      message: "Password reset OTP sent successfully",
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update profile image",
-      error: error.message,
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send password reset OTP",
     });
   }
 };
-export const updateProfile = async (req, res) => {
+
+export const verifyResetOtp = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const { email, otp } = req.body;
 
-    const { name, phone } = req.body;
-
-    const updateData = {};
-    if (name) updateData.name = name;
-
-    if (phone !== undefined) updateData.phone = phone;
-
-    const updatedProfile = await User.findByIdAndUpdate(
-      userId,
-      {
-        $set: updateData,
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    ).select("-password");
-
-    if (!updatedProfile) {
-      return res.status(404).json({
-        message: "User not found",
+    if (!email || !otp) {
+      return res.status(400).json({
         success: false,
+        message: "Email and OTP are required",
       });
     }
 
+    const otpRecord = await Otp.findOne({
+      email,
+      purpose: "reset-password",
+    });
+
+    if (!otpRecord) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP not found or expired",
+      });
+    }
+
+    if (otpRecord.expiresAt < new Date()) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired",
+      });
+    }
+
+    if (otpRecord.verified) {
+      return res.status(200).json({
+        success: true,
+        message: "Email already verified",
+      });
+    }
+
+    if (otpRecord.attempts >= 3) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(429).json({
+        success: false,
+        message: "Too many attempts. Please request a new OTP.",
+      });
+    }
+
+    const isOtpValid = await bcrypt.compare(otp, otpRecord.otpHash);
+
+    if (!isOtpValid) {
+      otpRecord.attempts += 1;
+      await otpRecord.save();
+
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    otpRecord.verified = true;
+    await otpRecord.save();
+
     return res.status(200).json({
-      message: "Profile updated successfully",
       success: true,
-      user: updatedProfile,
+      message: "Email verified successfully",
     });
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
-      message: "Failed to update profile",
-      error: error.message,
+      success: false,
+      message: "Failed to verify OTP",
     });
   }
 };
 
-export const addAddress = async (req, res) => {
+export const resetPassword = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const { email, password } = req.body;
 
-    const {
-      fullName,
-      phone,
-      addressLine,
-      city,
-      state,
-      pincode,
-      country,
-      addressType,
-      customType,
-    } = req.body;
-
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
       });
     }
 
-    // First address automatically becomes default
-    const isDefault = user.addresses.length === 0;
-
-    user.addresses.push({
-      fullName,
-      phone,
-      addressLine,
-      city,
-      state,
-      pincode,
-      country: country || "India",
-      addressType: addressType || "Home",
-      customType: addressType === "Other" ? customType : "",
-      isDefault,
+    const otpRecord = await Otp.findOne({
+      email,
+      purpose: "reset-password",
+      verified: true,
     });
 
-    await user.save();
-
-    return res.status(201).json({
-      success: true,
-      message: "Address added successfully",
-      addresses: user.addresses,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to add address",
-      error: error.message,
-    });
-  }
-};
-
-export const getAddresses = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("addresses");
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
+    if (!otpRecord) {
+      return res.status(400).json({
+        success: false,
+        message: "Please verify your email first",
       });
     }
+
+    if (otpRecord.expiresAt < new Date()) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(400).json({
+        success: false,
+        message: "Password reset session has expired. Please verify again.",
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      await Otp.deleteOne({ _id: otpRecord._id });
+
+      return res.status(404).json({
+        success: false,
+        message: "No account found with this email",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    existingUser.password = hashedPassword;
+
+    await existingUser.save();
+
+    await Otp.deleteOne({ _id: otpRecord._id });
 
     return res.status(200).json({
       success: true,
-      addresses: user.addresses,
+      message: "Password reset successfully",
     });
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch addresses",
-      error: error.message,
-    });
-  }
-};
-
-export const deleteAddress = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    const address = user.addresses.id(req.params.addressId);
-
-    if (!address) {
-      return res.status(404).json({
-        message: "Address not found",
-      });
-    }
-
-    const wasDefault = address.isDefault;
-
-    // Remove address
-    user.addresses.pull(req.params.addressId);
-
-    // If deleted address was default,
-    // make first remaining address default
-    if (wasDefault && user.addresses.length > 0) {
-      user.addresses.forEach((address, index) => {
-        address.isDefault = index === 0;
-      });
-    }
-
-    await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Address deleted successfully",
-      addresses: user.addresses,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to delete address",
-      error: error.message,
-    });
-  }
-};
-
-export const updateAddress = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    const address = user.addresses.id(req.params.addressId);
-
-    if (!address) {
-      return res.status(404).json({
-        message: "Address not found",
-      });
-    }
-
-    const {
-      fullName,
-      phone,
-      addressLine,
-      city,
-      state,
-      pincode,
-      country,
-      addressType,
-      customType,
-    } = req.body;
-
-    address.fullName = fullName;
-    address.phone = phone;
-    address.addressLine = addressLine;
-    address.city = city;
-    address.state = state;
-    address.pincode = pincode;
-
-    if (country !== undefined) {
-      address.country = country;
-    }
-
-    if (addressType !== undefined) {
-      address.addressType = addressType;
-    }
-
-    // Only keep customType when Other is selected
-    if (addressType === "Other") {
-      address.customType = customType || "";
-    } else {
-      address.customType = "";
-    }
-
-    await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Address updated successfully",
-      addresses: user.addresses,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update address",
-      error: error.message,
-    });
-  }
-};
-
-export const setDefaultAddress = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    const address = user.addresses.id(req.params.addressId);
-
-    if (!address) {
-      return res.status(404).json({
-        message: "Address not found",
-      });
-    }
-
-    // Make every address non-default
-    user.addresses.forEach((address) => {
-      address.isDefault = false;
-    });
-
-    // Make selected address default
-    address.isDefault = true;
-
-    await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Default address updated successfully",
-      addresses: user.addresses,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to set default address",
-      error: error.message,
+      message: "Failed to reset password",
     });
   }
 };

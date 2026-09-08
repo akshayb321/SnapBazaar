@@ -5,14 +5,58 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import "./AddressContainer.css";
 
-function Address() {
+function AddressContainer({
+  mode = "address",
+
+  // Checkout ke liye controlled state
+  showAddress: checkoutShowAddress,
+  setShowAddress: setCheckoutShowAddress,
+
+  // Checkout me selected address parent ko bhejne ke liye
+  onAddressSelect,
+}) {
   const API_URL = "http://localhost:8000/api/auth";
 
-  const [showAddress, setShowAddress] = useState(false);
+  const isCheckout = mode === "checkout";
+
+  // =====================================================
+  // NORMAL ADDRESS PAGE STATE
+  // =====================================================
+
+  const [localShowAddress, setLocalShowAddress] = useState(false);
+
+  // =====================================================
+  // COMMON STATES
+  // =====================================================
+
   const [menuIndex, setMenuIndex] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
+
   const [addresses, setAddresses] = useState([]);
+
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+
   const [loading, setLoading] = useState(false);
+
+  // =====================================================
+  // SHOW ADDRESS FORM
+  // =====================================================
+  // Checkout:
+  // Parent Checkout.jsx se control hoga
+  //
+  // Normal Address page:
+  // Local state se control hoga
+  // =====================================================
+
+  const showAddress = isCheckout ? checkoutShowAddress : localShowAddress;
+
+  const setShowAddress = isCheckout
+    ? setCheckoutShowAddress
+    : setLocalShowAddress;
+
+  // =====================================================
+  // FORM DATA
+  // =====================================================
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -25,9 +69,9 @@ function Address() {
     customType: "",
   });
 
-  // =========================
-  // GET ADDRESSES
-  // =========================
+  // =====================================================
+  // FETCH ADDRESSES
+  // =====================================================
 
   const fetchAddresses = async () => {
     try {
@@ -39,7 +83,26 @@ function Address() {
         },
       });
 
-      setAddresses(response.data.addresses || []);
+      const fetchedAddresses = response.data.addresses || [];
+
+      setAddresses(fetchedAddresses);
+
+      // =================================================
+      // CHECKOUT MODE
+      // Automatically select default address
+      // =================================================
+
+      if (isCheckout && fetchedAddresses.length > 0) {
+        const defaultAddress =
+          fetchedAddresses.find((address) => address.isDefault) ||
+          fetchedAddresses[0];
+
+        setSelectedAddressId(defaultAddress._id);
+
+        if (onAddressSelect) {
+          onAddressSelect(defaultAddress);
+        }
+      }
     } catch (error) {
       console.error(
         "Failed to fetch addresses:",
@@ -48,13 +111,17 @@ function Address() {
     }
   };
 
+  // =====================================================
+  // LOAD ADDRESSES
+  // =====================================================
+
   useEffect(() => {
     fetchAddresses();
   }, []);
 
-  // =========================
-  // HANDLE INPUT
-  // =========================
+  // =====================================================
+  // HANDLE FORM CHANGE
+  // =====================================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,9 +136,9 @@ function Address() {
     }));
   };
 
-  // =========================
+  // =====================================================
   // RESET FORM
-  // =========================
+  // =====================================================
 
   const resetForm = () => {
     setFormData({
@@ -86,13 +153,15 @@ function Address() {
     });
 
     setEditIndex(null);
+
     setShowAddress(false);
+
     setMenuIndex(null);
   };
 
-  // =========================
-  // ADD / UPDATE ADDRESS
-  // =========================
+  // =====================================================
+  // HANDLE SUBMIT
+  // =====================================================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +177,10 @@ function Address() {
         },
       };
 
-      // UPDATE
+      // =================================================
+      // UPDATE EXISTING ADDRESS
+      // =================================================
+
       if (editIndex !== null) {
         const addressId = addresses[editIndex]._id;
 
@@ -118,7 +190,24 @@ function Address() {
           config,
         );
 
-        setAddresses(response.data.addresses);
+        const updatedAddresses = response.data.addresses || [];
+
+        setAddresses(updatedAddresses);
+
+        // Checkout mode me updated address select karo
+        if (isCheckout) {
+          const updatedAddress = updatedAddresses.find(
+            (address) => address._id === addressId,
+          );
+
+          if (updatedAddress) {
+            setSelectedAddressId(updatedAddress._id);
+
+            if (onAddressSelect) {
+              onAddressSelect(updatedAddress);
+            }
+          }
+        }
 
         setTimeout(() => {
           setLoading(false);
@@ -133,10 +222,30 @@ function Address() {
         return;
       }
 
-      // ADD
+      // =================================================
+      // ADD NEW ADDRESS
+      // =================================================
+
       const response = await axios.post(`${API_URL}/address`, formData, config);
 
-      setAddresses(response.data.addresses);
+      const updatedAddresses = response.data.addresses || [];
+
+      setAddresses(updatedAddresses);
+
+      // =================================================
+      // CHECKOUT MODE
+      // Newly added address select karo
+      // =================================================
+
+      if (isCheckout && updatedAddresses.length > 0) {
+        const newAddress = updatedAddresses[updatedAddresses.length - 1];
+
+        setSelectedAddressId(newAddress._id);
+
+        if (onAddressSelect) {
+          onAddressSelect(newAddress);
+        }
+      }
 
       setTimeout(() => {
         setLoading(false);
@@ -158,9 +267,10 @@ function Address() {
       toast.error(error.response?.data?.message || "Failed to save address");
     }
   };
-  // =========================
-  // EDIT ADDRESS
-  // =========================
+
+  // =====================================================
+  // HANDLE EDIT
+  // =====================================================
 
   const handleEdit = (index) => {
     const selectedAddress = addresses[index];
@@ -177,17 +287,20 @@ function Address() {
     });
 
     setEditIndex(index);
+
     setShowAddress(true);
+
     setMenuIndex(null);
   };
 
-  // =========================
-  // DELETE ADDRESS
-  // =========================
+  // =====================================================
+  // HANDLE DELETE
+  // =====================================================
 
   const handleDelete = async (index) => {
     try {
       const token = localStorage.getItem("token");
+
       const addressId = addresses[index]._id;
 
       const response = await axios.delete(`${API_URL}/address/${addressId}`, {
@@ -196,8 +309,37 @@ function Address() {
         },
       });
 
-      setAddresses(response.data.addresses);
+      const updatedAddresses = response.data.addresses || [];
+
+      setAddresses(updatedAddresses);
+
       setMenuIndex(null);
+
+      // =================================================
+      // CHECKOUT MODE
+      // Agar selected address delete hua
+      // to dusra address automatically select karo
+      // =================================================
+
+      if (selectedAddressId === addressId) {
+        if (updatedAddresses.length > 0) {
+          const nextAddress =
+            updatedAddresses.find((address) => address.isDefault) ||
+            updatedAddresses[0];
+
+          setSelectedAddressId(nextAddress._id);
+
+          if (onAddressSelect) {
+            onAddressSelect(nextAddress);
+          }
+        } else {
+          setSelectedAddressId(null);
+
+          if (onAddressSelect) {
+            onAddressSelect(null);
+          }
+        }
+      }
 
       toast.success("Address deleted successfully");
     } catch (error) {
@@ -210,13 +352,14 @@ function Address() {
     }
   };
 
-  // =========================
+  // =====================================================
   // SET DEFAULT ADDRESS
-  // =========================
+  // =====================================================
 
   const handleSetDefault = async (index) => {
     try {
       const token = localStorage.getItem("token");
+
       const addressId = addresses[index]._id;
 
       const response = await axios.put(
@@ -229,8 +372,30 @@ function Address() {
         },
       );
 
-      setAddresses(response.data.addresses);
+      const updatedAddresses = response.data.addresses || [];
+
+      setAddresses(updatedAddresses);
+
       setMenuIndex(null);
+
+      // =================================================
+      // CHECKOUT MODE
+      // New default address select karo
+      // =================================================
+
+      if (isCheckout) {
+        const defaultAddress = updatedAddresses.find(
+          (address) => address._id === addressId,
+        );
+
+        if (defaultAddress) {
+          setSelectedAddressId(defaultAddress._id);
+
+          if (onAddressSelect) {
+            onAddressSelect(defaultAddress);
+          }
+        }
+      }
 
       toast.success("Default address updated");
     } catch (error) {
@@ -245,11 +410,275 @@ function Address() {
     }
   };
 
+  // =====================================================
+  // SELECT ADDRESS - CHECKOUT
+  // =====================================================
+
+  const handleSelectAddress = (address) => {
+    if (!isCheckout) return;
+
+    setSelectedAddressId(address._id);
+
+    if (onAddressSelect) {
+      onAddressSelect(address);
+    }
+  };
+
+  // =====================================================
+  // ADDRESS FORM
+  // =====================================================
+
+  const addressForm = (
+    <form className="address-form" onSubmit={handleSubmit}>
+      {/* FORM TITLE */}
+
+      <div className="form-title">
+        <h3>{editIndex !== null ? "Edit Address" : "Add New Address"}</h3>
+      </div>
+
+      {/* NAME + PHONE */}
+
+      <div className="form-row">
+        <TextField
+          fullWidth
+          size="small"
+          label="Full Name"
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleChange}
+          required
+        />
+
+        <MuiTelInput
+          fullWidth
+          size="small"
+          label="Phone Number"
+          value={formData.phone}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              phone: value,
+            }))
+          }
+          defaultCountry="IN"
+          required
+        />
+      </div>
+
+      {/* ADDRESS */}
+
+      <TextField
+        fullWidth
+        size="small"
+        label="Address"
+        name="addressLine"
+        value={formData.addressLine}
+        onChange={handleChange}
+        required
+      />
+
+      {/* CITY + STATE + PINCODE */}
+
+      <div className="form-row">
+        <TextField
+          fullWidth
+          size="small"
+          label="City"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+          required
+        />
+
+        <TextField
+          fullWidth
+          size="small"
+          label="State"
+          name="state"
+          value={formData.state}
+          onChange={handleChange}
+          required
+        />
+
+        <TextField
+          fullWidth
+          size="small"
+          label="Pincode"
+          name="pincode"
+          value={formData.pincode}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      {/* ADDRESS TYPE */}
+
+      <div className="address-type-section">
+        <TextField
+          select
+          fullWidth
+          size="small"
+          label="Address Type"
+          name="addressType"
+          value={formData.addressType}
+          onChange={handleChange}
+          required
+        >
+          <MenuItem value="Home">Home</MenuItem>
+
+          <MenuItem value="Office">Office</MenuItem>
+
+          <MenuItem value="Other">Other</MenuItem>
+        </TextField>
+
+        {formData.addressType === "Other" && (
+          <TextField
+            fullWidth
+            size="small"
+            label="Enter Address Type"
+            name="customType"
+            value={formData.customType}
+            onChange={handleChange}
+            className="other-type-input"
+          />
+        )}
+      </div>
+
+      {/* FORM BUTTONS */}
+
+      <div className="form-buttons">
+        <button
+          type="button"
+          className="cancel-btn"
+          onClick={resetForm}
+          disabled={loading}
+        >
+          Cancel
+        </button>
+
+        <button type="submit" className="save-btn" disabled={loading}>
+          {loading && (
+            <i className="fa-solid fa-spinner fa-spin search-loader"></i>
+          )}
+
+          {loading
+            ? editIndex !== null
+              ? "UPDATING..."
+              : "SAVING..."
+            : editIndex !== null
+              ? "Update Address"
+              : "Save Address"}
+        </button>
+      </div>
+    </form>
+  );
+
+  // =====================================================
+  // CHECKOUT MODE
+  // =====================================================
+
+  if (isCheckout) {
+    return (
+      <div className="checkout-address-container">
+        {/* ADDRESS FORM */}
+
+        {showAddress && addressForm}
+
+        {/* SAVED ADDRESSES */}
+
+        {!showAddress && (
+          <div className="checkout-address-list">
+            {addresses.length === 0 ? (
+              <div className="no-address-message">
+                <i className="fa-solid fa-location-dot"></i>
+
+                <h3>No saved address</h3>
+
+                <p>Add a delivery address to continue</p>
+              </div>
+            ) : (
+              addresses.map((address) => {
+                const isSelected = selectedAddressId === address._id;
+
+                return (
+                  <div
+                    key={address._id}
+                    className={`checkout-address-card ${
+                      isSelected ? "selected" : ""
+                    }`}
+                    onClick={() => handleSelectAddress(address)}
+                  >
+                    {/* RADIO */}
+
+                    <div className="checkout-address-radio">
+                      <div
+                        className={`address-radio ${
+                          isSelected ? "active" : ""
+                        }`}
+                      >
+                        {isSelected && <span></span>}
+                      </div>
+                    </div>
+
+                    {/* ADDRESS CONTENT */}
+
+                    <div className="checkout-address-content">
+                      {/* TYPE + DEFAULT */}
+
+                      <div className="checkout-address-top">
+                        <div className="checkout-address-labels">
+                          <span className="checkout-address-type">
+                            {address.addressType === "Other"
+                              ? address.customType || "Other"
+                              : address.addressType}
+                          </span>
+
+                          {address.isDefault && (
+                            <span className="checkout-default-label">
+                              DEFAULT
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* NAME + PHONE */}
+
+                      <div className="checkout-name-phone">
+                        <strong>{address.fullName}</strong>
+
+                        <span>{address.phone}</span>
+                      </div>
+
+                      {/* FULL ADDRESS */}
+
+                      <div className="checkout-address-info">
+                        <p>
+                          {address.addressLine}, {address.city}, {address.state}{" "}
+                          {address.pincode}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // =====================================================
+  // NORMAL ADDRESS PAGE
+  // =====================================================
+
   return (
     <div className="address-container">
+      {/* PAGE TITLE */}
+
       <h2>Address</h2>
 
-      {/* Add Address */}
+      {/* ADD ADDRESS BUTTON */}
 
       {!showAddress && (
         <button
@@ -265,146 +694,17 @@ function Address() {
         </button>
       )}
 
-      {/* Address Form */}
+      {/* ADDRESS FORM */}
 
-      {showAddress && (
-        <form className="address-form" onSubmit={handleSubmit}>
-          <div className="form-title">
-            <h3>{editIndex !== null ? "Edit Address" : "Add New Address"}</h3>
-          </div>
+      {showAddress && addressForm}
 
-          <div className="form-row">
-            <TextField
-              fullWidth
-              size="small"
-              label="Full Name"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
-
-            <MuiTelInput
-              fullWidth
-              size="small"
-              label="Phone Number"
-              value={formData.phone}
-              onChange={(value) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  phone: value,
-                }))
-              }
-              defaultCountry="IN"
-              required
-            />
-          </div>
-
-          <TextField
-            fullWidth
-            size="small"
-            label="Address"
-            name="addressLine"
-            value={formData.addressLine}
-            onChange={handleChange}
-            required
-          />
-
-          <div className="form-row">
-            <TextField
-              fullWidth
-              size="small"
-              label="City"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-            />
-
-            <TextField
-              fullWidth
-              size="small"
-              label="State"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              required
-            />
-
-            <TextField
-              fullWidth
-              size="small"
-              label="Pincode"
-              name="pincode"
-              value={formData.pincode}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Address Type */}
-
-          <div className="address-type-section">
-            <TextField
-              select
-              fullWidth
-              size="small"
-              label="Address Type"
-              name="addressType"
-              value={formData.addressType}
-              onChange={handleChange}
-              required
-            >
-              <MenuItem value="Home">Home</MenuItem>
-              <MenuItem value="Office">Office</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </TextField>
-
-            {formData.addressType === "Other" && (
-              <TextField
-                fullWidth
-                size="small"
-                label="Enter Address Type"
-                name="customType"
-                value={formData.customType}
-                onChange={handleChange}
-                className="other-type-input"
-              />
-            )}
-          </div>
-
-          <div className="form-buttons">
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={resetForm}
-              disabled={loading}
-            >
-              Cancel
-            </button>
-
-            <button type="submit" className="save-btn" disabled={loading}>
-              {loading ? (
-                <i className="fa-solid fa-spinner fa-spin search-loader"></i>
-              ) : null}
-
-              {loading
-                ? editIndex !== null
-                  ? "UPDATING..."
-                  : "SAVING..."
-                : editIndex !== null
-                  ? "Update Address"
-                  : "Save Address"}
-            </button>
-          </div>
-        </form>
-      )}
-
-      {/* Saved Addresses */}
+      {/* SAVED ADDRESSES */}
 
       <div className="saved-addresses">
         {addresses.map((address, index) => (
           <div className="address-card" key={address._id}>
+            {/* CARD TOP */}
+
             <div className="address-card-top">
               <div className="address-labels">
                 <span className="address-label">
@@ -418,7 +718,7 @@ function Address() {
                 )}
               </div>
 
-              {/* Three Dots */}
+              {/* THREE DOT MENU */}
 
               <div className="address-menu-wrapper">
                 <button
@@ -433,6 +733,8 @@ function Address() {
 
                 {menuIndex === index && (
                   <div className="AddressMenu">
+                    {/* EDIT */}
+
                     <button
                       type="button"
                       className="menu-item"
@@ -444,6 +746,8 @@ function Address() {
                       Edit
                     </button>
 
+                    {/* DELETE */}
+
                     <button
                       type="button"
                       className="menu-item"
@@ -454,6 +758,8 @@ function Address() {
                       </span>
                       Delete
                     </button>
+
+                    {/* SET DEFAULT */}
 
                     {!address.isDefault && (
                       <button
@@ -470,9 +776,12 @@ function Address() {
               </div>
             </div>
 
+            {/* ADDRESS INFO */}
+
             <div className="address-info">
               <div className="address-name-phone">
                 <strong>{address.fullName}</strong>
+
                 <span>{address.phone}</span>
               </div>
 
@@ -488,4 +797,4 @@ function Address() {
   );
 }
 
-export default Address;
+export default AddressContainer;

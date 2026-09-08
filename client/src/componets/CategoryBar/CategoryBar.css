@@ -15,9 +15,7 @@
   box-shadow: rgba(34, 34, 34, 0.24) 0px 3px 8px;
 }
 
-/* ==========================
-        CATEGORY LIST
-========================== */
+/* CATEGORY LIST */
 
 .category-list {
   flex: 1;
@@ -78,19 +76,35 @@
   transform: scaleX(1);
 }
 
-/* ==========================
-        DELIVERY
-========================== */
+/* ABOUT US */
 
-.delivery {
+.about-category-link {
+  flex-shrink: 0;
+  margin-left: 25px;
+  padding-left: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #555;
+  gap: 7px;
+  border-left: 1px solid #dcdcdc;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
   white-space: nowrap;
-  font-size: 13px;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
 }
 
-.delivery i {
-  color: #2563eb;
+.about-category-link i {
+  font-size: 12px;
+  transition: transform 0.25s ease;
+}
+
+.about-category-link:hover {
+  color: #111111;
+}
+
+.about-category-link:hover i {
+  transform: translateY(-1px);
 }

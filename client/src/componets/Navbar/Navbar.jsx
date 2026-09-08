@@ -32,7 +32,6 @@ function Navbar() {
     setTimeout(() => {
       navigate("/products");
       setLoading(false);
-      setSearch("");
     }, 1000);
   };
 

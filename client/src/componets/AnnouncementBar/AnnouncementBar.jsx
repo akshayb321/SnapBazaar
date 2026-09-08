@@ -1,5 +1,6 @@
 import React from "react";
 import "./AnnouncementBar.css";
+import { Link } from "react-router-dom";
 
 function AnnouncementBar() {
   return (
@@ -8,8 +9,8 @@ function AnnouncementBar() {
         <p>Get up to 50% off new season styles, limited time only</p>
       </div>
       <div className="right">
-        <a href="">Help Center</a>
-        <a href="">Order Tracking</a>
+        <Link to="/about">Help Center</Link>
+        <Link to="/orders">Order Tracking</Link>
       </div>
     </div>
   );

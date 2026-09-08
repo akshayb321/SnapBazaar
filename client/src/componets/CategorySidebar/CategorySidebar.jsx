@@ -17,23 +17,26 @@ const categories = [
 function CategorySidebar({ isOpen, onClose }) {
   const { setCategory } = useFilter();
   const navigate = useNavigate();
+
   const handleCategoryClick = (category) => {
     setCategory(category);
     onClose();
     navigate("/products");
   };
 
+  const handleAboutClick = () => {
+    onClose();
+    navigate("/about");
+  };
+
   return (
     <>
-      {/* Overlay */}
       <div
         className={`category-overlay ${isOpen ? "show" : ""}`}
         onClick={onClose}
       ></div>
 
-      {/* Sidebar */}
       <aside className={`category-sidebar ${isOpen ? "open" : ""}`}>
-        {/* Logo */}
         <div className="category-logo">
           <img
             src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784701614/logo.png"
@@ -41,7 +44,6 @@ function CategorySidebar({ isOpen, onClose }) {
           />
         </div>
 
-        {/* Heading */}
         <div className="category-heading">
           <h2>Shop By Categories</h2>
 
@@ -50,7 +52,6 @@ function CategorySidebar({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Categories */}
         <div className="sidebar-list">
           {categories.map((category) => (
             <div
@@ -61,6 +62,19 @@ function CategorySidebar({ isOpen, onClose }) {
               <span>{category}</span>
             </div>
           ))}
+
+          <div className="about-sidebar-item" onClick={handleAboutClick}>
+            <div className="about-sidebar-icon">
+              <i className="fa-solid fa-user"></i>
+            </div>
+
+            <div className="about-sidebar-content">
+              <span>About Us</span>
+              <small>Meet the developer</small>
+            </div>
+
+            <i className="fa-solid fa-arrow-right about-sidebar-arrow"></i>
+          </div>
         </div>
       </aside>
     </>

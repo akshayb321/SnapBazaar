@@ -1,3 +1,7 @@
+/* =========================================
+   MAIN ADDRESS CONTAINER
+========================================= */
+
 .address-container {
   width: 100%;
   max-width: 760px;
@@ -15,16 +19,24 @@
   color: #222;
 }
 
-/* Add Address */
+/* =========================================
+   ADD ADDRESS
+   NORMAL ADDRESS PAGE ONLY
+========================================= */
 
 .add-address-box {
   width: 100%;
   height: 74px;
+
   border: 1px dashed #bfc9d4;
   border-radius: 7px;
+
   background: #f1faff;
   color: #333;
+
   font-size: 16px;
+  font-family: inherit;
+
   cursor: pointer;
 
   display: flex;
@@ -37,21 +49,31 @@
 
 .add-address-box:hover {
   background: #e8f7ff;
+  border-color: #2563eb;
+  color: #2563eb;
 }
 
 .add-address-box span {
   font-size: 22px;
 }
 
-/* Form */
+/* =========================================
+   ADDRESS FORM
+========================================= */
 
 .address-form {
   width: 100%;
+
   padding: 18px;
+
   border: 1px solid #e2e2e2;
   border-radius: 7px;
+
   box-sizing: border-box;
+
   margin-bottom: 18px;
+
+  background: #fff;
 }
 
 .form-title {
@@ -60,14 +82,18 @@
 
 .form-title h3 {
   margin: 0;
+
   font-size: 17px;
   font-weight: 600;
+
   color: #333;
 }
 
 .form-row {
   display: flex;
+
   gap: 12px;
+
   margin-bottom: 14px;
 }
 
@@ -75,7 +101,9 @@
   margin-bottom: 14px;
 }
 
-/* MUI TextField */
+/* =========================================
+   MUI TEXT FIELD
+========================================= */
 
 .address-form .MuiInputBase-root {
   background: #fff;
@@ -89,19 +117,24 @@
 .address-form
   .MuiOutlinedInput-root.Mui-focused
   .MuiOutlinedInput-notchedOutline {
-  border-color: #1976d2;
+  border-color: #2563eb;
+
   border-width: 2px;
 }
 
 .address-form .MuiInputLabel-root.Mui-focused {
-  color: #1976d2;
+  color: #2563eb;
 }
 
-/* Address Type */
+/* =========================================
+   ADDRESS TYPE
+========================================= */
 
 .address-type-section {
   display: flex;
+
   gap: 12px;
+
   margin-top: 2px;
   margin-bottom: 4px;
 }
@@ -114,29 +147,42 @@
   flex: 1;
 }
 
-/* Buttons */
+/* =========================================
+   FORM BUTTONS
+========================================= */
 
 .form-buttons {
   display: flex;
+
   justify-content: flex-end;
+
   gap: 10px;
+
   margin-top: 14px;
 }
 
 .cancel-btn,
 .save-btn {
   height: 38px;
+
   padding: 0 18px;
+
   border-radius: 5px;
+
   font-size: 14px;
+
   cursor: pointer;
+
   font-family: inherit;
 }
 
 .cancel-btn {
   border: 1px solid #ddd;
+
   background: #fff;
+
   color: #555;
+
   transition: 0.3s ease;
 }
 
@@ -151,67 +197,116 @@
 
 .save-btn {
   border: none;
-  background: #1976d2;
+
+  background: #2563eb;
+
   color: #fff;
+
   transition: 0.3s ease;
 }
 
 .save-btn:hover {
-  background: #050a13;
+  background: #1d4ed8;
 }
 
-/* Saved Addresses */
+.save-btn .search-loader {
+  font-size: 14px;
+
+  margin-right: 8px;
+}
+
+/* =========================================
+   SAVED ADDRESSES
+   NORMAL ADDRESS PAGE
+========================================= */
 
 .saved-addresses {
   margin-top: 18px;
+
   display: flex;
+
   flex-direction: column;
+
   gap: 12px;
 }
 
 .address-card {
   width: 100%;
+
   border: 1px dashed #cfcfcf;
+
   border-radius: 7px;
+
   padding: 16px;
+
   box-sizing: border-box;
+
   background: #fff;
+
   position: relative;
+
+  transition: 0.2s ease;
 }
+
+.address-card:hover {
+  border-color: #b5c7e8;
+}
+
+/* =========================================
+   ADDRESS CARD TOP
+========================================= */
 
 .address-card-top {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   margin-bottom: 10px;
 }
 
 .address-labels {
   display: flex;
+
   align-items: center;
+
   gap: 8px;
 }
 
 .address-label {
   background: #eeeeee;
+
   color: #555;
+
   padding: 5px 10px;
+
   border-radius: 3px;
+
   font-size: 13px;
 }
 
-/* Default Badge */
+/* =========================================
+   DEFAULT BADGE
+========================================= */
 
 .default-label {
   background: #e8f5e9;
+
   color: #2e7d32;
+
   padding: 5px 9px;
+
   border-radius: 3px;
+
   font-size: 12px;
+
   font-weight: 500;
 }
 
-/* Three Dot Button */
+/* =========================================
+   THREE DOT BUTTON
+========================================= */
 
 .address-menu-wrapper {
   position: relative;
@@ -219,18 +314,27 @@
 
 .more-btn {
   width: 34px;
+
   height: 34px;
+
   border: none;
+
   border-radius: 50%;
+
   background: transparent;
+
   color: #666;
+
   cursor: pointer;
 
   font-size: 23px;
+
   line-height: 1;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   transition: all 0.2s ease;
@@ -238,25 +342,33 @@
 
 .more-btn:hover {
   background: #f0f0f0;
+
   color: #222;
 }
 
 .more-btn.active {
   background: #222;
+
   color: #fff;
 }
 
-/* Address Menu */
+/* =========================================
+   ADDRESS MENU
+========================================= */
 
 .AddressMenu {
   position: absolute;
+
   top: 39px;
+
   right: 0;
 
   width: 180px;
+
   background: #fff;
 
   border: 1px solid #e5e5e5;
+
   border-radius: 7px;
 
   padding: 6px;
@@ -266,27 +378,35 @@
   z-index: 100;
 }
 
-/* Menu Buttons */
+/* =========================================
+   MENU BUTTONS
+========================================= */
 
 .menu-item {
   width: 100%;
+
   height: 38px;
 
   border: none;
+
   border-radius: 5px;
 
   background: transparent;
+
   color: #333;
 
   font-size: 14px;
 
   display: flex;
+
   align-items: center;
+
   gap: 10px;
 
   padding: 0 11px;
 
   cursor: pointer;
+
   text-align: left;
 
   transition: background 0.2s ease;
@@ -298,19 +418,25 @@
 
 .menu-item span {
   width: 18px;
+
   font-size: 15px;
 }
 
 .default-menu-item {
-  color: #1976d2;
+  color: #2563eb;
 }
 
-/* Address Information */
+/* =========================================
+   ADDRESS INFORMATION
+========================================= */
 
 .address-name-phone {
   display: flex;
+
   align-items: center;
+
   gap: 18px;
+
   font-size: 14px;
 }
 
@@ -324,8 +450,11 @@
 
 .address-info p {
   margin: 6px 0 0;
+
   color: #666;
+
   font-size: 14px;
+
   line-height: 1.5;
 }
 
@@ -333,12 +462,354 @@
   display: none;
 }
 
-.save-btn .search-loader {
-  font-size: 14px;
-  margin-right: 8px;
+/* =========================================================
+   =========================================================
+   CHECKOUT ADDRESS UI
+   =========================================================
+   ========================================================= */
+
+.checkout-address-container {
+  width: 100%;
+
+  max-width: none;
+
+  padding: 0;
+
+  background: transparent;
+
+  box-shadow: none;
+
+  border-radius: 0;
 }
 
-/* Responsive */
+/* =========================================
+   CHECKOUT ADDRESS LIST
+========================================= */
+
+.checkout-address-list {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+/* =========================================
+   CHECKOUT ADDRESS CARD
+========================================= */
+
+.checkout-address-card {
+  width: 100%;
+
+  min-height: 88px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 13px;
+
+  padding: 14px 15px;
+
+  box-sizing: border-box;
+
+  background: #fff;
+
+  border: 1.5px solid #e1e6ee;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
+  position: relative;
+}
+
+.checkout-address-card:hover {
+  border-color: #93b4f5;
+
+  background: #fbfdff;
+}
+
+.checkout-address-card.selected {
+  border-color: #2563eb;
+
+  background: #f7faff;
+
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+}
+
+/* =========================================
+   CHECKOUT RADIO
+========================================= */
+
+.checkout-address-radio {
+  padding-top: 2px;
+
+  flex-shrink: 0;
+}
+
+.address-radio {
+  width: 19px;
+
+  height: 19px;
+
+  border: 2px solid #c7ced8;
+
+  border-radius: 50%;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: 0.2s ease;
+}
+
+.address-radio.active {
+  border-color: #2563eb;
+}
+
+.address-radio.active span {
+  width: 9px;
+
+  height: 9px;
+
+  background: #2563eb;
+
+  border-radius: 50%;
+
+  display: block;
+}
+
+/* =========================================
+   CHECKOUT ADDRESS CONTENT
+========================================= */
+
+.checkout-address-content {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.checkout-address-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+}
+
+.checkout-address-labels {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+/* =========================================
+   CHECKOUT ADDRESS TYPE
+========================================= */
+
+.checkout-address-type {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 4px 8px;
+
+  border-radius: 4px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.2px;
+
+  text-transform: uppercase;
+}
+
+/* =========================================
+   CHECKOUT DEFAULT
+========================================= */
+
+.checkout-default-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 4px 8px;
+
+  border-radius: 4px;
+
+  background: #ecfdf5;
+
+  color: #15803d;
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+/* =========================================
+   CHECKOUT NAME + PHONE
+========================================= */
+
+.checkout-name-phone {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 5px;
+}
+
+.checkout-name-phone strong {
+  color: #202733;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.checkout-name-phone span {
+  color: #747d8b;
+
+  font-size: 9px;
+}
+
+/* =========================================
+   CHECKOUT ADDRESS TEXT
+========================================= */
+
+.checkout-address-info {
+  width: 100%;
+}
+
+.checkout-address-info p {
+  margin: 0;
+
+  max-width: 96%;
+
+  color: #687180;
+
+  font-size: 10px;
+
+  line-height: 1.55;
+}
+
+/* =========================================
+   SELECTED ADDRESS LEFT INDICATOR
+========================================= */
+
+.checkout-address-card.selected::before {
+  content: "";
+
+  position: absolute;
+
+  left: -1.5px;
+
+  top: 13px;
+
+  bottom: 13px;
+
+  width: 3px;
+
+  background: #2563eb;
+
+  border-radius: 0 3px 3px 0;
+}
+
+/* =========================================
+   NO ADDRESS FOUND
+========================================= */
+
+.checkout-no-address {
+  width: 100%;
+
+  padding: 30px 20px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  background: #fff;
+
+  border: 1px solid #e2e7ef;
+
+  border-radius: 9px;
+}
+
+.no-address-icon {
+  width: 42px;
+
+  height: 42px;
+
+  margin: 0 auto 10px;
+
+  border-radius: 50%;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 17px;
+}
+
+.checkout-no-address h3 {
+  margin: 0 0 5px;
+
+  color: #252b35;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.checkout-no-address p {
+  margin: 0 auto;
+
+  max-width: 380px;
+
+  color: #7a8290;
+
+  font-size: 10px;
+
+  line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media (max-width: 650px) {
   .address-container {
@@ -347,6 +818,7 @@
 
   .form-row {
     flex-direction: column;
+
     gap: 14px;
   }
 
@@ -356,6 +828,45 @@
 
   .address-type-section {
     flex-direction: column;
+
     gap: 14px;
+  }
+
+  /* Checkout */
+
+  .checkout-address-card {
+    padding: 12px;
+
+    gap: 10px;
+  }
+
+  .checkout-name-phone {
+    flex-wrap: wrap;
+
+    gap: 4px 8px;
+  }
+
+  .checkout-name-phone strong {
+    font-size: 11px;
+  }
+
+  .checkout-name-phone span {
+    font-size: 8px;
+  }
+
+  .checkout-address-info p {
+    font-size: 9px;
+  }
+
+  .checkout-address-type {
+    font-size: 8px;
+
+    padding: 3px 7px;
+  }
+
+  .checkout-default-label {
+    font-size: 7px;
+
+    padding: 3px 7px;
   }
 }

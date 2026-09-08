@@ -4,15 +4,12 @@ import { TextField } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useAuth } from "../../context/AuthContext";
 import "./Auth.css";
 
-function Signup() {
+function ForgotPassword() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
 
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -32,8 +29,6 @@ function Signup() {
 
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-  const [termsAccepted, setTermsAccepted] = useState(false);
 
   useEffect(() => {
     if (resendTimer <= 0) return;
@@ -71,11 +66,6 @@ function Signup() {
   };
 
   const handleSendOtp = async () => {
-    if (!formData.name.trim()) {
-      toast.error("Please enter your name");
-      return;
-    }
-
     if (!formData.email.trim()) {
       toast.error("Please enter your email");
       return;
@@ -85,9 +75,8 @@ function Signup() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/auth/send-signup-otp",
+        "http://localhost:8000/api/auth/send-reset-otp",
         {
-          name: formData.name,
           email: formData.email,
         },
       );
@@ -115,7 +104,7 @@ function Signup() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/auth/verify-signup-otp",
+        "http://localhost:8000/api/auth/verify-reset-otp",
         {
           email: formData.email,
           otp,
@@ -144,9 +133,8 @@ function Signup() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/auth/send-signup-otp",
+        "http://localhost:8000/api/auth/send-reset-otp",
         {
-          name: formData.name,
           email: formData.email,
         },
       );
@@ -163,7 +151,7 @@ function Signup() {
     }
   };
 
-  const handleCreateAccount = async (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
 
     if (!otpVerified) {
@@ -181,32 +169,22 @@ function Signup() {
       return;
     }
 
-    if (!termsAccepted) {
-      toast.error("Please accept the Terms & Conditions");
-      return;
-    }
-
     try {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/auth/complete-signup",
+        "http://localhost:8000/api/auth/reset-password",
         {
-          name: formData.name,
           email: formData.email,
           password: formData.password,
         },
       );
 
-      localStorage.setItem("token", response.data.jwtToken);
+      toast.success(response.data.message || "Password reset successfully");
 
-      setUser(response.data.user);
-
-      toast.success(response.data.message || "Account created successfully");
-
-      navigate("/home");
+      navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create account");
+      toast.error(error.response?.data?.message || "Failed to reset password");
     } finally {
       setLoading(false);
     }
@@ -219,7 +197,7 @@ function Signup() {
           <div className="auth-illustration">
             <img
               src="https://res.cloudinary.com/jwqnivpq/image/upload/v1788805106/ChatGPT_Image_Sep_7_2026_11_48_27_PM.png"
-              alt="SnapBazaar Signup"
+              alt="SnapBazaar Forgot Password"
             />
           </div>
 
@@ -241,19 +219,19 @@ function Signup() {
 
             <div className="auth-left-heading">
               <span className="auth-eyebrow">
-                <i class="fa-solid fa-location-dot"></i>
-                YOUR SHOPPING DESTINATION
+                <i className="fa-solid fa-shield-halved"></i>
+                ACCOUNT RECOVERY
               </span>
 
               <h1>
-                Everything you love,
+                Forgot your password?
                 <br />
-                <span>in one place.</span>
+                <span>We've got you.</span>
               </h1>
 
               <p>
-                Discover amazing products, great deals and <br /> a seamless
-                shopping experience.
+                Verify your email and create a new password to get back into
+                your SnapBazaar account.
               </p>
             </div>
           </div>
@@ -265,30 +243,30 @@ function Signup() {
               </div>
 
               <div>
-                <h4>Secure Shopping</h4>
-                <p>Safe & trusted</p>
+                <h4>Secure Recovery</h4>
+                <p>Safe & protected</p>
               </div>
             </div>
 
             <div className="auth-left-feature">
               <div className="auth-feature-icon">
-                <i className="fa-solid fa-truck-fast"></i>
+                <i className="fa-solid fa-envelope"></i>
               </div>
 
               <div>
-                <h4>Fast Delivery</h4>
-                <p>Quick & reliable</p>
+                <h4>Email Verification</h4>
+                <p>Quick & secure</p>
               </div>
             </div>
 
             <div className="auth-left-feature">
               <div className="auth-feature-icon">
-                <i className="fa-solid fa-tags"></i>
+                <i className="fa-solid fa-lock"></i>
               </div>
 
               <div>
-                <h4>Best Deals</h4>
-                <p>More value</p>
+                <h4>New Password</h4>
+                <p>Stay protected</p>
               </div>
             </div>
           </div>
@@ -297,27 +275,11 @@ function Signup() {
         <div className="auth-right">
           <div className="auth-card signup-card">
             <div className="auth-header">
-              <h1>Create Account</h1>
-              <p>Sign up to get started with SnapBazaar.</p>
+              <h1>Forgot Password?</h1>
+              <p>Verify your email to reset your password.</p>
             </div>
 
-            <form onSubmit={handleCreateAccount}>
-              <div className="auth-input-group">
-                <TextField
-                  required
-                  label={
-                    <>
-                      <i className="fa-solid fa-user"></i>
-                      Full Name
-                    </>
-                  }
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  disabled={otpSent}
-                />
-              </div>
-
+            <form onSubmit={handleResetPassword}>
               <div className="auth-input-group">
                 <div className="email-input-group">
                   <TextField
@@ -359,7 +321,7 @@ function Signup() {
                     </>
                   ) : (
                     <>
-                      Verify Email
+                      Send OTP
                       <i className="fa-solid fa-arrow-right"></i>
                     </>
                   )}
@@ -446,7 +408,7 @@ function Signup() {
                       label={
                         <>
                           <i className="fa-solid fa-lock"></i>
-                          Password
+                          New Password
                         </>
                       }
                       name="password"
@@ -499,19 +461,6 @@ function Signup() {
                     </button>
                   </div>
 
-                  <div className="auth-terms">
-                    <input
-                      type="checkbox"
-                      checked={termsAccepted}
-                      onChange={(e) => setTermsAccepted(e.target.checked)}
-                    />
-
-                    <label>
-                      I agree to the <span>Terms & Conditions</span> and{" "}
-                      <span>Privacy Policy</span>
-                    </label>
-                  </div>
-
                   <button
                     type="submit"
                     className="auth-submit-btn"
@@ -520,11 +469,11 @@ function Signup() {
                     {loading ? (
                       <>
                         <i className="fa-solid fa-spinner fa-spin"></i>
-                        Creating Account
+                        Resetting Password
                       </>
                     ) : (
                       <>
-                        Create Account
+                        Reset Password
                         <i className="fa-solid fa-arrow-right"></i>
                       </>
                     )}
@@ -535,7 +484,7 @@ function Signup() {
 
             <div className="auth-bottom">
               <p>
-                Already have an account? <Link to="/login">Login</Link>
+                Remember your password? <Link to="/login">Login</Link>
               </p>
             </div>
           </div>
@@ -545,4 +494,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default ForgotPassword;

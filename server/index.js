@@ -6,6 +6,8 @@ import productRoutes from "./routes/productRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import WishlistRouter from "./routes/wishlistRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import emailRoutes from "./routes/emailRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -23,3 +25,5 @@ app.use("/api/auth", authRouter);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRouter);
 app.use("/api/wishlist", WishlistRouter);
+app.use("/api/order", orderRoutes);
+app.use("/api/email", emailRoutes);

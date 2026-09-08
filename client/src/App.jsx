@@ -16,6 +16,9 @@ import Profile from "./pages/Profile/Profile";
 import Products from "./pages/Products/Products";
 import Address from "./pages/Address/Address";
 import ChangePass from "./pages/ChangePass/ChangePass";
+import Checkout from "./pages/Checkout/Checkout";
+import About from "./pages/About/About";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +65,14 @@ const router = createBrowserRouter([
         path: "changePass",
         element: <ChangePass />,
       },
+      {
+        path: "checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
     ],
   },
   {
@@ -71,6 +82,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
   },
 ]);
 function App() {

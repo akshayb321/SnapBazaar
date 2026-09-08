@@ -25,7 +25,6 @@ function CategoryBar() {
   return (
     <>
       <div className="category-bar">
-        {/* Shop By Categories Button */}
         <div onClick={() => setIsCategoryOpen(true)}>
           <Button text="SHOP BY CATEGORIES" icon="fa-solid fa-bars" />
         </div>
@@ -53,13 +52,12 @@ function CategoryBar() {
           ))}
         </ul>
 
-        <div className="delivery">
-          <i className="fa-solid fa-plane"></i>
-          <span>Free International Delivery</span>
+        <div className="about-category-link" onClick={() => navigate("/about")}>
+          <i className="fa-regular fa-user"></i>
+          <span>About Us</span>
         </div>
       </div>
 
-      {/* Category Sidebar */}
       <CategorySidebar
         isOpen={isCategoryOpen}
         onClose={() => setIsCategoryOpen(false)}
