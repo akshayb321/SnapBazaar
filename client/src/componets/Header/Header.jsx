@@ -6,6 +6,7 @@ import "./Header.css";
 
 function Header({ search, setSearch, category, setCategory }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,12 +22,19 @@ function Header({ search, setSearch, category, setCategory }) {
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
       <AnnouncementBar isScrolled={isScrolled} />
 
-      <Navbar isScrolled={isScrolled} search={search} setSearch={setSearch} />
+      <Navbar
+        isScrolled={isScrolled}
+        search={search}
+        setSearch={setSearch}
+        onMenuClick={() => setIsCategoryOpen(true)}
+      />
 
       <CategoryBar
         isScrolled={isScrolled}
         category={category}
         setCategory={setCategory}
+        isCategoryOpen={isCategoryOpen}
+        setIsCategoryOpen={setIsCategoryOpen}
       />
     </header>
   );

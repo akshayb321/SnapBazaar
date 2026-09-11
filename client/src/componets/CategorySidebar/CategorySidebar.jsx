@@ -29,6 +29,11 @@ function CategorySidebar({ isOpen, onClose }) {
     navigate("/about");
   };
 
+  const handleNavigation = (path) => {
+    onClose();
+    navigate(path);
+  };
+
   return (
     <>
       <div
@@ -75,6 +80,28 @@ function CategorySidebar({ isOpen, onClose }) {
 
             <i className="fa-solid fa-arrow-right about-sidebar-arrow"></i>
           </div>
+        </div>
+
+        <div className="sidebar-bottom-nav">
+          <button onClick={() => handleNavigation("/home")}>
+            <i className="fa-solid fa-house"></i>
+            <span>Home</span>
+          </button>
+
+          <button onClick={() => handleNavigation("/orders")}>
+            <i className="fa-solid fa-box"></i>
+            <span>Orders</span>
+          </button>
+
+          <button onClick={() => handleNavigation("/profile")}>
+            <i className="fa-solid fa-user"></i>
+            <span>Account</span>
+          </button>
+
+          <button onClick={() => handleNavigation("/wishlist")}>
+            <i className="fa-solid fa-heart"></i>
+            <span>Wishlist</span>
+          </button>
         </div>
       </aside>
     </>

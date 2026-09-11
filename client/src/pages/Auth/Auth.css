@@ -1051,107 +1051,103 @@
 .admin-login-link i:last-child {
   transition: transform 0.2s ease;
 }
-
 /* TABLET */
 
-@media (max-width: 1000px) {
-  .auth-left {
-    padding: 24px 30px;
+@media (max-width: 1024px) and (min-width: 769px) {
+  .auth-left-top {
+    top: 18px;
+    left: 28px;
+    right: 28px;
+  }
+
+  .auth-left-heading {
+    max-width: 360px;
+  }
+
+  .auth-left-heading h1 {
+    font-size: 27px;
+  }
+
+  .auth-left-heading p {
+    font-size: 10px;
+  }
+
+  .auth-left-features {
+    left: 28px;
+    right: 28px;
+    gap: 7px;
+  }
+
+  .auth-left-feature {
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .auth-feature-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .auth-left-feature h4 {
+    font-size: 9px;
+  }
+
+  .auth-left-feature p {
+    font-size: 7px;
   }
 
   .auth-right {
-    padding: 25px 30px;
+    padding: 25px 22px;
   }
 
   .auth-card {
-    padding: 30px;
+    width: 100%;
+    max-width: 430px;
+    padding: 28px;
   }
 
   .signup-card {
-    width: 450px;
-  }
-}
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-  .auth-container {
-    height: auto;
-    min-height: 100vh;
-    overflow: visible;
-  }
-
-  .auth-layout {
-    height: auto;
-    min-height: 100vh;
-
-    grid-template-columns: 1fr;
-
-    overflow: visible;
-  }
-
-  .auth-left {
-    display: none;
-  }
-
-  .auth-right {
     width: 100%;
-    height: auto;
-    min-height: 100vh;
-
-    padding: 30px 20px;
-
-    overflow: visible;
+    max-width: 430px;
   }
 
-  .auth-card {
-    width: 450px;
-    max-width: 100%;
-
-    padding: 28px 24px;
-  }
-}
-
-/* SMALL MOBILE */
-
-@media (max-width: 480px) {
-  .auth-right {
-    padding: 20px 15px;
-  }
-
-  .auth-card {
-    padding: 25px 20px;
-
-    border-radius: 8px;
+  .auth-header {
+    margin-bottom: 24px;
   }
 
   .auth-header h1 {
-    font-size: 25px;
+    font-size: 26px;
   }
 
   .auth-header p {
     font-size: 12px;
   }
 
+  .auth-input-group {
+    margin-bottom: 15px;
+  }
+
   .auth-input-group .MuiOutlinedInput-root {
-    min-height: 53px;
+    min-height: 52px;
+  }
+
+  .auth-input-group .MuiInputLabel-root {
+    font-size: 13px;
+  }
+
+  .auth-input-group .MuiInputBase-input {
+    font-size: 13px;
   }
 
   .auth-submit-btn {
-    min-height: 51px;
+    min-height: 50px;
+    font-size: 13px;
   }
 
   .signup-otp-section {
-    padding: 12px;
-  }
-
-  .otp-title {
-    gap: 8px;
-  }
-
-  .otp-title-icon {
-    width: 30px;
-    height: 30px;
+    margin-top: 15px;
+    padding: 13px 14px;
   }
 
   .otp-title h3 {
@@ -1163,9 +1159,230 @@
   }
 
   .otp-email {
-    margin-left: 38px;
+    font-size: 10px;
+  }
+
+  .admin-login-link {
+    min-height: 40px;
+    font-size: 12px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .auth-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .auth-layout {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+
+    display: block;
+
+    overflow: visible;
+  }
+
+  .auth-left {
+    display: none;
+  }
+
+  .auth-right {
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding: 24px 16px 35px;
+
+    overflow: visible;
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: 500px;
+
+    padding: 26px 22px;
+
+    border-radius: 9px;
+  }
+
+  .signup-card {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .auth-header {
+    margin-bottom: 24px;
+  }
+
+  .auth-header h1 {
+    font-size: 25px;
+    line-height: 1.2;
+  }
+
+  .auth-header p {
+    margin-top: 7px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .auth-input-group {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .auth-input-group .MuiOutlinedInput-root {
+    width: 100%;
+    min-height: 52px;
+    border-radius: 6px;
+  }
+
+  .auth-input-group .MuiInputLabel-root {
+    font-size: 13px;
+  }
+
+  .auth-input-group .MuiInputBase-input {
+    font-size: 13px;
+  }
+
+  .auth-input-group .MuiInputLabel-root i {
+    margin-right: 5px;
+    font-size: 12px;
+  }
+
+  .auth-input-group .MuiFormHelperText-root {
+    font-size: 10px;
+  }
+
+  .email-input-group {
+    width: 100%;
+  }
+
+  .email-input-group .MuiTextField-root {
+    width: 100%;
+  }
+
+  .email-input-group .MuiOutlinedInput-input {
+    padding-right: 82px;
+  }
+
+  .verified-badge {
+    right: 8px;
+    padding: 4px 6px;
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .verified-badge i {
+    font-size: 11px;
+  }
+
+  .password-input-group .MuiInputBase-input {
+    padding-right: 45px;
+  }
+
+  .password-eye-btn {
+    right: 7px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .password-eye-btn i {
+    font-size: 13px;
+  }
+
+  .auth-submit-btn {
+    width: 100%;
+    min-height: 49px;
+    margin-top: 2px;
+
+    gap: 8px;
+
+    font-size: 12px;
+  }
+
+  .auth-submit-btn i {
+    font-size: 11px;
+  }
+
+  .verify-email-btn {
+    margin-bottom: 3px;
+  }
+
+  .auth-bottom {
+    margin-top: 19px;
+  }
+
+  .auth-bottom p {
+    font-size: 11px;
+  }
+
+  .auth-forgot {
+    margin-top: -3px;
+    margin-bottom: 17px;
+  }
+
+  .auth-forgot a {
+    font-size: 11px;
+  }
+
+  /* OTP */
+
+  .signup-otp-section {
+    width: 100%;
+
+    margin-top: 15px;
+    padding: 13px;
+
+    border-radius: 8px;
+  }
+
+  .otp-heading {
+    margin-bottom: 12px;
+  }
+
+  .otp-title {
+    gap: 8px;
+  }
+
+  .otp-title-icon {
+    width: 31px;
+    height: 31px;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+  }
+
+  .otp-title h3 {
+    font-size: 12px;
+  }
+
+  .otp-title p {
+    margin-top: 2px;
+    font-size: 9px;
+    line-height: 1.4;
+  }
+
+  .otp-email {
+    margin-top: 7px;
+    margin-left: 39px;
 
     font-size: 10px;
+  }
+
+  .otp-input-wrapper {
+    margin-bottom: 11px;
   }
 
   .otp-input-wrapper .MuiOutlinedInput-root {
@@ -1176,28 +1393,184 @@
     font-size: 16px;
   }
 
-  .verified-badge {
-    right: 8px;
-
-    padding: 4px 6px;
-
+  .otp-error-message {
+    margin: -4px 0 9px;
+    gap: 4px;
     font-size: 10px;
   }
 
-  .verified-badge i {
+  .otp-error-message i {
+    font-size: 10px;
+  }
+
+  .otp-resend {
+    margin-top: 9px;
+  }
+
+  .otp-resend p,
+  .otp-resend button {
+    font-size: 9px;
+  }
+
+  /* TERMS */
+
+  .auth-terms {
+    gap: 7px;
+    margin-top: 1px;
+    margin-bottom: 17px;
+  }
+
+  .auth-terms input {
+    width: 14px;
+    height: 14px;
+  }
+
+  .auth-terms label {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  /* ADMIN LOGIN */
+
+  .admin-login-section {
+    margin-top: 19px;
+  }
+
+  .admin-login-divider {
+    gap: 10px;
+    margin-bottom: 13px;
+  }
+
+  .admin-login-divider span {
+    font-size: 10px;
+  }
+
+  .admin-login-link {
+    min-height: 40px;
+    gap: 7px;
+    border-radius: 6px;
     font-size: 11px;
+  }
+
+  .admin-login-link i:last-child {
+    font-size: 10px;
   }
 }
 
-/* VERY SMALL MOBILE */
+/* SMALL MOBILE */
 
-@media (max-width: 360px) {
-  .auth-card {
-    padding: 22px 16px;
+@media (max-width: 480px) {
+  .auth-right {
+    padding: 18px 12px 30px;
   }
 
+  .auth-card {
+    width: 100%;
+    padding: 22px 17px;
+
+    border-radius: 8px;
+  }
+
+  .signup-card {
+    width: 100%;
+  }
+
+  .auth-header {
+    margin-bottom: 21px;
+  }
+
+  .auth-header h1 {
+    font-size: 23px;
+  }
+
+  .auth-header p {
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  .auth-input-group {
+    margin-bottom: 13px;
+  }
+
+  .auth-input-group .MuiOutlinedInput-root {
+    min-height: 50px;
+  }
+
+  .auth-input-group .MuiInputLabel-root {
+    font-size: 12px;
+  }
+
+  .auth-input-group .MuiInputBase-input {
+    font-size: 12px;
+  }
+
+  .auth-input-group .MuiInputLabel-root i {
+    font-size: 11px;
+  }
+
+  .auth-input-group .MuiFormHelperText-root {
+    margin-top: 3px;
+    font-size: 9px;
+  }
+
+  .email-input-group .MuiOutlinedInput-input {
+    padding-right: 76px;
+  }
+
+  .verified-badge {
+    right: 7px;
+    padding: 4px 5px;
+    font-size: 9px;
+  }
+
+  .verified-badge i {
+    font-size: 10px;
+  }
+
+  .password-eye-btn {
+    right: 6px;
+    width: 29px;
+    height: 29px;
+  }
+
+  .password-eye-btn i {
+    font-size: 12px;
+  }
+
+  .auth-submit-btn {
+    min-height: 47px;
+    font-size: 11px;
+  }
+
+  .auth-submit-btn i {
+    font-size: 10px;
+  }
+
+  .auth-bottom {
+    margin-top: 17px;
+  }
+
+  .auth-bottom p {
+    font-size: 10px;
+  }
+
+  .auth-forgot {
+    margin-bottom: 15px;
+  }
+
+  .auth-forgot a {
+    font-size: 10px;
+  }
+
+  /* OTP */
+
   .signup-otp-section {
+    margin-top: 13px;
     padding: 11px;
+  }
+
+  .otp-heading {
+    margin-bottom: 10px;
   }
 
   .otp-title {
@@ -1205,15 +1578,217 @@
   }
 
   .otp-title-icon {
-    width: 28px;
-    height: 28px;
+    width: 29px;
+    height: 29px;
+    font-size: 11px;
+  }
+
+  .otp-title h3 {
+    font-size: 11px;
+  }
+
+  .otp-title p {
+    font-size: 8px;
   }
 
   .otp-email {
-    margin-left: 35px;
+    margin-top: 6px;
+    margin-left: 36px;
+    font-size: 9px;
+  }
+
+  .otp-input-wrapper {
+    margin-bottom: 9px;
+  }
+
+  .otp-input-wrapper .MuiOutlinedInput-root {
+    height: 40px;
   }
 
   .otp-input-wrapper .MuiInputBase-input {
     font-size: 15px;
+  }
+
+  .otp-error-message {
+    margin: -3px 0 8px;
+    font-size: 9px;
+  }
+
+  .otp-error-message i {
+    font-size: 9px;
+  }
+
+  .otp-resend {
+    margin-top: 8px;
+  }
+
+  .otp-resend p,
+  .otp-resend button {
+    font-size: 8px;
+  }
+
+  /* TERMS */
+
+  .auth-terms {
+    gap: 6px;
+    margin-bottom: 15px;
+  }
+
+  .auth-terms input {
+    width: 13px;
+    height: 13px;
+  }
+
+  .auth-terms label {
+    font-size: 9px;
+  }
+
+  /* ADMIN LOGIN */
+
+  .admin-login-section {
+    margin-top: 17px;
+  }
+
+  .admin-login-divider {
+    gap: 8px;
+    margin-bottom: 11px;
+  }
+
+  .admin-login-divider span {
+    font-size: 9px;
+  }
+
+  .admin-login-link {
+    min-height: 38px;
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .admin-login-link i:last-child {
+    font-size: 9px;
+  }
+}
+
+/* VERY SMALL MOBILE */
+
+@media (max-width: 360px) {
+  .auth-right {
+    padding: 15px 9px 25px;
+  }
+
+  .auth-card {
+    padding: 20px 14px;
+  }
+
+  .auth-header {
+    margin-bottom: 19px;
+  }
+
+  .auth-header h1 {
+    font-size: 21px;
+  }
+
+  .auth-header p {
+    font-size: 10px;
+  }
+
+  .auth-input-group {
+    margin-bottom: 12px;
+  }
+
+  .auth-input-group .MuiOutlinedInput-root {
+    min-height: 48px;
+  }
+
+  .auth-input-group .MuiInputLabel-root {
+    font-size: 11px;
+  }
+
+  .auth-input-group .MuiInputBase-input {
+    font-size: 11px;
+  }
+
+  .auth-submit-btn {
+    min-height: 45px;
+    font-size: 10px;
+  }
+
+  .auth-submit-btn i {
+    font-size: 9px;
+  }
+
+  .auth-bottom {
+    margin-top: 15px;
+  }
+
+  .auth-bottom p {
+    font-size: 9px;
+  }
+
+  .auth-forgot a {
+    font-size: 9px;
+  }
+
+  /* OTP */
+
+  .signup-otp-section {
+    padding: 10px;
+  }
+
+  .otp-title {
+    gap: 6px;
+  }
+
+  .otp-title-icon {
+    width: 27px;
+    height: 27px;
+    font-size: 10px;
+  }
+
+  .otp-title h3 {
+    font-size: 10px;
+  }
+
+  .otp-title p {
+    font-size: 7.5px;
+  }
+
+  .otp-email {
+    margin-left: 33px;
+    font-size: 8px;
+  }
+
+  .otp-input-wrapper .MuiOutlinedInput-root {
+    height: 38px;
+  }
+
+  .otp-input-wrapper .MuiInputBase-input {
+    font-size: 14px;
+  }
+
+  .otp-error-message {
+    font-size: 8px;
+  }
+
+  .otp-resend p,
+  .otp-resend button {
+    font-size: 7.5px;
+  }
+
+  /* TERMS */
+
+  .auth-terms label {
+    font-size: 8px;
+  }
+
+  /* ADMIN LOGIN */
+
+  .admin-login-section {
+    margin-top: 15px;
+  }
+
+  .admin-login-link {
+    min-height: 36px;
+    font-size: 9px;
   }
 }

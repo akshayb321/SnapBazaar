@@ -8,8 +8,9 @@ import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
 import { useFilter } from "../../context/FilterContext.jsx";
 
-function Navbar() {
+function Navbar({ onMenuClick }) {
   const [showMenu, setShowMenu] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const { user, logout } = useAuth();
   const { search, setSearch } = useFilter();
@@ -18,10 +19,8 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  // Profile section + menu ko track karega
   const profileRef = useRef(null);
 
-  // ================= SEARCH =================
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -32,10 +31,10 @@ function Navbar() {
     setTimeout(() => {
       navigate("/products");
       setLoading(false);
+      setShowMobileSearch(false);
     }, 1000);
   };
 
-  // ================= OUTSIDE CLICK =================
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -50,14 +49,12 @@ function Navbar() {
     };
   }, []);
 
-  // ================= LOGOUT =================
   const handleLogout = () => {
     setShowMenu(false);
     logout();
     navigate("/login");
   };
 
-  // ================= CART =================
   const { cart } = useCart();
 
   const cartCount = cart
@@ -66,28 +63,40 @@ function Navbar() {
       }, 0)
     : 0;
 
-  // ================= WISHLIST =================
   const { wishlist } = useWishlist();
 
   const wishlistCount = wishlist && wishlist.items ? wishlist.items.length : 0;
 
   return (
     <header className="navbar">
+      {/* Menu Button */}
+      <button className="mobile-menu-btn" onClick={onMenuClick}>
+        <i className="fa-solid fa-bars"></i>
+      </button>
+
       {/* Logo */}
-      <div className="navbar__logo">
-        <img
-          src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784701614/logo.png"
-          alt="SnapBazzar"
-        />
-      </div>
+      {!showMobileSearch && (
+        <div className="navbar__logo">
+          <img
+            src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784701614/logo.png"
+            alt="SnapBazzar"
+          />
+        </div>
+      )}
 
       {/* Search */}
-      <form onSubmit={handleSearch} className="navbar__search">
+      <form
+        onSubmit={handleSearch}
+        className={`navbar__search ${
+          showMobileSearch ? "mobile-search-active" : ""
+        }`}
+      >
         <input
           type="text"
           placeholder="Search for products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          autoFocus={showMobileSearch}
         />
 
         <button type="submit" disabled={loading}>
@@ -101,10 +110,8 @@ function Navbar() {
 
       {/* Actions */}
       <div className="navbar__actions">
-        {/* USER + PROFILE MENU */}
         {user ? (
           <div ref={profileRef}>
-            {/* User Data */}
             <button
               className="userData"
               onClick={() => setShowMenu((prev) => !prev)}
@@ -123,7 +130,6 @@ function Navbar() {
               </div>
             </button>
 
-            {/* Profile Menu */}
             {showMenu && (
               <div className="profileMenu">
                 <Button
@@ -189,7 +195,10 @@ function Navbar() {
 
         {/* Wishlist & Cart */}
         <div className="btn">
-          <button className="icon-btn" onClick={() => navigate("/wishlist")}>
+          <button
+            className="icon-btn wishlist-btn"
+            onClick={() => navigate("/wishlist")}
+          >
             <i className="fa-regular fa-heart"></i>
 
             {wishlistCount ? (
@@ -207,6 +216,35 @@ function Navbar() {
           </button>
         </div>
       </div>
+
+      {/* Mobile Search Button */}
+      {!showMobileSearch && (
+        <button
+          className="mobile-search-btn"
+          onClick={() => setShowMobileSearch(true)}
+        >
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </button>
+      )}
+
+      {/* Mobile Search Close */}
+      {showMobileSearch && (
+        <button
+          className="mobile-search-close"
+          onClick={() => setShowMobileSearch(false)}
+        >
+          <i className="fa-solid fa-xmark"></i>
+        </button>
+      )}
+
+      {/* Mobile Cart */}
+      {!showMobileSearch && (
+        <button className="mobile-cart-btn" onClick={() => navigate("/cart")}>
+          <i className="fa-solid fa-cart-shopping"></i>
+
+          {cartCount ? <span className="cart-count">{cartCount}</span> : null}
+        </button>
+      )}
     </header>
   );
 }

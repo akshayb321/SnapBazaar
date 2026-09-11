@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import "./CategoryBar.css";
 import Button from "../Button/Button";
 import { useFilter } from "../../context/FilterContext";
 import { useNavigate } from "react-router-dom";
 import CategorySidebar from "../CategorySidebar/CategorySidebar";
 
-function CategoryBar() {
+function CategoryBar({ isCategoryOpen, setIsCategoryOpen }) {
   const { setCategory } = useFilter();
   const navigate = useNavigate();
-
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   const categories = [
     "Fashion",

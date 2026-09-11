@@ -15,25 +15,14 @@ function Products() {
   const location = useLocation();
   const previousPath = useRef(null);
 
-  // =========================
-  // FILTER STATES
-  // =========================
-
   const [price, setPrice] = useState(100000);
   const [rating, setRating] = useState("");
   const [sortBy, setSortBy] = useState("recommended");
 
-  // =========================
-  // PAGINATION
-  // =========================
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   const productsPerPage = 8;
-
-  // =========================
-  // FETCH PRODUCTS
-  // =========================
 
   const fetchProducts = async () => {
     try {
@@ -49,12 +38,6 @@ function Products() {
     fetchProducts();
   }, []);
 
-  // =========================
-  // RESET FILTERS WHEN SEARCHING
-  // =========================
-  // Search should work independently
-  // from category, price and rating filters.
-
   useEffect(() => {
     if (search.trim() !== "") {
       setCategory("");
@@ -65,10 +48,6 @@ function Products() {
     }
   }, [search]);
 
-  // =========================
-  // CLEAR ALL FILTERS
-  // =========================
-
   const clearFilters = () => {
     setCategory("");
     setSearch("");
@@ -78,24 +57,12 @@ function Products() {
     setCurrentPage(1);
   };
 
-  // =========================
-  // GET CATEGORIES
-  // =========================
-
   const categories = [
     ...new Set(products.map((product) => product.category).filter(Boolean)),
   ];
 
-  // =========================
-  // FILTER PRODUCTS
-  // =========================
-
   const filteredProducts = products
     .filter((product) => {
-      // =========================
-      // SEARCH
-      // =========================
-
       const searchText = search.trim().toLowerCase();
 
       const productTitle = product.title?.toLowerCase().trim();
@@ -103,24 +70,12 @@ function Products() {
       const matchSearch =
         searchText === "" || productTitle?.includes(searchText);
 
-      // =========================
-      // CATEGORY
-      // =========================
-
       const matchCategory =
         category === "" || category === "All" || product.category === category;
-
-      // =========================
-      // PRICE
-      // =========================
 
       const productPrice = Number(product.price || 0);
 
       const matchPrice = productPrice <= Number(price);
-
-      // =========================
-      // RATING
-      // =========================
 
       const productRating = Number(product.rating || 0);
 
@@ -129,76 +84,44 @@ function Products() {
       if (rating !== "") {
         const selectedRating = Number(rating);
 
-        // 1 Star → 1.0 - 1.9
         if (selectedRating === 1) {
           matchRating = productRating >= 1 && productRating < 2;
-        }
-
-        // 2 Stars → 2.0 - 2.9
-        else if (selectedRating === 2) {
+        } else if (selectedRating === 2) {
           matchRating = productRating >= 2 && productRating < 3;
-        }
-
-        // 3 Stars → 3.0 - 3.9
-        else if (selectedRating === 3) {
+        } else if (selectedRating === 3) {
           matchRating = productRating >= 3 && productRating < 4;
-        }
-
-        // 4 Stars & Above
-        else if (selectedRating === 4) {
+        } else if (selectedRating === 4) {
           matchRating = productRating >= 4;
-        }
-
-        // Exactly 5 Stars
-        else if (selectedRating === 5) {
+        } else if (selectedRating === 5) {
           matchRating = productRating === 5;
         }
       }
 
-      // =========================
-      // FINAL FILTER RESULT
-      // =========================
-
       return matchSearch && matchCategory && matchPrice && matchRating;
     })
-
-    // =========================
-    // SORT PRODUCTS
-    // =========================
-
     .sort((a, b) => {
-      // Price Low → High
       if (sortBy === "price-low") {
         return Number(a.price || 0) - Number(b.price || 0);
       }
 
-      // Price High → Low
       if (sortBy === "price-high") {
         return Number(b.price || 0) - Number(a.price || 0);
       }
 
-      // Name A → Z
       if (sortBy === "name-asc") {
         return (a.title || "").localeCompare(b.title || "");
       }
 
-      // Name Z → A
       if (sortBy === "name-desc") {
         return (b.title || "").localeCompare(a.title || "");
       }
 
-      // Newest
       if (sortBy === "newest") {
         return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
       }
 
-      // Recommended
       return 0;
     });
-
-  // =========================
-  // PAGINATION LOGIC
-  // =========================
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
@@ -208,26 +131,15 @@ function Products() {
 
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
-  // =========================
-  // SAFETY
-  // =========================
-  // If filtering/searching makes the current
-  // page invalid, automatically go to page 1.
-
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
       setCurrentPage(1);
     }
   }, [currentPage, totalPages]);
 
-  // =========================
-  // PAGINATION BUTTONS
-  // =========================
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
 
-    // Scroll to top of products section
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -237,30 +149,24 @@ function Products() {
   return (
     <div className="products-page">
       <div className="products-layout">
-        {/* =========================
-            FILTER SIDEBAR
-        ========================= */}
-
-        <FilterSidebar
-          categories={categories}
-          selectedCategory={category}
-          setSelectedCategory={setCategory}
-          price={price}
-          setPrice={setPrice}
-          rating={rating}
-          setRating={setRating}
-          clearFilters={clearFilters}
-        />
-
-        {/* =========================
-            PRODUCTS CONTENT
-        ========================= */}
+        <div
+          className={`products-filter-wrapper ${
+            showMobileFilter ? "mobile-filter-open" : ""
+          }`}
+        >
+          <FilterSidebar
+            categories={categories}
+            selectedCategory={category}
+            setSelectedCategory={setCategory}
+            price={price}
+            setPrice={setPrice}
+            rating={rating}
+            setRating={setRating}
+            clearFilters={clearFilters}
+          />
+        </div>
 
         <div className="products-content">
-          {/* =========================
-              PRODUCTS TOOLBAR
-          ========================= */}
-
           <div className="products-toolbar">
             <div className="toolbar-left">
               <button
@@ -274,11 +180,16 @@ function Products() {
               <span className="products-count">
                 There are <strong>{filteredProducts.length}</strong> products.
               </span>
-            </div>
 
-            {/* =========================
-                SORT
-            ========================= */}
+              <button
+                type="button"
+                className="mobile-filter-btn"
+                onClick={() => setShowMobileFilter((prev) => !prev)}
+              >
+                <i className="fa-solid fa-sliders"></i>
+                {showMobileFilter ? "Hide Filter" : "Add Filter"}
+              </button>
+            </div>
 
             <div className="toolbar-right">
               <span className="sort-label">Sort By</span>
@@ -292,23 +203,14 @@ function Products() {
                 className="sort-select"
               >
                 <option value="recommended">Recommended</option>
-
                 <option value="price-low">Price: Low → High</option>
-
                 <option value="price-high">Price: High → Low</option>
-
                 <option value="name-asc">Name, A to Z</option>
-
                 <option value="name-desc">Name, Z to A</option>
-
                 <option value="newest">Newest</option>
               </select>
             </div>
           </div>
-
-          {/* =========================
-              PRODUCTS
-          ========================= */}
 
           <ProductSection
             products={currentProducts}
@@ -316,14 +218,8 @@ function Products() {
             className="product-page-items"
           />
 
-          {/* =========================
-              PAGINATION
-          ========================= */}
-
           {totalPages > 1 && (
             <div className="pagination">
-              {/* PREVIOUS */}
-
               <button
                 type="button"
                 className="pagination-arrow"
@@ -333,7 +229,6 @@ function Products() {
                 ‹
               </button>
 
-              {/* PAGE NUMBERS */}
               {Array.from(
                 {
                   length: Math.min(3, totalPages),
@@ -365,7 +260,6 @@ function Products() {
                   );
                 },
               )}
-              {/* NEXT */}
 
               <button
                 type="button"

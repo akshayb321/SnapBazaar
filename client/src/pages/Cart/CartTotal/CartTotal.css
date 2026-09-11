@@ -114,3 +114,215 @@
   color: #ffffff !important;
   font-size: 18px;
 }
+/* =========================
+   CART TOTAL RESPONSIVE
+========================= */
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1200px) {
+  .cart-total {
+    width: 100%;
+    max-width: 320px;
+    top: 135px;
+  }
+
+  .cart-total-top {
+    padding: 12px 20px;
+  }
+
+  .cart-total-mid {
+    padding: 10px 20px;
+  }
+
+  .total-price,
+  .delivery-charges {
+    margin: 17px 0;
+    font-size: 14px;
+  }
+
+  .total-amount {
+    padding: 12px 20px;
+    font-size: 17px;
+  }
+
+  .cart-total button {
+    width: calc(100% - 36px);
+    margin: 18px;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   SMALL TABLET
+========================= */
+
+@media (max-width: 992px) and (min-width: 768px) {
+  .cart-total {
+    max-width: 300px;
+    top: 125px;
+  }
+
+  .cart-total-top {
+    padding: 11px 18px;
+  }
+
+  .cart-total-top p {
+    font-size: 13px;
+  }
+
+  .cart-total-mid {
+    padding: 9px 18px;
+  }
+
+  .total-price,
+  .delivery-charges {
+    margin: 15px 0;
+    font-size: 13px;
+  }
+
+  .total-amount {
+    padding: 11px 18px;
+    font-size: 16px;
+  }
+
+  .cart-total button {
+    width: calc(100% - 32px);
+    margin: 16px;
+    padding: 11px;
+    font-size: 13px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .cart-total {
+    width: 100%;
+    max-width: 100%;
+    position: static;
+    align-self: stretch;
+    box-sizing: border-box;
+    border-radius: 8px;
+  }
+
+  .cart-total-top {
+    padding: 12px 15px;
+  }
+
+  .cart-total-top p {
+    font-size: 13px;
+  }
+
+  .cart-total-mid {
+    padding: 8px 15px;
+  }
+
+  .total-price,
+  .delivery-charges {
+    margin: 15px 0;
+    font-size: 13px;
+  }
+
+  .total-amount {
+    padding: 12px 15px;
+    font-size: 16px;
+  }
+
+  .cart-total button {
+    width: calc(100% - 30px);
+    margin: 15px;
+    padding: 12px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .placeOrder {
+    gap: 8px;
+  }
+
+  .search-loader {
+    font-size: 15px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .cart-total {
+    border-radius: 7px;
+  }
+
+  .cart-total-top {
+    padding: 11px 13px;
+  }
+
+  .cart-total-top p {
+    font-size: 12px;
+  }
+
+  .cart-total-mid {
+    padding: 7px 13px;
+  }
+
+  .total-price,
+  .delivery-charges {
+    margin: 13px 0;
+    font-size: 12px;
+  }
+
+  .total-amount {
+    padding: 11px 13px;
+    font-size: 15px;
+  }
+
+  .cart-total button {
+    width: calc(100% - 26px);
+    margin: 13px;
+    padding: 11px;
+    font-size: 12px;
+  }
+
+  .placeOrder {
+    gap: 7px;
+  }
+}
+
+/* =========================
+   VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .cart-total-top {
+    padding: 10px 11px;
+  }
+
+  .cart-total-mid {
+    padding: 6px 11px;
+  }
+
+  .total-price,
+  .delivery-charges {
+    margin: 12px 0;
+    font-size: 11px;
+  }
+
+  .total-amount {
+    padding: 10px 11px;
+    font-size: 14px;
+  }
+
+  .cart-total button {
+    width: calc(100% - 22px);
+    margin: 11px;
+    padding: 10px;
+    font-size: 11px;
+  }
+}

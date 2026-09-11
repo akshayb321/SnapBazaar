@@ -32,3 +32,8 @@
   color: #2563eb;
   opacity: 1;
 }
+@media (max-width: 767px) {
+  .Announcement {
+    display: none;
+  }
+}

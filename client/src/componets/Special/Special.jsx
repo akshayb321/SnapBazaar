@@ -3,7 +3,7 @@ import "./Special.css";
 
 function Special() {
   return (
-    <div className="Main-container">
+    <div className="Main-container1">
       <div className="special">
         <div className="first">
           <i className="fa-solid fa-truck"></i>

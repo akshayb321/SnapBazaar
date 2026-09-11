@@ -207,3 +207,264 @@
   font-size: 14px;
   margin-right: 8px;
 }
+
+/* =========================
+   PROFILE RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+  .ProfileSidebar {
+    width: 250px;
+  }
+
+  .profile-details {
+    width: 100%;
+    max-width: 560px;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) and (min-width: 768px) {
+  .ProfileSidebar {
+    width: 220px;
+    height: 380px;
+  }
+
+  .sidebar-1 {
+    padding: 18px 12px;
+  }
+
+  .profile-image {
+    width: 95px;
+    height: 95px;
+  }
+
+  .profile-info p {
+    font-size: 14px;
+  }
+
+  .profile-info span {
+    font-size: 12px;
+  }
+
+  .profile-details {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+
+    padding: 18px;
+  }
+
+  .profile-row {
+    gap: 14px;
+  }
+
+  .profile-row .MuiTextField-root {
+    width: 50%;
+  }
+
+  .phone-row {
+    width: calc(50% - 7px);
+  }
+
+  .profile-details .MuiOutlinedInput-root {
+    height: 44px;
+  }
+
+  .update-profile {
+    padding: 9px 20px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .ProfileSidebar {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+
+    box-sizing: border-box;
+  }
+
+  .sidebar-1 {
+    padding: 18px 15px;
+  }
+
+  .profile-image {
+    width: 95px;
+    height: 95px;
+  }
+
+  .profile-info p {
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .profile-info span {
+    font-size: 12px;
+  }
+
+  .profile-details {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+
+    padding: 16px 14px;
+
+    box-sizing: border-box;
+  }
+
+  .profile-details-header h2 {
+    font-size: 18px;
+  }
+
+  .profile-divider {
+    margin: 15px 0 20px;
+  }
+
+  .profile-row {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 14px;
+
+    margin-bottom: 14px;
+  }
+
+  .profile-row .MuiTextField-root {
+    width: 100%;
+  }
+
+  .phone-row {
+    width: 100%;
+  }
+
+  .phone-row .MuiTextField-root {
+    width: 100%;
+  }
+
+  .profile-details .MuiOutlinedInput-root {
+    height: 45px;
+  }
+
+  .profile-details .MuiInputLabel-root {
+    font-size: 13px;
+  }
+
+  .profile-details .MuiOutlinedInput-input {
+    font-size: 13px;
+  }
+
+  .update-profile {
+    width: 100%;
+    height: 43px;
+
+    margin-top: 3px;
+
+    padding: 0;
+
+    font-size: 12px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .sidebar-1 {
+    padding: 16px 12px;
+  }
+
+  .profile-image {
+    width: 85px;
+    height: 85px;
+  }
+
+  .profile-info p {
+    font-size: 13px;
+  }
+
+  .profile-info span {
+    font-size: 11px;
+  }
+
+  .profile-details {
+    padding: 14px 12px;
+  }
+
+  .profile-details-header h2 {
+    font-size: 17px;
+  }
+
+  .profile-divider {
+    margin: 14px 0 18px;
+  }
+
+  .profile-row {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .profile-details .MuiOutlinedInput-root {
+    height: 43px;
+  }
+
+  .profile-details .MuiInputLabel-root {
+    font-size: 12px;
+  }
+
+  .profile-details .MuiOutlinedInput-input {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+
+  .update-profile {
+    height: 41px;
+    font-size: 11px;
+  }
+}
+
+/* =========================
+   VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .profile-details {
+    padding: 12px 10px;
+  }
+
+  .profile-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-details-header h2 {
+    font-size: 16px;
+  }
+
+  .profile-details .MuiOutlinedInput-root {
+    height: 41px;
+  }
+
+  .profile-details .MuiInputLabel-root {
+    font-size: 11px;
+  }
+
+  .profile-details .MuiOutlinedInput-input {
+    font-size: 11px;
+  }
+
+  .update-profile {
+    height: 40px;
+    font-size: 10px;
+  }
+}

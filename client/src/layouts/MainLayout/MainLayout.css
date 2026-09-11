@@ -3,3 +3,15 @@
   padding-top: 160px;
   background: #f4f4f4;
 }
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding-top: 74px;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    padding-top: 64px;
+  }
+}

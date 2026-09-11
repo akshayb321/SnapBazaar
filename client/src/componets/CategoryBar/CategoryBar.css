@@ -13,6 +13,7 @@
   z-index: 999;
   font-family: "Poppins", sans-serif;
   box-shadow: rgba(34, 34, 34, 0.24) 0px 3px 8px;
+  box-sizing: border-box;
 }
 
 /* CATEGORY LIST */
@@ -107,4 +108,52 @@
 
 .about-category-link:hover i {
   transform: translateY(-1px);
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .category-bar {
+    top: 74px;
+    height: 50px;
+    padding: 0 18px;
+  }
+
+  .category-list {
+    gap: 20px;
+  }
+
+  .category-list li {
+    font-size: 11px;
+  }
+
+  .about-category-link {
+    margin-left: 15px;
+    padding-left: 15px;
+    font-size: 11px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+  .category-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .category-menu-btn button {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 10px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+  .category-menu-btn {
+    display: none;
+  }
 }

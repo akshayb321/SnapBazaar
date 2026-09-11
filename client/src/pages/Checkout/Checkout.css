@@ -1309,94 +1309,40 @@
 .back-home-btn:active {
   transform: translateY(0);
 }
+/* =========================
+   CHECKOUT RESPONSIVE
+========================= */
 
-@media (max-width: 600px) {
-  .order-success-container {
-    min-height: calc(100vh - 120px);
-    padding: 40px 16px;
-  }
+/* =========================
+   TABLET
+========================= */
 
-  .success-icon,
-  .success-icon img {
-    width: 110px;
-    height: 110px;
-  }
-
-  .order-success-card h1 {
-    font-size: 26px;
-  }
-
-  .success-message {
-    font-size: 16px;
-  }
-
-  .email-message {
-    font-size: 14px;
-  }
-
-  .back-home-btn {
-    width: 100%;
-    max-width: 190px;
-  }
-}
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 950px) {
-  .checkout-main-container {
-    grid-template-columns: 1fr;
-  }
-
-  .checkout-left {
-    order: 1;
-  }
-
-  .checkout-right {
-    order: 2;
-  }
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 600px) {
+@media (max-width: 1024px) and (min-width: 768px) {
   .cart-page {
-    padding: 15px 10px 35px;
+    width: 100%;
+    padding: 20px 18px 35px;
+    box-sizing: border-box;
   }
 
   .checkout-main-container {
-    gap: 15px;
+    width: 100%;
+    max-width: 900px;
+    grid-template-columns: 1fr 340px;
+    gap: 18px;
   }
 
   .checkout-card {
-    padding: 16px;
+    padding: 17px;
+    border-radius: 12px;
   }
 
-  .success-actions {
-    flex-direction: column;
-    width: 100%;
-    gap: 8px;
+  .checkout-left {
+    gap: 15px;
   }
-
-  .view-orders-btn,
-  .back-home-btn {
-    width: 100%;
-    max-width: 190px;
-  }
-
-  /* =====================================
-     HEADER
-  ===================================== */
 
   .checkout-section-header {
-    gap: 8px;
-  }
-
-  .section-header-left {
-    gap: 9px;
+    margin-bottom: 16px;
+    gap: 10px;
   }
 
   .checkout-section-header h2 {
@@ -1410,83 +1356,24 @@
   .section-icon {
     width: 35px;
     height: 35px;
-
     font-size: 14px;
   }
 
-  /* =====================================
-     ADD ADDRESS
-  ===================================== */
-
   .checkout-section-header .checkout-add-address-btn {
-    min-width: 92px;
-
+    min-width: 96px;
     height: 34px;
-
     padding: 0 9px;
-
     font-size: 9px;
   }
 
-  .checkout-section-header .checkout-add-address-btn span {
-    font-size: 15px;
-  }
-
-  /* =====================================
-     PRODUCTS
-  ===================================== */
-
-  .checkout-product-image {
-    width: 54px;
-    height: 54px;
-  }
-
-  .checkout-product-info h3 {
-    font-size: 10px;
-  }
-
-  .checkout-product-meta span {
-    font-size: 8px;
-  }
-
-  .checkout-product-meta strong {
-    font-size: 11px;
-  }
-
-  /* =====================================
-     SUMMARY
-  ===================================== */
-
-  .summary-heading h2 {
-    font-size: 15px;
-  }
-
-  .summary-heading p {
-    font-size: 8px;
-  }
-
-  .total-row span {
-    font-size: 13px;
-  }
-
-  .total-row strong {
-    font-size: 17px;
-  }
-
-  /* =====================================
-     PAYMENT
-  ===================================== */
-
   .payment-option {
     min-height: 62px;
-
-    padding: 9px;
+    padding: 9px 11px;
   }
 
   .payment-icon {
-    width: 34px;
-    height: 34px;
-
+    width: 35px;
+    height: 35px;
     font-size: 14px;
   }
 
@@ -1498,140 +1385,308 @@
     font-size: 8px;
   }
 
-  /* =====================================
-     PLACE ORDER
-  ===================================== */
-
-  .place-order-btn {
-    height: 46px;
-
-    margin-top: 16px;
-
-    font-size: 12px;
+  .order-summary {
+    padding: 16px;
   }
 
-  /* =====================================
-     SECURE CHECKOUT
-  ===================================== */
-
-  .secure-checkout {
-    font-size: 8px;
+  .summary-heading h2 {
+    font-size: 15px;
   }
 
-  /* =====================================
-     ADDRESS
-  ===================================== */
-
-  .checkout-address-card {
-    padding: 12px;
+  .checkout-product-image {
+    width: 62px;
+    height: 62px;
   }
 
-  .checkout-address-radio {
-    margin-right: 9px;
+  .checkout-product-info h3 {
+    font-size: 11px;
   }
 
-  .checkout-name-phone {
-    flex-wrap: wrap;
-
-    gap: 4px 8px;
-  }
-
-  .checkout-address-info p {
+  .checkout-product-meta span {
     font-size: 9px;
   }
 
-  .checkout-address-container .address-form {
-    padding: 14px;
+  .checkout-product-meta strong {
+    font-size: 13px;
   }
 
-  .checkout-address-container .form-row {
-    flex-direction: column;
+  .price-row {
+    font-size: 10px;
+  }
 
-    gap: 14px;
+  .total-row span {
+    font-size: 14px;
+  }
+
+  .total-row strong {
+    font-size: 17px;
+  }
+
+  .place-order-btn {
+    height: 46px;
+    font-size: 12px;
   }
 }
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 400px) {
+@media (max-width: 767px) {
   .cart-page {
-    padding: 10px 7px 25px;
+    width: 100%;
+    padding: 12px 10px 30px;
+    box-sizing: border-box;
+  }
+
+  .checkout-main-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-sizing: border-box;
+  }
+
+  .checkout-left,
+  .checkout-right {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .checkout-left {
+    gap: 14px;
+  }
+
+  .checkout-right {
+    order: 2;
   }
 
   .checkout-card {
+    width: 100%;
     padding: 14px;
+    border-radius: 10px;
+    box-sizing: border-box;
   }
 
-  /* =====================================
-     HEADER
-  ===================================== */
+  /* =========================
+     SECTION HEADER
+  ========================= */
 
   .checkout-section-header {
-    gap: 6px;
+    width: 100%;
+    margin-bottom: 14px;
+    gap: 8px;
   }
 
   .section-header-left {
-    gap: 7px;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .checkout-section-payment {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .section-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 14px;
   }
 
   .checkout-section-header h2 {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .checkout-section-header p {
     font-size: 8px;
+    white-space: nowrap;
   }
 
-  .section-icon {
-    width: 32px;
-    height: 32px;
-
-    font-size: 13px;
-  }
-
-  /* =====================================
+  /* =========================
      ADD ADDRESS
-  ===================================== */
+  ========================= */
 
   .checkout-section-header .checkout-add-address-btn {
-    min-width: 82px;
-
-    height: 32px;
-
-    padding: 0 7px;
-
+    min-width: 88px;
+    height: 33px;
+    padding: 0 8px;
+    gap: 4px;
+    border-radius: 6px;
     font-size: 8px;
-
-    gap: 3px;
   }
 
   .checkout-section-header .checkout-add-address-btn span {
     font-size: 14px;
   }
 
-  /* =====================================
-     PRODUCTS
-  ===================================== */
+  /* =========================
+     ADDRESS
+  ========================= */
 
-  .checkout-product-image {
-    width: 50px;
-    height: 50px;
+  .checkout-address-list {
+    gap: 8px;
   }
 
-  /* =====================================
-     SUMMARY
-  ===================================== */
+  .checkout-address-card {
+    min-height: 76px;
+    padding: 11px;
+    border-radius: 8px;
+  }
+
+  .checkout-address-radio {
+    margin-right: 9px;
+  }
+
+  .address-radio {
+    width: 18px;
+    height: 18px;
+  }
+
+  .address-radio.active span {
+    width: 8px;
+    height: 8px;
+  }
+
+  .checkout-address-top {
+    margin-bottom: 5px;
+  }
+
+  .checkout-address-labels {
+    gap: 5px;
+  }
+
+  .checkout-address-type,
+  .checkout-default-label {
+    padding: 3px 6px;
+    font-size: 7px;
+  }
+
+  .checkout-name-phone {
+    gap: 5px 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .checkout-name-phone strong {
+    font-size: 11px;
+  }
+
+  .checkout-name-phone span {
+    font-size: 8px;
+  }
+
+  .checkout-address-info p {
+    font-size: 8px;
+    line-height: 1.5;
+  }
+
+  .checkout-address-container .address-form {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .checkout-address-container .form-row {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* =========================
+     PAYMENT
+  ========================= */
+
+  .payment-options {
+    gap: 8px;
+  }
+
+  .payment-option {
+    min-height: 60px;
+    padding: 8px 9px;
+    gap: 9px;
+    border-radius: 8px;
+  }
+
+  .custom-radio {
+    width: 18px;
+    height: 18px;
+  }
+
+  .payment-option.selected .custom-radio::after {
+    width: 8px;
+    height: 8px;
+  }
+
+  .payment-icon {
+    width: 33px;
+    height: 33px;
+    border-radius: 7px;
+    font-size: 13px;
+  }
+
+  .payment-info {
+    min-width: 0;
+  }
+
+  .payment-info h3 {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .payment-info p {
+    font-size: 7px;
+    line-height: 1.4;
+  }
+
+  /* =========================
+     RAZORPAY
+  ========================= */
+
+  .razorpay-info {
+    margin-top: 9px;
+    padding: 9px;
+    gap: 8px;
+    border-radius: 8px;
+  }
+
+  .razorpay-logo {
+    width: 58px;
+    height: 27px;
+    font-size: 8px;
+  }
+
+  .razorpay-info strong {
+    font-size: 9px;
+  }
+
+  .razorpay-info p {
+    font-size: 7px;
+  }
+
+  /* =========================
+     ORDER SUMMARY
+  ========================= */
 
   .order-summary {
-    padding: 13px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .summary-heading {
+    padding-bottom: 11px;
+  }
+
+  .summary-title {
+    gap: 8px;
   }
 
   .summary-icon {
     width: 34px;
     height: 34px;
-
+    border-radius: 8px;
     font-size: 13px;
   }
 
@@ -1639,17 +1694,487 @@
     font-size: 14px;
   }
 
+  .summary-heading p {
+    font-size: 8px;
+  }
+
+  /* =========================
+     PRODUCTS
+  ========================= */
+
+  .checkout-products {
+    max-height: 240px;
+    padding-right: 2px;
+  }
+
+  .checkout-product {
+    gap: 9px;
+    padding: 9px 0;
+  }
+
+  .checkout-product-image {
+    width: 58px;
+    height: 58px;
+    border-radius: 7px;
+  }
+
+  .checkout-product-info h3 {
+    margin-bottom: 5px;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .checkout-product-meta {
+    gap: 7px;
+  }
+
+  .checkout-product-meta span {
+    font-size: 8px;
+  }
+
+  .checkout-product-meta strong {
+    font-size: 12px;
+  }
+
+  /* =========================
+     PRICE
+  ========================= */
+
+  .summary-divider {
+    margin: 9px 0;
+  }
+
+  .price-row {
+    margin: 6px 0;
+    font-size: 10px;
+  }
+
+  .total-row span {
+    font-size: 14px;
+  }
+
+  .total-row strong {
+    font-size: 17px;
+  }
+
+  /* =========================
+     PLACE ORDER
+  ========================= */
+
+  .place-order-btn {
+    width: 100%;
+    height: 45px;
+    margin-top: 14px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .place-order-btn i {
+    font-size: 10px;
+  }
+
+  .secure-checkout {
+    margin-top: 8px;
+    font-size: 7px;
+  }
+
+  .secure-checkout i {
+    font-size: 9px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .cart-page {
+    padding: 10px 7px 25px;
+  }
+
+  .checkout-main-container {
+    gap: 12px;
+  }
+
+  .checkout-left {
+    gap: 12px;
+  }
+
+  .checkout-card {
+    padding: 12px;
+    border-radius: 9px;
+  }
+
+  /* =========================
+     HEADER
+  ========================= */
+
+  .checkout-section-header {
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .section-header-left {
+    gap: 7px;
+  }
+
+  .section-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 12px;
+  }
+
+  .checkout-section-header h2 {
+    font-size: 13px;
+  }
+
+  .checkout-section-header p {
+    font-size: 7px;
+  }
+
+  .checkout-section-header .checkout-add-address-btn {
+    min-width: 78px;
+    height: 30px;
+    padding: 0 6px;
+    font-size: 7px;
+  }
+
+  .checkout-section-header .checkout-add-address-btn span {
+    font-size: 13px;
+  }
+
+  /* =========================
+     ADDRESS
+  ========================= */
+
+  .checkout-address-card {
+    padding: 10px;
+    min-height: 72px;
+  }
+
+  .checkout-address-radio {
+    margin-right: 7px;
+  }
+
+  .address-radio {
+    width: 17px;
+    height: 17px;
+  }
+
+  .checkout-address-type,
+  .checkout-default-label {
+    padding: 3px 5px;
+    font-size: 6px;
+  }
+
+  .checkout-name-phone {
+    gap: 4px 7px;
+  }
+
+  .checkout-name-phone strong {
+    font-size: 10px;
+  }
+
+  .checkout-name-phone span {
+    font-size: 7px;
+  }
+
+  .checkout-address-info p {
+    font-size: 7px;
+  }
+
+  /* =========================
+     PAYMENT
+  ========================= */
+
+  .payment-option {
+    min-height: 56px;
+    padding: 7px;
+    gap: 7px;
+  }
+
+  .custom-radio {
+    width: 17px;
+    height: 17px;
+  }
+
+  .payment-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .payment-info h3 {
+    font-size: 9px;
+  }
+
+  .payment-info p {
+    font-size: 6.5px;
+  }
+
+  .razorpay-info {
+    padding: 8px;
+  }
+
+  .razorpay-logo {
+    width: 53px;
+    height: 25px;
+    font-size: 7px;
+  }
+
+  .razorpay-info strong {
+    font-size: 8px;
+  }
+
+  .razorpay-info p {
+    font-size: 6px;
+  }
+
+  /* =========================
+     SUMMARY
+  ========================= */
+
+  .order-summary {
+    padding: 12px;
+  }
+
+  .summary-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 12px;
+  }
+
+  .summary-heading h2 {
+    font-size: 13px;
+  }
+
+  .summary-heading p {
+    font-size: 7px;
+  }
+
+  .checkout-products {
+    max-height: 220px;
+  }
+
+  .checkout-product {
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .checkout-product-image {
+    width: 52px;
+    height: 52px;
+  }
+
+  .checkout-product-info h3 {
+    font-size: 9px;
+    margin-bottom: 4px;
+  }
+
+  .checkout-product-meta span {
+    font-size: 7px;
+  }
+
+  .checkout-product-meta strong {
+    font-size: 11px;
+  }
+
+  .price-row {
+    font-size: 9px;
+  }
+
+  .total-row span {
+    font-size: 13px;
+  }
+
   .total-row strong {
     font-size: 16px;
   }
 
-  /* =====================================
-     PLACE ORDER
-  ===================================== */
+  .place-order-btn {
+    height: 43px;
+    margin-top: 13px;
+    font-size: 10px;
+  }
+
+  .secure-checkout {
+    font-size: 6.5px;
+  }
+}
+
+/* =========================
+   VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+  .cart-page {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .checkout-card,
+  .order-summary {
+    padding: 10px;
+  }
+
+  .checkout-section-header h2 {
+    font-size: 12px;
+  }
+
+  .checkout-section-header p {
+    display: none;
+  }
+
+  .checkout-section-header .checkout-add-address-btn {
+    min-width: 73px;
+    height: 29px;
+    font-size: 7px;
+  }
+
+  .section-icon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .checkout-address-card {
+    padding: 9px;
+  }
+
+  .payment-option {
+    padding: 6px;
+  }
+
+  .payment-info h3 {
+    font-size: 8px;
+  }
+
+  .payment-info p {
+    font-size: 6px;
+  }
+
+  .checkout-product-image {
+    width: 48px;
+    height: 48px;
+  }
+
+  .checkout-product-info h3 {
+    font-size: 8px;
+  }
+
+  .checkout-product-meta span {
+    font-size: 6.5px;
+  }
+
+  .checkout-product-meta strong {
+    font-size: 10px;
+  }
+
+  .price-row {
+    font-size: 8px;
+  }
+
+  .total-row span {
+    font-size: 12px;
+  }
+
+  .total-row strong {
+    font-size: 15px;
+  }
 
   .place-order-btn {
-    height: 44px;
+    height: 41px;
+    font-size: 9px;
+  }
+}
 
-    font-size: 11px;
+/* =========================
+   ORDER SUCCESS
+========================= */
+
+@media (max-width: 767px) {
+  .order-success-container {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding: 30px 14px;
+    box-sizing: border-box;
+  }
+
+  .order-success-card {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .success-icon,
+  .success-icon img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .success-icon {
+    margin-bottom: 20px;
+  }
+
+  .order-success-card h1 {
+    font-size: 24px;
+  }
+
+  .success-message {
+    margin-top: 14px;
+    font-size: 14px;
+  }
+
+  .email-message {
+    margin: 10px 0 24px;
+    font-size: 12px;
+    word-break: break-word;
+  }
+
+  .success-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .view-orders-btn,
+  .back-home-btn {
+    width: 100%;
+    max-width: 210px;
+    min-width: 0;
+    padding: 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .order-success-container {
+    padding: 25px 10px;
+  }
+
+  .success-icon,
+  .success-icon img {
+    width: 85px;
+    height: 85px;
+  }
+
+  .order-success-card h1 {
+    font-size: 21px;
+  }
+
+  .success-message {
+    font-size: 12px;
+  }
+
+  .email-message {
+    font-size: 10px;
+    margin-bottom: 20px;
+  }
+
+  .view-orders-btn,
+  .back-home-btn {
+    max-width: 190px;
+    padding: 9px;
+    font-size: 9px;
   }
 }
