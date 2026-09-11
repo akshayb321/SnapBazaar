@@ -517,3 +517,10 @@
     width: 155px;
   }
 }
+
+@media (max-width: 1024px) {
+  .footer-explore,
+  .footer-customer {
+    display: none;
+  }
+}

@@ -7,6 +7,7 @@ function Footer() {
   const [email, setEmail] = useState("");
   const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
+
   const handleToast = (e) => {
     e.preventDefault();
 
@@ -84,7 +85,6 @@ function Footer() {
           </p>
 
           <div className="social-media">
-            {/* LinkedIn */}
             <a
               href="https://www.linkedin.com/in/akshay-bachhav-"
               target="_blank"
@@ -94,7 +94,6 @@ function Footer() {
               <i className="fa-brands fa-linkedin-in"></i>
             </a>
 
-            {/* GitHub */}
             <a
               href="https://github.com/akshayb321/SnapBazaar"
               target="_blank"
@@ -104,7 +103,6 @@ function Footer() {
               <i className="fa-brands fa-github"></i>
             </a>
 
-            {/* Gmail */}
             <a
               href="https://mail.google.com/mail/?view=cm&fs=1&to=akshaybachhav172@gmail.com"
               target="_blank"
@@ -114,7 +112,6 @@ function Footer() {
               <i className="fa-solid fa-envelope"></i>
             </a>
 
-            {/* X */}
             <a
               href="https://x.com/"
               target="_blank"
@@ -127,7 +124,7 @@ function Footer() {
         </div>
 
         {/* Explore */}
-        <div className="mid-item">
+        <div className="mid-item footer-explore">
           <p>Explore</p>
 
           <ul>
@@ -150,7 +147,7 @@ function Footer() {
         </div>
 
         {/* Customer */}
-        <div className="mid-item">
+        <div className="mid-item footer-customer">
           <p>Customer</p>
 
           <ul>
@@ -206,7 +203,6 @@ function Footer() {
         </div>
       </div>
 
-      {/* Footer Bottom */}
       <div className="footer-end">
         <p>
           © 2026 SnapBazaar. Designed & Developed with ❤️ by Akshay Bachhav.
