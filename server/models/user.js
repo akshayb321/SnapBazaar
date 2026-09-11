@@ -18,6 +18,12 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+
     profileImage: {
       type: String,
       default: "",
@@ -67,21 +73,18 @@ const userSchema = new mongoose.Schema(
           trim: true,
         },
 
-        // Home / Office / Other
         addressType: {
           type: String,
           enum: ["Home", "Office", "Other"],
           default: "Home",
         },
 
-        // Only used when addressType is Other
         customType: {
           type: String,
           default: "",
           trim: true,
         },
 
-        // Default delivery address
         isDefault: {
           type: Boolean,
           default: false,

@@ -193,3 +193,30 @@ export const orderEmailTemplate = ({ order, user }) => {
     </div>
   `;
 };
+
+// Admin login OTP
+export const adminLoginOtpEmailTemplate = (otp) => {
+  return baseEmailTemplate(`
+    <h2 style="margin:0 0 12px;color:#222;font-size:22px;">
+      Admin Login Verification
+    </h2>
+
+    <p style="margin:0 0 25px;color:#555;font-size:15px;line-height:1.6;">
+      Use the verification code below to complete your SnapBazaar admin login.
+    </p>
+
+    <div style="display:inline-block;background:#f1f5ff;border:1px solid #dbe5ff;border-radius:10px;padding:16px 30px;margin-bottom:25px;">
+      <span style="font-size:32px;font-weight:bold;letter-spacing:8px;color:#2563eb;">
+        ${otp}
+      </span>
+    </div>
+
+    <p style="margin:0 0 8px;color:#555;font-size:14px;">
+      This OTP will expire in <strong>5 minutes</strong>.
+    </p>
+
+    <p style="margin:25px 0 0;color:#888;font-size:13px;line-height:1.5;">
+      If you didn't request an admin login, you can safely ignore this email.
+    </p>
+  `);
+};

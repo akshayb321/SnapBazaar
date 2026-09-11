@@ -203,9 +203,16 @@ export const completeSignup = async (req, res) => {
 
     await newUser.save();
 
-    const jwtToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const jwtToken = jwt.sign(
+      {
+        id: newUser._id,
+        role: newUser.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
 
     await sendEmail(
       email,
@@ -223,6 +230,7 @@ export const completeSignup = async (req, res) => {
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
+        role: newUser.role,
       },
     });
   } catch (error) {
@@ -258,9 +266,14 @@ export const login = async (req, res) => {
     }
 
     const jwtToken = jwt.sign(
-      { id: existingUser._id },
+      {
+        id: existingUser._id,
+        role: existingUser.role,
+      },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" },
+      {
+        expiresIn: "7d",
+      },
     );
 
     return res.status(200).json({
@@ -271,6 +284,7 @@ export const login = async (req, res) => {
         id: existingUser._id,
         name: existingUser.name,
         email: existingUser.email,
+        role: existingUser.role,
       },
     });
   } catch (error) {

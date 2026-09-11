@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import "./Auth.css";
+import API_URL from "../../config/api.js";
 
 function Signup() {
   const navigate = useNavigate();
@@ -84,13 +85,10 @@ function Signup() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/send-signup-otp",
-        {
-          name: formData.name,
-          email: formData.email,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/send-signup-otp`, {
+        name: formData.name,
+        email: formData.email,
+      });
 
       setOtpSent(true);
       setOtp("");
@@ -115,7 +113,7 @@ function Signup() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/auth/verify-signup-otp",
+        `${API_URL}/api/auth/verify-signup-otp`,
         {
           email: formData.email,
           otp,
@@ -143,13 +141,10 @@ function Signup() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/send-signup-otp",
-        {
-          name: formData.name,
-          email: formData.email,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/send-signup-otp`, {
+        name: formData.name,
+        email: formData.email,
+      });
 
       setOtp("");
       setOtpError("");
@@ -189,14 +184,11 @@ function Signup() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/complete-signup",
-        {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/complete-signup`, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
 
       localStorage.setItem("token", response.data.jwtToken);
 
@@ -241,7 +233,7 @@ function Signup() {
 
             <div className="auth-left-heading">
               <span className="auth-eyebrow">
-                <i class="fa-solid fa-location-dot"></i>
+                <i className="fa-solid fa-location-dot"></i>
                 YOUR SHOPPING DESTINATION
               </span>
 
@@ -346,24 +338,44 @@ function Signup() {
               </div>
 
               {!otpSent && (
-                <button
-                  type="button"
-                  className="auth-submit-btn verify-email-btn"
-                  onClick={handleSendOtp}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <i className="fa-solid fa-spinner fa-spin"></i>
-                      Sending OTP
-                    </>
-                  ) : (
-                    <>
-                      Verify Email
+                <>
+                  <button
+                    type="button"
+                    className="auth-submit-btn verify-email-btn"
+                    onClick={handleSendOtp}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <i className="fa-solid fa-spinner fa-spin"></i>
+                        Sending OTP
+                      </>
+                    ) : (
+                      <>
+                        Verify Email
+                        <i className="fa-solid fa-arrow-right"></i>
+                      </>
+                    )}
+                  </button>
+
+                  <div className="auth-bottom">
+                    <p>
+                      Already have an account? <Link to="/login">Login</Link>
+                    </p>
+                  </div>
+
+                  <div className="admin-login-section">
+                    <div className="admin-login-divider">
+                      <span>or</span>
+                    </div>
+
+                    <Link to="/admin/login" className="admin-login-link">
+                      <i className="fa-solid fa-user-shield"></i>
+                      Admin Login
                       <i className="fa-solid fa-arrow-right"></i>
-                    </>
-                  )}
-                </button>
+                    </Link>
+                  </div>
+                </>
               )}
 
               {otpSent && !otpVerified && (
@@ -532,12 +544,6 @@ function Signup() {
                 </>
               )}
             </form>
-
-            <div className="auth-bottom">
-              <p>
-                Already have an account? <Link to="/login">Login</Link>
-              </p>
-            </div>
           </div>
         </div>
       </div>

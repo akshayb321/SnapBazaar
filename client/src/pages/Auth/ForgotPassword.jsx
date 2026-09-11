@@ -5,6 +5,7 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import "./Auth.css";
+import API_URL from "../../config/api.js";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -74,12 +75,9 @@ function ForgotPassword() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/send-reset-otp",
-        {
-          email: formData.email,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/send-reset-otp`, {
+        email: formData.email,
+      });
 
       setOtpSent(true);
       setOtp("");
@@ -104,7 +102,7 @@ function ForgotPassword() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:8000/api/auth/verify-reset-otp",
+        `${API_URL}/api/auth/verify-reset-otp`,
         {
           email: formData.email,
           otp,
@@ -132,12 +130,9 @@ function ForgotPassword() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/send-reset-otp",
-        {
-          email: formData.email,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/send-reset-otp`, {
+        email: formData.email,
+      });
 
       setOtp("");
       setOtpError("");
@@ -172,13 +167,10 @@ function ForgotPassword() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/reset-password",
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/reset-password`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
       toast.success(response.data.message || "Password reset successfully");
 

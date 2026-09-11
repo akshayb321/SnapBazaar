@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import axios from "axios";
+import API_URL from "../config/api.js";
 
 const WishlistContext = createContext();
 
@@ -19,7 +20,7 @@ export const WishlistProvider = ({ children }) => {
       if (!token) {
         return;
       }
-      const response = await axios.get("http://localhost:8000/api/wishlist", {
+      const response = await axios.get(`${API_URL}/api/wishlist`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

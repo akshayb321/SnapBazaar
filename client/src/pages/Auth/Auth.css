@@ -980,6 +980,78 @@
   color: #000000;
 }
 
+/*admin-login-section */
+
+.admin-login-section {
+  margin-top: 22px;
+}
+
+.admin-login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-login-divider::before,
+.admin-login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.admin-login-divider span {
+  color: #9ca3af;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.admin-login-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100%;
+  min-height: 42px;
+
+  border: 1px solid #dbe3f0;
+  border-radius: 7px;
+
+  color: #475569;
+  background: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+}
+
+.admin-login-link i:first-child {
+  color: #2563eb;
+}
+
+.admin-login-link i:last-child {
+  font-size: 11px;
+  margin-left: 2px;
+}
+
+.admin-login-link:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: #f8faff;
+}
+
+.admin-login-link:hover i:last-child {
+  transform: translateX(3px);
+}
+
+.admin-login-link i:last-child {
+  transition: transform 0.2s ease;
+}
+
 /* TABLET */
 
 @media (max-width: 1000px) {

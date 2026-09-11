@@ -5,19 +5,18 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import "./ProfileSidebar.css";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import API_URL from "../../config/api.js";
 
 function ProfileDetails() {
   const { user } = useAuth();
-  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
-  // Unified to 'phone'
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
   });
 
-  // Track context via 'user.phone'
   useEffect(() => {
     if (user) {
       setFormData({
@@ -29,8 +28,13 @@ function ProfileDetails() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
   const handleUpdate = async () => {
     try {
       setLoading(true);
@@ -38,7 +42,7 @@ function ProfileDetails() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:8000/api/auth/profileInfo",
+        `${API_URL}/api/auth/profileInfo`,
         {
           name: formData.name,
           phone: formData.phone,
@@ -68,13 +72,8 @@ function ProfileDetails() {
     <div className="profile-details">
       <div className="profile-details-header">
         <h2>My Profile</h2>
-        <button
-          className="change-password"
-          onClick={() => navigate("/changePass")}
-        >
-          CHANGE PASSWORD
-        </button>
       </div>
+
       <div className="profile-divider"></div>
 
       <div className="profile-row">
@@ -86,13 +85,14 @@ function ProfileDetails() {
           value={formData.name}
           onChange={handleChange}
         />
+
         <TextField
           label="Email"
           type="email"
           variant="outlined"
           fullWidth
           value={user?.email || ""}
-          InputProps={{ readOnly: true }}
+          disabled
         />
       </div>
 
@@ -117,9 +117,9 @@ function ProfileDetails() {
         onClick={handleUpdate}
         disabled={loading}
       >
-        {loading ? (
+        {loading && (
           <i className="fa-solid fa-spinner fa-spin search-loader"></i>
-        ) : null}
+        )}
 
         {loading ? "UPDATING..." : "UPDATE PROFILE"}
       </button>

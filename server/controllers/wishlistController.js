@@ -23,9 +23,10 @@ export const addToWishlist = async (req, res) => {
         (i) => i.productId.toString() === productId,
       );
       if (item) {
-        return res.status(400).json({
-          success: false,
+        return res.status(200).json({
+          success: true,
           message: "Product already in wishlist",
+          userWishlist,
         });
       }
       userWishlist.items.push({
@@ -75,27 +76,27 @@ export const removeWishlistItem = async (req, res) => {
     });
   }
 };
-
 export const getWishlist = async (req, res) => {
   try {
     const userId = req.user.id;
-    const userWishlist = await Wishlist.findOne({ userId }).populate(
+    let userWishlist = await Wishlist.findOne({ userId }).populate(
       "items.productId",
     );
     if (!userWishlist) {
-      return res.status(404).json({
-        success: false,
-        message: "Wishlist not found",
+      userWishlist = new Wishlist({
+        userId,
+        items: [],
       });
+      await userWishlist.save();
     }
     res.status(200).json({
-      userWishlist,
       success: true,
+      userWishlist,
     });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
       success: false,
+      message: error.message,
     });
   }
 };

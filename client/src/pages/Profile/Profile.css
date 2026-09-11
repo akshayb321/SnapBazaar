@@ -23,6 +23,10 @@
   min-width: 0;
 }
 
+.profile-details .MuiFormLabel-asterisk {
+  display: none;
+}
+
 /* Tablet */
 @media (max-width: 900px) {
   .profile-page {

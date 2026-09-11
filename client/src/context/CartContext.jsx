@@ -6,6 +6,7 @@ import {
   useCallback,
 } from "react";
 import axios from "axios";
+import API_URL from "../config/api.js";
 
 const CartContext = createContext();
 
@@ -21,7 +22,7 @@ export const CartProvider = ({ children }) => {
         return;
       }
 
-      const response = await axios.get("http://localhost:8000/api/cart", {
+      const response = await axios.get(`${API_URL}/api/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +50,7 @@ export const CartProvider = ({ children }) => {
         return;
       }
 
-      await axios.delete("http://localhost:8000/api/cart/clear", {
+      await axios.delete(`${API_URL}/api/cart/clear`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

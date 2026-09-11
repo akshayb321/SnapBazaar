@@ -8,6 +8,8 @@ import cartRouter from "./routes/cartRoutes.js";
 import WishlistRouter from "./routes/wishlistRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
+import adminAuthRoutes from "./routes/adminAuthRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -27,3 +29,5 @@ app.use("/api/cart", cartRouter);
 app.use("/api/wishlist", WishlistRouter);
 app.use("/api/order", orderRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/admin/auth", adminAuthRoutes);
+app.use("/api/admin", adminRoutes);

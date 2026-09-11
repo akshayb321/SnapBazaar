@@ -4,30 +4,19 @@ import { MuiTelInput } from "mui-tel-input";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "./AddressContainer.css";
+import API_URL from "../../config/api.js";
 
 function AddressContainer({
   mode = "address",
 
-  // Checkout ke liye controlled state
   showAddress: checkoutShowAddress,
   setShowAddress: setCheckoutShowAddress,
 
-  // Checkout me selected address parent ko bhejne ke liye
   onAddressSelect,
 }) {
-  const API_URL = "http://localhost:8000/api/auth";
-
   const isCheckout = mode === "checkout";
 
-  // =====================================================
-  // NORMAL ADDRESS PAGE STATE
-  // =====================================================
-
   const [localShowAddress, setLocalShowAddress] = useState(false);
-
-  // =====================================================
-  // COMMON STATES
-  // =====================================================
 
   const [menuIndex, setMenuIndex] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
@@ -38,25 +27,11 @@ function AddressContainer({
 
   const [loading, setLoading] = useState(false);
 
-  // =====================================================
-  // SHOW ADDRESS FORM
-  // =====================================================
-  // Checkout:
-  // Parent Checkout.jsx se control hoga
-  //
-  // Normal Address page:
-  // Local state se control hoga
-  // =====================================================
-
   const showAddress = isCheckout ? checkoutShowAddress : localShowAddress;
 
   const setShowAddress = isCheckout
     ? setCheckoutShowAddress
     : setLocalShowAddress;
-
-  // =====================================================
-  // FORM DATA
-  // =====================================================
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -69,15 +44,11 @@ function AddressContainer({
     customType: "",
   });
 
-  // =====================================================
-  // FETCH ADDRESSES
-  // =====================================================
-
   const fetchAddresses = async () => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(`${API_URL}/address`, {
+      const response = await axios.get(`${API_URL}/api/auth/address`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -86,11 +57,6 @@ function AddressContainer({
       const fetchedAddresses = response.data.addresses || [];
 
       setAddresses(fetchedAddresses);
-
-      // =================================================
-      // CHECKOUT MODE
-      // Automatically select default address
-      // =================================================
 
       if (isCheckout && fetchedAddresses.length > 0) {
         const defaultAddress =
@@ -111,17 +77,9 @@ function AddressContainer({
     }
   };
 
-  // =====================================================
-  // LOAD ADDRESSES
-  // =====================================================
-
   useEffect(() => {
     fetchAddresses();
   }, []);
-
-  // =====================================================
-  // HANDLE FORM CHANGE
-  // =====================================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -135,10 +93,6 @@ function AddressContainer({
         : {}),
     }));
   };
-
-  // =====================================================
-  // RESET FORM
-  // =====================================================
 
   const resetForm = () => {
     setFormData({
@@ -159,10 +113,6 @@ function AddressContainer({
     setMenuIndex(null);
   };
 
-  // =====================================================
-  // HANDLE SUBMIT
-  // =====================================================
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -177,15 +127,11 @@ function AddressContainer({
         },
       };
 
-      // =================================================
-      // UPDATE EXISTING ADDRESS
-      // =================================================
-
       if (editIndex !== null) {
         const addressId = addresses[editIndex]._id;
 
         const response = await axios.put(
-          `${API_URL}/address/${addressId}`,
+          `${API_URL}/api/auth/address/${addressId}`,
           formData,
           config,
         );
@@ -194,7 +140,6 @@ function AddressContainer({
 
         setAddresses(updatedAddresses);
 
-        // Checkout mode me updated address select karo
         if (isCheckout) {
           const updatedAddress = updatedAddresses.find(
             (address) => address._id === addressId,
@@ -222,20 +167,15 @@ function AddressContainer({
         return;
       }
 
-      // =================================================
-      // ADD NEW ADDRESS
-      // =================================================
-
-      const response = await axios.post(`${API_URL}/address`, formData, config);
+      const response = await axios.post(
+        `${API_URL}/api/auth/address`,
+        formData,
+        config,
+      );
 
       const updatedAddresses = response.data.addresses || [];
 
       setAddresses(updatedAddresses);
-
-      // =================================================
-      // CHECKOUT MODE
-      // Newly added address select karo
-      // =================================================
 
       if (isCheckout && updatedAddresses.length > 0) {
         const newAddress = updatedAddresses[updatedAddresses.length - 1];
@@ -268,10 +208,6 @@ function AddressContainer({
     }
   };
 
-  // =====================================================
-  // HANDLE EDIT
-  // =====================================================
-
   const handleEdit = (index) => {
     const selectedAddress = addresses[index];
 
@@ -293,33 +229,26 @@ function AddressContainer({
     setMenuIndex(null);
   };
 
-  // =====================================================
-  // HANDLE DELETE
-  // =====================================================
-
   const handleDelete = async (index) => {
     try {
       const token = localStorage.getItem("token");
 
       const addressId = addresses[index]._id;
 
-      const response = await axios.delete(`${API_URL}/address/${addressId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.delete(
+        `${API_URL}/api/auth/address/${addressId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       const updatedAddresses = response.data.addresses || [];
 
       setAddresses(updatedAddresses);
 
       setMenuIndex(null);
-
-      // =================================================
-      // CHECKOUT MODE
-      // Agar selected address delete hua
-      // to dusra address automatically select karo
-      // =================================================
 
       if (selectedAddressId === addressId) {
         if (updatedAddresses.length > 0) {
@@ -352,10 +281,6 @@ function AddressContainer({
     }
   };
 
-  // =====================================================
-  // SET DEFAULT ADDRESS
-  // =====================================================
-
   const handleSetDefault = async (index) => {
     try {
       const token = localStorage.getItem("token");
@@ -363,7 +288,7 @@ function AddressContainer({
       const addressId = addresses[index]._id;
 
       const response = await axios.put(
-        `${API_URL}/address/${addressId}/default`,
+        `${API_URL}/api/auth/address/${addressId}/default`,
         {},
         {
           headers: {
@@ -377,11 +302,6 @@ function AddressContainer({
       setAddresses(updatedAddresses);
 
       setMenuIndex(null);
-
-      // =================================================
-      // CHECKOUT MODE
-      // New default address select karo
-      // =================================================
 
       if (isCheckout) {
         const defaultAddress = updatedAddresses.find(
@@ -410,10 +330,6 @@ function AddressContainer({
     }
   };
 
-  // =====================================================
-  // SELECT ADDRESS - CHECKOUT
-  // =====================================================
-
   const handleSelectAddress = (address) => {
     if (!isCheckout) return;
 
@@ -424,19 +340,11 @@ function AddressContainer({
     }
   };
 
-  // =====================================================
-  // ADDRESS FORM
-  // =====================================================
-
   const addressForm = (
     <form className="address-form" onSubmit={handleSubmit}>
-      {/* FORM TITLE */}
-
       <div className="form-title">
         <h3>{editIndex !== null ? "Edit Address" : "Add New Address"}</h3>
       </div>
-
-      {/* NAME + PHONE */}
 
       <div className="form-row">
         <TextField
@@ -465,8 +373,6 @@ function AddressContainer({
         />
       </div>
 
-      {/* ADDRESS */}
-
       <TextField
         fullWidth
         size="small"
@@ -476,8 +382,6 @@ function AddressContainer({
         onChange={handleChange}
         required
       />
-
-      {/* CITY + STATE + PINCODE */}
 
       <div className="form-row">
         <TextField
@@ -511,8 +415,6 @@ function AddressContainer({
         />
       </div>
 
-      {/* ADDRESS TYPE */}
-
       <div className="address-type-section">
         <TextField
           select
@@ -525,9 +427,7 @@ function AddressContainer({
           required
         >
           <MenuItem value="Home">Home</MenuItem>
-
           <MenuItem value="Office">Office</MenuItem>
-
           <MenuItem value="Other">Other</MenuItem>
         </TextField>
 
@@ -543,8 +443,6 @@ function AddressContainer({
           />
         )}
       </div>
-
-      {/* FORM BUTTONS */}
 
       <div className="form-buttons">
         <button
@@ -573,18 +471,10 @@ function AddressContainer({
     </form>
   );
 
-  // =====================================================
-  // CHECKOUT MODE
-  // =====================================================
-
   if (isCheckout) {
     return (
       <div className="checkout-address-container">
-        {/* ADDRESS FORM */}
-
         {showAddress && addressForm}
-
-        {/* SAVED ADDRESSES */}
 
         {!showAddress && (
           <div className="checkout-address-list">
@@ -608,8 +498,6 @@ function AddressContainer({
                     }`}
                     onClick={() => handleSelectAddress(address)}
                   >
-                    {/* RADIO */}
-
                     <div className="checkout-address-radio">
                       <div
                         className={`address-radio ${
@@ -620,11 +508,7 @@ function AddressContainer({
                       </div>
                     </div>
 
-                    {/* ADDRESS CONTENT */}
-
                     <div className="checkout-address-content">
-                      {/* TYPE + DEFAULT */}
-
                       <div className="checkout-address-top">
                         <div className="checkout-address-labels">
                           <span className="checkout-address-type">
@@ -641,15 +525,11 @@ function AddressContainer({
                         </div>
                       </div>
 
-                      {/* NAME + PHONE */}
-
                       <div className="checkout-name-phone">
                         <strong>{address.fullName}</strong>
 
                         <span>{address.phone}</span>
                       </div>
-
-                      {/* FULL ADDRESS */}
 
                       <div className="checkout-address-info">
                         <p>
@@ -668,17 +548,9 @@ function AddressContainer({
     );
   }
 
-  // =====================================================
-  // NORMAL ADDRESS PAGE
-  // =====================================================
-
   return (
     <div className="address-container">
-      {/* PAGE TITLE */}
-
       <h2>Address</h2>
-
-      {/* ADD ADDRESS BUTTON */}
 
       {!showAddress && (
         <button
@@ -694,17 +566,11 @@ function AddressContainer({
         </button>
       )}
 
-      {/* ADDRESS FORM */}
-
       {showAddress && addressForm}
-
-      {/* SAVED ADDRESSES */}
 
       <div className="saved-addresses">
         {addresses.map((address, index) => (
           <div className="address-card" key={address._id}>
-            {/* CARD TOP */}
-
             <div className="address-card-top">
               <div className="address-labels">
                 <span className="address-label">
@@ -717,8 +583,6 @@ function AddressContainer({
                   <span className="default-label">Default</span>
                 )}
               </div>
-
-              {/* THREE DOT MENU */}
 
               <div className="address-menu-wrapper">
                 <button
@@ -733,8 +597,6 @@ function AddressContainer({
 
                 {menuIndex === index && (
                   <div className="AddressMenu">
-                    {/* EDIT */}
-
                     <button
                       type="button"
                       className="menu-item"
@@ -746,8 +608,6 @@ function AddressContainer({
                       Edit
                     </button>
 
-                    {/* DELETE */}
-
                     <button
                       type="button"
                       className="menu-item"
@@ -758,8 +618,6 @@ function AddressContainer({
                       </span>
                       Delete
                     </button>
-
-                    {/* SET DEFAULT */}
 
                     {!address.isDefault && (
                       <button
@@ -775,8 +633,6 @@ function AddressContainer({
                 )}
               </div>
             </div>
-
-            {/* ADDRESS INFO */}
 
             <div className="address-info">
               <div className="address-name-phone">

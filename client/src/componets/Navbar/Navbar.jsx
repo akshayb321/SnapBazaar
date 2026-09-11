@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { assets } from "../../assets/assets.js";
+
 import "./Navbar.css";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Button from "../Button/Button.jsx";
@@ -75,7 +75,10 @@ function Navbar() {
     <header className="navbar">
       {/* Logo */}
       <div className="navbar__logo">
-        <img src={assets.logo_icon} alt="SnapBazzar" />
+        <img
+          src="https://res.cloudinary.com/jwqnivpq/image/upload/v1784701614/logo.png"
+          alt="SnapBazzar"
+        />
       </div>
 
       {/* Search */}

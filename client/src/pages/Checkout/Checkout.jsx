@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import API_URL from "../../config/api.js";
 
 function Checkout() {
   const { cart, clearCart } = useCart();
@@ -34,6 +35,40 @@ function Checkout() {
   const deliveryCharge = 0;
   const totalAmount = subtotal + deliveryCharge;
 
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+
+      const existingScript = document.querySelector(
+        'script[src="https://checkout.razorpay.com/v1/checkout.js"]',
+      );
+
+      if (existingScript) {
+        existingScript.addEventListener("load", () => resolve(true));
+        existingScript.addEventListener("error", () => resolve(false));
+        return;
+      }
+
+      const script = document.createElement("script");
+
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+
+      script.onload = () => {
+        resolve(true);
+      };
+
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
   const handlePlaceOrder = async () => {
     if (products.length === 0) {
       toast.error("Your cart is empty.");
@@ -47,61 +82,59 @@ function Checkout() {
 
     if (loading) return;
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login to place your order.");
+      navigate("/login");
+      return;
+    }
+
+    const shippingAddress = {
+      fullName: selectedAddress.fullName || "",
+      mobile: selectedAddress.phone || "",
+      address: selectedAddress.addressLine || "",
+      city: selectedAddress.city || "",
+      state: selectedAddress.state || "",
+      pincode: selectedAddress.pincode || "",
+    };
+
+    if (!shippingAddress.fullName) {
+      toast.error("Please provide your full name.");
+      return;
+    }
+
+    if (!shippingAddress.mobile) {
+      toast.error("Please provide your mobile number.");
+      return;
+    }
+
+    if (!shippingAddress.address) {
+      toast.error("Please provide your delivery address.");
+      return;
+    }
+
+    if (!shippingAddress.city) {
+      toast.error("Please provide your city.");
+      return;
+    }
+
+    if (!shippingAddress.state) {
+      toast.error("Please provide your state.");
+      return;
+    }
+
+    if (!shippingAddress.pincode) {
+      toast.error("Please provide your pincode.");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const startTime = Date.now();
-
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        toast.error("Please login to place your order.");
-        navigate("/login");
-        return;
-      }
-
-      const shippingAddress = {
-        fullName: selectedAddress.fullName || "",
-        mobile: selectedAddress.phone || "",
-        address: selectedAddress.addressLine || "",
-        city: selectedAddress.city || "",
-        state: selectedAddress.state || "",
-        pincode: selectedAddress.pincode || "",
-      };
-
-      if (!shippingAddress.fullName) {
-        toast.error("Please provide your full name.");
-        return;
-      }
-
-      if (!shippingAddress.mobile) {
-        toast.error("Please provide your mobile number.");
-        return;
-      }
-
-      if (!shippingAddress.address) {
-        toast.error("Please provide your delivery address.");
-        return;
-      }
-
-      if (!shippingAddress.city) {
-        toast.error("Please provide your city.");
-        return;
-      }
-
-      if (!shippingAddress.state) {
-        toast.error("Please provide your state.");
-        return;
-      }
-
-      if (!shippingAddress.pincode) {
-        toast.error("Please provide your pincode.");
-        return;
-      }
-
       if (paymentMethod === "COD") {
         const response = await axios.post(
-          "http://localhost:8000/api/order/create",
+          `${API_URL}/api/order/create`,
           {
             items: products,
             shippingAddress,
@@ -119,13 +152,6 @@ function Checkout() {
           return;
         }
 
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, 500 - elapsedTime);
-
-        if (remainingTime > 0) {
-          await new Promise((resolve) => setTimeout(resolve, remainingTime));
-        }
-
         await clearCart();
 
         setOrderSuccess(true);
@@ -136,14 +162,136 @@ function Checkout() {
       }
 
       if (paymentMethod === "RAZORPAY") {
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, 500 - elapsedTime);
+        const isLoaded = await loadRazorpay();
 
-        if (remainingTime > 0) {
-          await new Promise((resolve) => setTimeout(resolve, remainingTime));
+        if (!isLoaded) {
+          toast.error(
+            "Razorpay failed to load. Please check your internet connection.",
+          );
+          return;
         }
 
-        toast("Online payment will be available soon.");
+        const response = await axios.post(
+          `${API_URL}/api/order/create`,
+          {
+            items: products,
+            shippingAddress,
+            paymentMethod: "RAZORPAY",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (!response.data?.success) {
+          toast.error(
+            response.data?.message || "Failed to create payment order.",
+          );
+          return;
+        }
+
+        const razorpayData = response.data?.razorpay;
+
+        if (
+          !razorpayData?.keyId ||
+          !razorpayData?.orderId ||
+          !razorpayData?.amount ||
+          !razorpayData?.currency
+        ) {
+          toast.error("Invalid Razorpay order details.");
+          return;
+        }
+
+        const options = {
+          key: razorpayData.keyId,
+          amount: razorpayData.amount,
+          currency: razorpayData.currency,
+          name: "SnapBazaar",
+          description: "Order Payment",
+          order_id: razorpayData.orderId,
+
+          prefill: {
+            name: selectedAddress.fullName || user?.name || "",
+            email: user?.email || "",
+            contact: selectedAddress.phone || "",
+          },
+
+          notes: {
+            orderId: response.data.order?._id || "",
+          },
+
+          theme: {
+            color: "#2563EB",
+          },
+
+          handler: async function (paymentResponse) {
+            try {
+              const verifyResponse = await axios.post(
+                `${API_URL}/api/order/verify-payment`,
+                {
+                  razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                  razorpay_order_id: paymentResponse.razorpay_order_id,
+                  razorpay_signature: paymentResponse.razorpay_signature,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                },
+              );
+
+              if (!verifyResponse.data?.success) {
+                toast.error(
+                  verifyResponse.data?.message ||
+                    "Payment verification failed.",
+                );
+                return;
+              }
+
+              await clearCart();
+
+              setOrderSuccess(true);
+
+              toast.success("Payment successful!");
+            } catch (error) {
+              console.error(
+                "Payment verification error:",
+                error.response?.data || error.message,
+              );
+
+              toast.error(
+                error.response?.data?.message || "Payment verification failed.",
+              );
+            } finally {
+              setLoading(false);
+            }
+          },
+
+          modal: {
+            ondismiss: function () {
+              setLoading(false);
+              toast.error("Payment cancelled.");
+            },
+          },
+        };
+
+        const razorpay = new window.Razorpay(options);
+
+        razorpay.on("payment.failed", function (response) {
+          console.error("Razorpay Payment Failed:", response.error);
+
+          setLoading(false);
+
+          toast.error(
+            response.error?.description || "Payment failed. Please try again.",
+          );
+        });
+
+        razorpay.open();
+
+        return;
       }
     } catch (error) {
       console.error(
@@ -151,9 +299,14 @@ function Checkout() {
         error.response?.data || error.message,
       );
 
-      toast.error(error.response?.data?.message || "Failed to place order.");
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to place order. Please try again.",
+      );
     } finally {
-      setLoading(false);
+      if (paymentMethod === "COD") {
+        setLoading(false);
+      }
     }
   };
 
@@ -393,7 +546,11 @@ function Checkout() {
               {loading ? (
                 <>
                   <i className="fa-solid fa-spinner fa-spin search-loader"></i>
-                  <span>Processing...</span>
+                  <span>
+                    {paymentMethod === "RAZORPAY"
+                      ? "Opening Payment..."
+                      : "Processing..."}
+                  </span>
                 </>
               ) : (
                 <>

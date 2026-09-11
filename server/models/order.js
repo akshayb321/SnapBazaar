@@ -124,6 +124,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    razorpaySignature: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

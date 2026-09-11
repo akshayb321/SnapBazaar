@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
+import API_URL from "../../config/api.js";
 
 function ProductSection({
   title,
@@ -33,7 +34,7 @@ function ProductSection({
       }
 
       const response = await axios.post(
-        "http://localhost:8000/api/wishlist/add",
+        `${API_URL}/api/wishlist/add`,
         {
           productId,
         },
@@ -73,7 +74,7 @@ function ProductSection({
       }
 
       const response = await axios.post(
-        "http://localhost:8000/api/cart/add",
+        `${API_URL}/api/cart/add`,
         {
           productId,
         },

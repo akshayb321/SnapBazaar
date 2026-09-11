@@ -1,8 +1,10 @@
+import crypto from "crypto";
 import Order from "../models/order.js";
 import Product from "../models/product.js";
 import User from "../models/user.js";
 import sendEmail from "../utils/email/sendEmail.js";
 import { orderEmailTemplate } from "../utils/email/emailTemplates.js";
+import razorpay from "../config/razorpay.js";
 
 export const createOrder = async (req, res) => {
   try {
@@ -95,6 +97,30 @@ export const createOrder = async (req, res) => {
       orderStatus: "PLACED",
     });
 
+    if (paymentMethod === "RAZORPAY") {
+      const razorpayOrder = await razorpay.orders.create({
+        amount: Math.round(totalAmount * 100),
+        currency: "INR",
+        receipt: order._id.toString(),
+      });
+
+      order.razorpayOrderId = razorpayOrder.id;
+
+      await order.save();
+
+      return res.status(201).json({
+        success: true,
+        message: "Razorpay order created successfully",
+        order,
+        razorpay: {
+          keyId: process.env.RAZORPAY_KEY_ID,
+          orderId: razorpayOrder.id,
+          amount: razorpayOrder.amount,
+          currency: razorpayOrder.currency,
+        },
+      });
+    }
+
     const user = await User.findById(req.user.id).select("name email");
 
     if (user?.email) {
@@ -126,6 +152,86 @@ export const createOrder = async (req, res) => {
       success: false,
       message: "Failed to place order",
       error: error.message,
+    });
+  }
+};
+
+export const verifyRazorpayPayment = async (req, res) => {
+  try {
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+      req.body;
+
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment details are missing",
+      });
+    }
+
+    const order = await Order.findOne({
+      razorpayOrderId: razorpay_order_id,
+      userId: req.user.id,
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    const generatedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(`${order.razorpayOrderId}|${razorpay_payment_id}`)
+      .digest("hex");
+
+    if (generatedSignature !== razorpay_signature) {
+      order.paymentStatus = "FAILED";
+
+      await order.save();
+
+      return res.status(400).json({
+        success: false,
+        message: "Payment verification failed",
+      });
+    }
+
+    order.paymentStatus = "PAID";
+    order.razorpayPaymentId = razorpay_payment_id;
+    order.razorpaySignature = razorpay_signature;
+
+    await order.save();
+
+    const user = await User.findById(req.user.id).select("name email");
+
+    if (user?.email) {
+      try {
+        const emailHtml = orderEmailTemplate({
+          order,
+          user,
+        });
+
+        await sendEmail(
+          user.email,
+          `Order Confirmed - #${order._id}`,
+          emailHtml,
+        );
+      } catch (emailError) {
+        console.error("Order Email Error:", emailError);
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment verified successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Razorpay Verification Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Payment verification failed",
     });
   }
 };
@@ -179,6 +285,7 @@ export const getOrderById = async (req, res) => {
     });
   }
 };
+
 export const cancelOrder = async (req, res) => {
   try {
     const order = await Order.findOne({

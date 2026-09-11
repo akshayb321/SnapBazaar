@@ -15,10 +15,16 @@ import MainLayout from "./layouts/MainLayout/MainLayout";
 import Profile from "./pages/Profile/Profile";
 import Products from "./pages/Products/Products";
 import Address from "./pages/Address/Address";
-import ChangePass from "./pages/ChangePass/ChangePass";
 import Checkout from "./pages/Checkout/Checkout";
 import About from "./pages/About/About";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import AdminLogin from "./pages/Admin/Auth/AdminLogin";
+import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard";
+import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import AdminOrders from "./pages/Admin/Orders/AdminOrders";
+import AdminOrderDetails from "./pages/Admin/Orders/AdminOrderDetails";
+import AdminProducts from "./pages/Admin/Products/AdminProducts";
+import AdminProductAdd from "./pages/Admin/Products/AdminProductAdd";
 
 const router = createBrowserRouter([
   {
@@ -61,10 +67,7 @@ const router = createBrowserRouter([
         path: "address",
         element: <Address />,
       },
-      {
-        path: "changePass",
-        element: <ChangePass />,
-      },
+
       {
         path: "checkout",
         element: <Checkout />,
@@ -86,6 +89,45 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/admin/login",
+    element: <AdminLogin />,
+  },
+
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/admin/dashboard" replace />,
+      },
+      {
+        path: "dashboard",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "orders",
+        element: <AdminOrders />,
+      },
+      {
+        path: "orders/:id",
+        element: <AdminOrderDetails />,
+      },
+      {
+        path: "products",
+        element: <AdminProducts />,
+      },
+      {
+        path: "products/add",
+        element: <AdminProductAdd />,
+      },
+      {
+        path: "products/edit/:id",
+        element: <AdminProductAdd />,
+      },
+    ],
   },
 ]);
 function App() {

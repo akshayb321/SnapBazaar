@@ -35,31 +35,31 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-top">
-        <div className="footer-item" onClick={() => navigate("/support")}>
+        <div className="footer-item" onClick={() => navigate("/about")}>
           <i className="fa-solid fa-truck"></i>
           <p>Free Delivery</p>
           <span>For all Orders Over ₹499</span>
         </div>
 
-        <div className="footer-item" onClick={() => navigate("/support")}>
+        <div className="footer-item" onClick={() => navigate("/about")}>
           <i className="fa-solid fa-rotate-left"></i>
           <p>7 Days Returns</p>
           <span>For an Exchange Product</span>
         </div>
 
-        <div className="footer-item" onClick={() => navigate("/support")}>
+        <div className="footer-item" onClick={() => navigate("/about")}>
           <i className="fa-solid fa-wallet"></i>
           <p>Secured Payment</p>
           <span>Payment Cards Accepted</span>
         </div>
 
-        <div className="footer-item" onClick={() => navigate("/support")}>
+        <div className="footer-item" onClick={() => navigate("/about")}>
           <i className="fa-solid fa-gift"></i>
           <p>Special Gifts</p>
           <span>On Your First Product Order</span>
         </div>
 
-        <div className="footer-item" onClick={() => navigate("/support")}>
+        <div className="footer-item" onClick={() => navigate("/about")}>
           <i className="fa-solid fa-headset"></i>
           <p>Support 24/7</p>
           <span>Contact Us Anytime</span>

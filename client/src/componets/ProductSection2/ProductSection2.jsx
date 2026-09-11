@@ -5,6 +5,7 @@ import { useWishlist } from "../../context/WishlistContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../config/api.js";
 
 function ProductSection2({ type }) {
   const { cart, fetchCart } = useCart();
@@ -27,7 +28,7 @@ function ProductSection2({ type }) {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:8000/api/cart/update",
+        `${API_URL}/api/cart/update`,
         { productId, quantity },
         {
           headers: {
@@ -49,8 +50,8 @@ function ProductSection2({ type }) {
 
       const url =
         type === "cart"
-          ? "http://localhost:8000/api/cart/remove"
-          : "http://localhost:8000/api/wishlist/remove";
+          ? `${API_URL}/api/cart/remove`
+          : `${API_URL}/api/wishlist/remove`;
 
       const response = await axios.post(
         url,

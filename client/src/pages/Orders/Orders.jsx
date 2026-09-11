@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import ProfileSidebar from "../../componets/Profile/ProfileSidebar";
 import "./Orders.css";
+import API_URL from "../../config/api.js";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -27,14 +28,11 @@ function Orders() {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:8000/api/order/my-orders",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await axios.get(`${API_URL}/api/order/my-orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        });
 
         setOrders(response.data.orders || []);
       } catch (error) {
@@ -107,7 +105,7 @@ function Orders() {
       const token = localStorage.getItem("token");
 
       const response = await axios.patch(
-        `http://localhost:8000/api/order/${orderId}/cancel`,
+        `${API_URL}/api/order/${orderId}/cancel`,
         {},
         {
           headers: {

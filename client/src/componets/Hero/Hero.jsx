@@ -143,7 +143,7 @@ function Hero() {
 
         <div
           onClick={() => {
-            setCategory("beauty");
+            setCategory("Beauty");
             navigate("/products");
           }}
         >
@@ -156,7 +156,7 @@ function Hero() {
 
         <div
           onClick={() => {
-            setCategory("electronics");
+            setCategory("Electronics");
             navigate("/products");
           }}
         >

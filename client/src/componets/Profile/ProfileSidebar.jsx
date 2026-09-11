@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "./ProfileSidebar.css";
 import axios from "axios";
+import API_URL from "../../config/api.js";
 
 function ProfileSidebar() {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ function ProfileSidebar() {
 
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        "http://localhost:8000/api/auth/profile-image",
+        `${API_URL}/api/auth/profile-image`,
         {
           profileImage: imageUrl,
         },

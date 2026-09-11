@@ -6,6 +6,7 @@ import axios from "axios";
 import Special from "../../componets/Special/Special";
 import Special2 from "../../componets/Special/Special2/Special2";
 import Promotion from "../../componets/Promotion/Promotion";
+import API_URL from "../../config/api.js";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -26,7 +27,7 @@ function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/products");
+        const response = await axios.get(`${API_URL}/api/products`);
 
         setProducts(response.data.products);
       } catch (error) {

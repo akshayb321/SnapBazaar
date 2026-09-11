@@ -110,11 +110,13 @@ export const getCart = async (req, res) => {
     const userId = req.user.id;
 
     let userCart = await Cart.findOne({ userId }).populate("items.productId");
+
     if (!userCart) {
-      return res.status(404).json({
-        success: false,
-        message: "Cart not found",
+      userCart = new Cart({
+        userId,
+        items: [],
       });
+      await userCart.save();
     }
     res.status(200).json({
       success: true,
@@ -127,7 +129,6 @@ export const getCart = async (req, res) => {
     });
   }
 };
-
 export const clearCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ userId: req.user.id });

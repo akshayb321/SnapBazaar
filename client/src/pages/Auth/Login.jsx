@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import "./Auth.css";
+import API_URL from "../../config/api.js";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -33,13 +34,10 @@ function Login() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/login",
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-      );
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
+        email: formData.email,
+        password: formData.password,
+      });
 
       localStorage.setItem("token", response.data.jwtToken);
 
@@ -220,6 +218,18 @@ function Login() {
               <p>
                 Don't have an account? <Link to="/signup">Sign up</Link>
               </p>
+            </div>
+
+            <div className="admin-login-section">
+              <div className="admin-login-divider">
+                <span>or</span>
+              </div>
+
+              <Link to="/admin/login" className="admin-login-link">
+                <i className="fa-solid fa-user-shield"></i>
+                Admin Login
+                <i className="fa-solid fa-arrow-right"></i>
+              </Link>
             </div>
           </div>
         </div>

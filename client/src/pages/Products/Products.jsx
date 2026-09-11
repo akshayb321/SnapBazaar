@@ -5,6 +5,7 @@ import FilterSidebar from "../../componets/FilterSidebar/FilterSidebar";
 import { useFilter } from "../../context/FilterContext";
 import { useLocation } from "react-router-dom";
 import "./Products.css";
+import API_URL from "../../config/api.js";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -36,7 +37,7 @@ function Products() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/products");
+      const response = await axios.get(`${API_URL}/api/products`);
 
       setProducts(response.data.products);
     } catch (error) {

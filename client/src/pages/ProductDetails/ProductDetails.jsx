@@ -6,6 +6,8 @@ import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import toast from "react-hot-toast";
 import ProductSection from "../../componets/ProductSection/ProductSection";
+import API_URL from "../../config/api.js";
+
 function ProductDetails() {
   const { id } = useParams();
 
@@ -23,7 +25,7 @@ function ProductDetails() {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:8000/api/cart/add",
+        `${API_URL}/api/cart/add`,
         {
           productId: product._id,
           quantity: 1,
@@ -50,7 +52,7 @@ function ProductDetails() {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:8000/api/wishlist/add",
+        `${API_URL}/api/wishlist/add`,
         {
           productId: product._id,
         },
@@ -71,7 +73,7 @@ function ProductDetails() {
   const fetchProducts = async (category) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/products?category=${category}`,
+        `${API_URL}/api/products?category=${category}`,
       );
 
       setProducts(response.data.products);
@@ -82,9 +84,7 @@ function ProductDetails() {
 
   const fetchProduct = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/products/${id}`,
-      );
+      const response = await axios.get(`${API_URL}/api/products/${id}`);
 
       setProduct(response.data.product);
       setSelectedImage(response.data.product.image[0]);
