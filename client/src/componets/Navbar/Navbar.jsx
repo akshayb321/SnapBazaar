@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import "./Navbar.css";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Button from "../Button/Button.jsx";
@@ -7,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
 import { useFilter } from "../../context/FilterContext.jsx";
+import toast from "react-hot-toast";
 
 function Navbar({ onMenuClick }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -53,6 +53,30 @@ function Navbar({ onMenuClick }) {
     setShowMenu(false);
     logout();
     navigate("/login");
+  };
+
+  const handleWishlistClick = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login to view your wishlist.");
+      navigate("/login");
+      return;
+    }
+
+    navigate("/wishlist");
+  };
+
+  const handleCartClick = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login to view your cart.");
+      navigate("/login");
+      return;
+    }
+
+    navigate("/cart");
   };
 
   const { cart } = useCart();
@@ -197,7 +221,7 @@ function Navbar({ onMenuClick }) {
         <div className="btn">
           <button
             className="icon-btn wishlist-btn"
-            onClick={() => navigate("/wishlist")}
+            onClick={handleWishlistClick}
           >
             <i className="fa-regular fa-heart"></i>
 
@@ -206,10 +230,7 @@ function Navbar({ onMenuClick }) {
             ) : null}
           </button>
 
-          <button
-            className="icon-btn cart-btn"
-            onClick={() => navigate("/cart")}
-          >
+          <button className="icon-btn cart-btn" onClick={handleCartClick}>
             <i className="fa-solid fa-cart-shopping"></i>
 
             {cartCount ? <span className="cart-count">{cartCount}</span> : null}
@@ -239,7 +260,7 @@ function Navbar({ onMenuClick }) {
 
       {/* Mobile Cart */}
       {!showMobileSearch && (
-        <button className="mobile-cart-btn" onClick={() => navigate("/cart")}>
+        <button className="mobile-cart-btn" onClick={handleCartClick}>
           <i className="fa-solid fa-cart-shopping"></i>
 
           {cartCount ? <span className="cart-count">{cartCount}</span> : null}

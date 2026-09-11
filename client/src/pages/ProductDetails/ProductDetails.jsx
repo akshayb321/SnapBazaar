@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ProductDetails.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
@@ -10,6 +10,7 @@ import API_URL from "../../config/api.js";
 
 function ProductDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
@@ -17,12 +18,20 @@ function ProductDetails() {
 
   const { fetchCart } = useCart();
   const { wishlist, fetchWishlist } = useWishlist();
+
   const isWishlisted = wishlist?.items?.some(
     (item) => item.productId?._id === product?._id,
   );
+
   const handleAddToCart = async () => {
     try {
       const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Please login to add items to your cart.");
+        navigate("/login");
+        return;
+      }
 
       const response = await axios.post(
         `${API_URL}/api/cart/add`,
@@ -41,7 +50,13 @@ function ProductDetails() {
 
       toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      }
     }
   };
 
@@ -50,6 +65,12 @@ function ProductDetails() {
 
     try {
       const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Please login to add items to your wishlist.");
+        navigate("/login");
+        return;
+      }
 
       const response = await axios.post(
         `${API_URL}/api/wishlist/add`,
@@ -67,9 +88,16 @@ function ProductDetails() {
 
       toast.success(response.data.message);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      }
     }
   };
+
   const fetchProducts = async (category) => {
     try {
       const response = await axios.get(
@@ -105,7 +133,6 @@ function ProductDetails() {
   return (
     <section className="pd-page">
       <div className="pd-container">
-        {/* LEFT SIDE */}
         <div className="pd-left">
           <div className="pd-images">
             <div className="pd-thumbnails">
@@ -131,12 +158,9 @@ function ProductDetails() {
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
-
         <div className="pd-info">
           <h1 className="pd-title">{product.title}</h1>
 
-          {/* Brand & Rating */}
           <div className="pd-rating-row">
             <span className="pd-brand">
               <strong>Brand:</strong> {product.brand}
@@ -147,7 +171,6 @@ function ProductDetails() {
             <span className="pd-review">(1,294 Reviews)</span>
           </div>
 
-          {/* Price */}
           <div className="pd-price-section">
             <span className="pd-old-price">₹{product.oldPrice}</span>
 
@@ -159,7 +182,6 @@ function ProductDetails() {
             </div>
           </div>
 
-          {/* Description */}
           <p className="pd-description">
             Experience premium quality and modern design with this product,
             crafted for everyday comfort, durability, and style. Made from
@@ -169,12 +191,9 @@ function ProductDetails() {
             your lifestyle.
           </p>
 
-          {/* Delivery */}
           <div className="pd-delivery">
             <p> Free Shipping (Estimated Delivery: 2–5 Days)</p>
           </div>
-
-          {/* Buttons */}
 
           <div className="pd-action-buttons">
             <button className="pd-cart-btn" onClick={handleAddToCart}>
@@ -197,6 +216,7 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+
       <ProductSection title="Related Products" products={products} />
     </section>
   );
