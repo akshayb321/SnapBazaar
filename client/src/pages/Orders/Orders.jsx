@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import ProfileSidebar from "../../componets/Profile/ProfileSidebar";
 import "./Orders.css";
 import API_URL from "../../config/api.js";
@@ -16,6 +17,18 @@ function Orders() {
   });
 
   const [cancelReason, setCancelReason] = useState("");
+
+  const navigate = useNavigate();
+
+  // Redirect if user is not logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login to view your orders.");
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const fetchOrders = async () => {
