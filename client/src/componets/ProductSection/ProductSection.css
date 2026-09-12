@@ -492,3 +492,19 @@
     display: none !important;
   }
 }
+/* =========================
+   LARGE DESKTOP — 1401px+
+========================= */
+
+@media (min-width: 1401px) {
+  .product-page-items .product-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 212px);
+
+    column-gap: 30px;
+    row-gap: 35px;
+
+    justify-content: start;
+  }
+}
