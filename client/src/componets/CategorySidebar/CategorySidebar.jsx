@@ -2,6 +2,7 @@ import React from "react";
 import "./CategorySidebar.css";
 import { useFilter } from "../../context/FilterContext";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const categories = [
   "Fashion",
@@ -30,6 +31,17 @@ function CategorySidebar({ isOpen, onClose }) {
   };
 
   const handleNavigation = (path) => {
+    if (path === "/orders" || path === "/profile") {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        onClose();
+        toast.error("Please login to continue.");
+        navigate("/login", { replace: true });
+        return;
+      }
+    }
+
     onClose();
     navigate(path);
   };
